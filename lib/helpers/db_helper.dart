@@ -82,4 +82,31 @@ class DBHelper {
       )
      ''');
   }
+
+  //* Arrival Goods Logics
+
+  Future<ArrivalGoodsModel> insertArrivalGoods(
+      ArrivalGoodsModel arrivalGoodsModel) async {
+    final db = await instance.database;
+    final id = await db.insert(arrivalGoodsTable, arrivalGoodsModel.toJson());
+
+    return arrivalGoodsModel.copy(arrivalGoodsId: id);
+  }
+
+  Future<List<ArrivalGoodsModel>> fetchArrivalGoodsData() async {
+    final db = await instance.database;
+    const orderBy = '${ArrivalGoodsFields.arrivalGoodsDate} ASC';
+    final fetchResult = await db.query(arrivalGoodsTable, orderBy: orderBy);
+
+    return fetchResult.map((e) => ArrivalGoodsModel.fromJson(e)).toList();
+  }
+
+  Future<int> deleteArrivalGoods(ArrivalGoodsModel arrivalGoodsModel) async {
+    final db = await instance.database;
+    return db.delete(
+      arrivalGoodsTable,
+      where: '${ArrivalGoodsFields.arrivalGoodsId} = ?',
+      whereArgs: [arrivalGoodsModel.arrivalGoodsId],
+    );
+  }
 }
