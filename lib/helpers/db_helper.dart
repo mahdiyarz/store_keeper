@@ -83,6 +83,12 @@ class DBHelper {
      ''');
   }
 
+  Future closeDB() async {
+    final db = await instance.database;
+
+    db.close();
+  }
+
   //* Arrival Goods Logics
 
   Future<ArrivalGoodsModel> insertArrivalGoods(
