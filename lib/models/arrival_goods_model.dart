@@ -1,5 +1,12 @@
 final String arrivalGoodsTable = 'arrivalsGoods';
 
+class ArrivalGoodsFields {
+  static const String arrivalGoodsId = 'arrivalGoodsId';
+  static const String brandId = 'brandId';
+  static const String numOfBoxes = 'numOfBoxes';
+  static const String arrivalGoodsDate = 'arrivalGoodsDate';
+}
+
 class ArrivalGoodsModel {
   final int arrivalGoodsId;
   final int brandId;
