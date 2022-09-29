@@ -109,4 +109,30 @@ class DBHelper {
       whereArgs: [arrivalGoodsModel.arrivalGoodsId],
     );
   }
+
+  //* Brands Logics
+
+  Future<BrandsModel> insertBrands(BrandsModel brandsModel) async {
+    final db = await instance.database;
+    final id = await db.insert(brandsTable, brandsModel.toJson());
+
+    return brandsModel.copy(brandId: id);
+  }
+
+  Future<List<BrandsModel>> fetchBrandsData() async {
+    final db = await instance.database;
+    const orderBy = '${BrandsFields.brandName} ASC';
+    final fetchResult = await db.query(brandsTable, orderBy: orderBy);
+
+    return fetchResult.map((e) => BrandsModel.fromJson(e)).toList();
+  }
+
+  Future<int> deleteBrands(BrandsModel brandsModel) async {
+    final db = await instance.database;
+    return db.delete(
+      brandsTable,
+      where: '${BrandsFields.brandId} = ?',
+      whereArgs: [brandsModel.brandId],
+    );
+  }
 }
