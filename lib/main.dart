@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
         routes: {
           '/arrival-goods': (context) => const ArrivalGoods(),
           '/add-arrival-goods': (context) => AddArrivalGoods(),
-          '/brands': (context) => const Brands(),
+          '/brands': (context) => Brands(),
         },
       ),
     );

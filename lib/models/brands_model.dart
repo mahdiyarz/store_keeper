@@ -6,15 +6,15 @@ class BrandsFields {
 }
 
 class BrandsModel {
-  final int brandId;
+  final int? brandId;
   final String brandName;
 
   BrandsModel({
-    required this.brandId,
+    this.brandId,
     required this.brandName,
   });
 
-  Map<String, Object> toJson() => {
+  Map<String, Object?> toJson() => {
         BrandsFields.brandId: brandId,
         BrandsFields.brandName: brandName,
       };
