@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/arrival_goods_provider.dart';
 
 import '../screens/arrival_goods.dart';
 import '../screens/home.dart';
@@ -13,11 +16,20 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: const Home(),
-      routes: {
-        '/arrival-goods': (context) => const ArrivalGoods(),
-      },
+    return MultiProvider(
+      providers: [
+        Provider<ArrivalGoodsProvider>(
+            create: (context) => ArrivalGoodsProvider()),
+      ],
+      child: MaterialApp(
+        theme: ThemeData(
+          fontFamily: 'vazir',
+        ),
+        home: const Home(),
+        routes: {
+          '/arrival-goods': (context) => const ArrivalGoods(),
+        },
+      ),
     );
   }
 }
