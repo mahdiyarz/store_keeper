@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../providers/brands_provider.dart';
 import '../providers/arrival_goods_provider.dart';
 
 import '../screens/arrival_goods.dart';
 import '../screens/home.dart';
 import '../screens/add_arrival_goods.dart';
+import '../screens/brands.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,12 +18,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      // providers: [
-      // Provider<ArrivalGoodsProvider>(
-      create: (context) => ArrivalGoodsProvider(),
-      // ),
-      // ],
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => ArrivalGoodsProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => BrandsProvider(),
+        ),
+      ],
       child: MaterialApp(
         theme: ThemeData(
           fontFamily: 'vazir',
@@ -32,7 +37,8 @@ class MyApp extends StatelessWidget {
         ),
         routes: {
           '/arrival-goods': (context) => const ArrivalGoods(),
-          'add-arrival-goods': (context) => const AddArrivalGoods(),
+          '/add-arrival-goods': (context) => AddArrivalGoods(),
+          '/brands': (context) => const Brands(),
         },
       ),
     );
