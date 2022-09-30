@@ -1,4 +1,4 @@
-final String goodsTable = 'goods';
+const String goodsTable = 'goods';
 
 class GoodsFields {
   static const String goodId = 'goodId';
@@ -15,11 +15,42 @@ class GoodsModel {
   final int numInBox;
   final BigInt barcode;
 
-  GoodsModel(
-    this.goodId,
-    this.goodName,
-    this.brandId,
-    this.numInBox,
-    this.barcode,
-  );
+  GoodsModel({
+    required this.goodId,
+    required this.goodName,
+    required this.brandId,
+    required this.numInBox,
+    required this.barcode,
+  });
+
+  Map<String, Object> toJson() => {
+        GoodsFields.goodId: goodId,
+        GoodsFields.goodName: goodName,
+        GoodsFields.brandId: brandId,
+        GoodsFields.numInBox: numInBox,
+        GoodsFields.barcode: barcode,
+      };
+
+  GoodsModel copy({
+    int? goodId,
+    String? goodName,
+    int? brandId,
+    int? numInBox,
+    BigInt? barcode,
+  }) =>
+      GoodsModel(
+        goodId: goodId ?? this.goodId,
+        goodName: goodName ?? this.goodName,
+        brandId: brandId ?? this.brandId,
+        numInBox: numInBox ?? this.numInBox,
+        barcode: barcode ?? this.barcode,
+      );
+
+  static GoodsModel fromJson(Map<String, Object?> json) => GoodsModel(
+        goodId: json[GoodsFields.goodId] as int,
+        goodName: json[GoodsFields.goodName] as String,
+        brandId: json[GoodsFields.brandId] as int,
+        numInBox: json[GoodsFields.numInBox] as int,
+        barcode: json[GoodsFields.barcode] as BigInt,
+      );
 }

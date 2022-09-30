@@ -1,4 +1,4 @@
-final String countGoodsTable = 'countGoods';
+const String countGoodsTable = 'countGoods';
 
 class CountGoodsFields {
   static const String countGoodsId = 'countGoodsId';

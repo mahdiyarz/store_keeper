@@ -1,4 +1,4 @@
-final String lakingTable = 'laking';
+const String lakingTable = 'laking';
 
 class LakingFields {
   static const String lakingId = 'lakingId';
