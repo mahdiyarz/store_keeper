@@ -8,19 +8,19 @@ class ArrivalGoodsFields {
 }
 
 class ArrivalGoodsModel {
-  final int arrivalGoodsId;
+  final int? arrivalGoodsId;
   final int brandId;
   final int numOfBoxes;
   final DateTime arrivalGoodsDate;
 
   ArrivalGoodsModel({
-    required this.arrivalGoodsId,
+    this.arrivalGoodsId,
     required this.brandId,
     required this.numOfBoxes,
     required this.arrivalGoodsDate,
   });
 
-  Map<String, Object> toJson() => {
+  Map<String, Object?> toJson() => {
         ArrivalGoodsFields.arrivalGoodsId: arrivalGoodsId,
         ArrivalGoodsFields.brandId: brandId,
         ArrivalGoodsFields.numOfBoxes: numOfBoxes,
