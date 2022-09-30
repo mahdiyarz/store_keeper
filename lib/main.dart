@@ -13,19 +13,22 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        Provider<ArrivalGoodsProvider>(
-            create: (context) => ArrivalGoodsProvider()),
-      ],
+    return ChangeNotifierProvider(
+      // providers: [
+      // Provider<ArrivalGoodsProvider>(
+      create: (context) => ArrivalGoodsProvider(),
+      // ),
+      // ],
       child: MaterialApp(
         theme: ThemeData(
           fontFamily: 'vazir',
         ),
-        home: const Home(),
+        home: const Directionality(
+          textDirection: TextDirection.rtl,
+          child: Home(),
+        ),
         routes: {
           '/arrival-goods': (context) => const ArrivalGoods(),
         },
