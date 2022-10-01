@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
           child: Home(),
         ),
         routes: {
-          '/arrival-goods': (context) => const ArrivalGoods(),
+          '/arrival-goods': (context) => ArrivalGoods(),
           '/add-arrival-goods': (context) => AddArrivalGoods(),
           '/brands': (context) => Brands(),
         },
