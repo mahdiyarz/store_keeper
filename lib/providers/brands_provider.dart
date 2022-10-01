@@ -20,7 +20,7 @@ class BrandsProvider with ChangeNotifier {
     final db = await DBHelper.instance.fetchBrandsData()
       ..map((e) => e.brandName).toList();
 
-    if (db.isEmpty) {
+    if (db.isEmpty && brandsModel.brandName.isNotEmpty) {
       await DBHelper.instance.insertBrands(brandsModel);
       final fetchData = await DBHelper.instance.fetchBrandsData();
       _brandsItems = fetchData;
@@ -28,17 +28,15 @@ class BrandsProvider with ChangeNotifier {
     } else {
       final duplicateCheck =
           db.where((element) => element.brandName == brandsModel.brandName);
-      if (duplicateCheck.isNotEmpty) {
-        return;
-      } else {
+      if (duplicateCheck.isEmpty && brandsModel.brandName.isNotEmpty) {
         await DBHelper.instance.insertBrands(brandsModel);
         final fetchData = await DBHelper.instance.fetchBrandsData();
         _brandsItems = fetchData;
         notifyListeners();
+      } else {
+        return;
       }
     }
-
-    _brandsItems = db;
 
     notifyListeners();
   }
