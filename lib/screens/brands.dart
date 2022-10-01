@@ -82,7 +82,7 @@ class Brands extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    // var db = Provider.of<BrandsProvider>(context, listen: false).fetchData();
+
     return ScreensStyle(
       screenTitle: 'برندهای موجود',
       screenDescription: 'ثبت یا اصلاح برندهای موجود',
@@ -97,21 +97,52 @@ class Brands extends StatelessWidget {
                 builder: ((context, value, child) {
                   return value.brandsItems.isEmpty
                       ? child as Widget
-                      : Padding(
-                          padding: const EdgeInsets.only(top: 150),
-                          child: ListView.builder(
-                            itemBuilder: (context, index) => ListTile(
-                              leading: Text(value.brandsItems[index].brandName),
-                              subtitle: Text(
-                                  value.brandsItems[index].brandId.toString()),
+                      : GridView.builder(
+                          physics:
+                              const NeverScrollableScrollPhysics(), //! to disable GridView's scrolling
+                          shrinkWrap:
+                              true, //! You won't see infinite size error
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 4),
+                          itemBuilder: (context, index) => Container(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 8, horizontal: 5),
+                            margin: const EdgeInsets.all(3),
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15)),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black12,
+                                  blurRadius: 99,
+                                ),
+                              ],
                             ),
-                            itemCount: value.brandsItems.length,
+                            child: GridTile(
+                              child: Center(
+                                  child:
+                                      Text(value.brandsItems[index].brandName)),
+                            ),
                           ),
+                          itemCount: value.brandsItems.length,
                         );
                 }),
                 child: const Center(
                   child: Text('هنوز هیچ برندی ثبت نشده است'),
                 )),
+      ),
+      mainButton: CircleAvatar(
+        backgroundColor: Colors.black12,
+        child: IconButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            icon: const Icon(
+              Icons.arrow_forward,
+              color: Colors.white,
+            )),
       ),
       bottomWidget: ElevatedButton.icon(
         onPressed: () {
