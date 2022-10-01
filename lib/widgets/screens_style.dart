@@ -21,48 +21,54 @@ class ScreensStyle extends StatelessWidget {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
+          backgroundColor: Colors.white,
           body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Expanded(
-              child: Stack(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(
-                        0, width / 20, width / 17, width / 15),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          screenTitle,
-                          style: TextStyle(
-                            fontSize: 27,
-                            color: Colors.black.withOpacity(.6),
-                            fontWeight: FontWeight.w700,
+            child: Stack(
+              children: [
+                ListView(
+                  physics: const BouncingScrollPhysics(
+                      parent: AlwaysScrollableScrollPhysics()),
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(
+                          0, width / 20, width / 17, width / 15),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            screenTitle,
+                            style: TextStyle(
+                              fontSize: 27,
+                              color: Colors.black.withOpacity(.6),
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
-                        ),
-                        SizedBox(height: width / 45),
-                        Text(
-                          screenDescription,
-                          style: TextStyle(
-                            fontSize: 19,
-                            color: Colors.black.withOpacity(.5),
-                            fontWeight: FontWeight.w500,
+                          SizedBox(height: width / 45),
+                          Text(
+                            screenDescription,
+                            style: TextStyle(
+                              fontSize: 19,
+                              color: Colors.black.withOpacity(.5),
+                              fontWeight: FontWeight.w500,
+                            ),
+                            textAlign: TextAlign.start,
                           ),
-                          textAlign: TextAlign.start,
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
+                    screenWidget,
+                  ],
+                ),
+                Positioned(
+                  bottom: 0,
+                  child: SizedBox(
+                    width: width,
+                    child: bottomWidget,
                   ),
-                  screenWidget,
-                ],
-              ),
+                ),
+              ],
             ),
-            bottomWidget,
-          ],
-        ),
-      )),
+          )),
     );
   }
 }
