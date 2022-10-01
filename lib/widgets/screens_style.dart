@@ -59,6 +59,9 @@ class ScreensStyle extends StatelessWidget {
                       ),
                     ),
                     screenWidget,
+                    SizedBox(
+                      height: width / 10,
+                    )
                   ],
                 ),
                 Positioned(
