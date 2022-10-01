@@ -6,7 +6,6 @@ import '../providers/arrival_goods_provider.dart';
 
 import '../screens/arrival_goods.dart';
 import '../screens/home.dart';
-import '../screens/add_arrival_goods.dart';
 import '../screens/brands.dart';
 
 void main() {
@@ -37,7 +36,6 @@ class MyApp extends StatelessWidget {
         ),
         routes: {
           '/arrival-goods': (context) => ArrivalGoods(),
-          '/add-arrival-goods': (context) => AddArrivalGoods(),
           '/brands': (context) => Brands(),
         },
       ),
