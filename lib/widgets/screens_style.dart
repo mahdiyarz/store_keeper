@@ -5,14 +5,16 @@ class ScreensStyle extends StatelessWidget {
   final String screenDescription;
   final Widget screenWidget;
   final Widget bottomWidget;
+  final Widget mainButton;
 
-  const ScreensStyle(
-      {Key? key,
-      required this.screenTitle,
-      required this.screenDescription,
-      required this.screenWidget,
-      required this.bottomWidget})
-      : super(key: key);
+  const ScreensStyle({
+    Key? key,
+    required this.screenTitle,
+    required this.screenDescription,
+    required this.screenWidget,
+    required this.bottomWidget,
+    required this.mainButton,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +60,11 @@ class ScreensStyle extends StatelessWidget {
                     ),
                     screenWidget,
                   ],
+                ),
+                Positioned(
+                  left: width / 15,
+                  top: width / 20,
+                  child: mainButton,
                 ),
                 Positioned(
                   bottom: 0,
