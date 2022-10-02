@@ -11,7 +11,7 @@ import '../providers/arrival_goods_provider.dart';
 
 class ArrivalGoods extends StatefulWidget {
   static const routeName = '/arrival-goods';
-  ArrivalGoods({Key? key}) : super(key: key);
+  const ArrivalGoods({Key? key}) : super(key: key);
 
   @override
   State<ArrivalGoods> createState() => _ArrivalGoodsState();
