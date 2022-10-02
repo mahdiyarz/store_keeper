@@ -24,6 +24,12 @@ class Home extends StatelessWidget {
                 onPressed: () {},
                 icon: const Icon(Icons.refresh_rounded),
                 label: const Text('بروزرسانی اطلاعات')),
+            ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.of(context).pushNamed('/brands');
+                },
+                icon: const Icon(Icons.ballot_rounded),
+                label: const Text('ثبت اطلاعات اولیه')),
           ],
         ),
       ),
