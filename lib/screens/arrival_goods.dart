@@ -236,8 +236,11 @@ class _ArrivalGoodsState extends State<ArrivalGoods> {
                               Container(
                                 width: width * .5,
                                 height: width * .8,
-                                padding: const EdgeInsets.all(8),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8),
                                 child: GridView.builder(
+                                  physics: const BouncingScrollPhysics(
+                                      parent: AlwaysScrollableScrollPhysics()),
                                   gridDelegate:
                                       SliverGridDelegateWithMaxCrossAxisExtent(
                                     maxCrossAxisExtent: width * .3,
@@ -256,7 +259,7 @@ class _ArrivalGoodsState extends State<ArrivalGoods> {
                                     child: Center(
                                       child: ListTile(
                                         title: FittedBox(
-                                          fit: BoxFit.none,
+                                          fit: BoxFit.scaleDown,
                                           child: Text(brands[index].brandName,
                                               style: const TextStyle(
                                                   color: Colors.black54),
@@ -272,8 +275,7 @@ class _ArrivalGoodsState extends State<ArrivalGoods> {
                                 ),
                               ),
                               Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8),
+                                padding: const EdgeInsets.fromLTRB(8, 5, 8, 0),
                                 child: ElevatedButton.icon(
                                   onPressed: () {
                                     Navigator.of(context)
