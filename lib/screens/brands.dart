@@ -97,36 +97,43 @@ class Brands extends StatelessWidget {
                 builder: ((context, value, child) {
                   return value.brandsItems.isEmpty
                       ? child as Widget
-                      : GridView.builder(
-                          physics:
-                              const NeverScrollableScrollPhysics(), //! to disable GridView's scrolling
-                          shrinkWrap:
-                              true, //! You won't see infinite size error
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 4),
-                          itemBuilder: (context, index) => Container(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 8, horizontal: 5),
-                            margin: const EdgeInsets.all(3),
-                            decoration: const BoxDecoration(
-                              color: Colors.white,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15)),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black12,
-                                  blurRadius: 99,
-                                ),
-                              ],
+                      : Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: GridView.builder(
+                            physics:
+                                const NeverScrollableScrollPhysics(), //! to disable GridView's scrolling
+                            shrinkWrap:
+                                true, //! You won't see infinite size error
+                            gridDelegate:
+                                SliverGridDelegateWithMaxCrossAxisExtent(
+                              maxCrossAxisExtent: width * .4,
+                              childAspectRatio: 1.1,
+                              crossAxisSpacing: 5,
+                              mainAxisSpacing: 5,
                             ),
-                            child: GridTile(
+                            itemBuilder: (context, index) => Container(
+                              decoration: const BoxDecoration(
+                                color: Colors.white,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(15)),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black12,
+                                    blurRadius: 99,
+                                  ),
+                                ],
+                              ),
                               child: Center(
-                                  child:
-                                      Text(value.brandsItems[index].brandName)),
+                                child: ListTile(
+                                  title: FittedBox(
+                                      fit: BoxFit.scaleDown,
+                                      child: Text(
+                                          value.brandsItems[index].brandName)),
+                                ),
+                              ),
                             ),
+                            itemCount: value.brandsItems.length,
                           ),
-                          itemCount: value.brandsItems.length,
                         );
                 }),
                 child: const Center(
