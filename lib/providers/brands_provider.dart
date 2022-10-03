@@ -16,6 +16,19 @@ class BrandsProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<BrandsModel> findById(int id) async {
+    return await DBHelper.instance.fetchSingleBrandData(id);
+  }
+
+  Future<void> updateData(BrandsModel brandsModel) async {
+    if (brandsModel.brandName.isNotEmpty) {
+      await DBHelper.instance.updateBrands(brandsModel);
+      final fetchData = await DBHelper.instance.fetchBrandsData();
+      _brandsItems = fetchData;
+    }
+    notifyListeners();
+  }
+
   Future<void> insertData(BrandsModel brandsModel) async {
     final db = await DBHelper.instance.fetchBrandsData()
       ..map((e) => e.brandName).toList();

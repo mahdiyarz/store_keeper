@@ -5,15 +5,30 @@ import '../models/brands_model.dart';
 import '../providers/brands_provider.dart';
 import '../widgets/screens_style.dart';
 
-class Brands extends StatelessWidget {
+class Brands extends StatefulWidget {
   static const routeName = '/brands';
 
-  Brands({Key? key}) : super(key: key);
+  const Brands({Key? key}) : super(key: key);
 
+  @override
+  State<Brands> createState() => _BrandsState();
+}
+
+class _BrandsState extends State<Brands> {
   var textController = TextEditingController();
 
-  void _showModalBottomSheet(BuildContext context, double width) {
+  @override
+  void dispose() {
+    textController;
+
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+  void _showModalBottomSheet(
+      BuildContext context, double width, BrandsModel? brandsModel) {
     showModalBottomSheet(
+        isDismissible: false,
         context: context,
         builder: (context) {
           return Directionality(
@@ -27,14 +42,23 @@ class Brands extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    const Text(
-                      'لطفا نام برند مورد نظر خود را وارد کنید و دکمه ثبت را بزنید...',
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: Colors.black45,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
+                    brandsModel == null
+                        ? const Text(
+                            'لطفا نام برند مورد نظر خود را وارد کنید و دکمه ثبت را بزنید...',
+                            style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.black45,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          )
+                        : const Text(
+                            'لطفا نام برند را ویرایش کنید و دکمه ثبت را بزنید...',
+                            style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.black45,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
                     TextFormField(
                       controller: textController,
                       keyboardType: TextInputType.name,
@@ -54,13 +78,27 @@ class Brands extends StatelessWidget {
                       children: [
                         Expanded(
                           child: ElevatedButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                                Provider.of<BrandsProvider>(context,
-                                        listen: false)
-                                    .insertData(BrandsModel(
-                                        brandName: textController.text));
-                              },
+                              onPressed: textController.text.isNotEmpty
+                                  ? () {
+                                      Navigator.of(context).pop();
+                                      if (brandsModel != null) {
+                                        final BrandsModel updateBrand =
+                                            BrandsModel(
+                                          brandId: brandsModel.brandId,
+                                          brandName: textController.text,
+                                        );
+                                        Provider.of<BrandsProvider>(context,
+                                                listen: false)
+                                            .updateData(updateBrand);
+                                      } else {
+                                        Provider.of<BrandsProvider>(context,
+                                                listen: false)
+                                            .insertData(BrandsModel(
+                                                brandName:
+                                                    textController.text));
+                                      }
+                                    }
+                                  : null,
                               child: const Text('ثبت')),
                         ),
                         const SizedBox(width: 5),
@@ -129,6 +167,12 @@ class Brands extends StatelessWidget {
                                       fit: BoxFit.scaleDown,
                                       child: Text(
                                           value.brandsItems[index].brandName)),
+                                  onTap: () {
+                                    _showModalBottomSheet(context, width,
+                                        value.brandsItems[index]);
+                                    textController.text =
+                                        value.brandsItems[index].brandName;
+                                  },
                                 ),
                               ),
                             ),
@@ -153,7 +197,7 @@ class Brands extends StatelessWidget {
       ),
       bottomWidget: ElevatedButton.icon(
         onPressed: () {
-          _showModalBottomSheet(context, width);
+          _showModalBottomSheet(context, width, null);
           textController.text = '';
         },
         icon: const Icon(Icons.post_add_rounded),
