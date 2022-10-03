@@ -107,6 +107,35 @@ class DBHelper {
     return fetchResult.map((e) => ArrivalGoodsModel.fromJson(e)).toList();
   }
 
+  Future<ArrivalGoodsModel> fetchSingleArrivalGoodData(
+      int arrivalGoodsId) async {
+    final db = await instance.database;
+
+    final fetchResult = await db.query(
+      arrivalGoodsTable,
+      columns: ArrivalGoodsFields.values,
+      where: '${ArrivalGoodsFields.arrivalGoodsId} = ?',
+      whereArgs: [arrivalGoodsId],
+    );
+
+    if (fetchResult.isNotEmpty) {
+      return ArrivalGoodsModel.fromJson(fetchResult.first);
+    } else {
+      throw Exception('ID $arrivalGoodsId not found');
+    }
+  }
+
+  Future<int> updateArrivalGoods(ArrivalGoodsModel arrivalGoodsModel) async {
+    final db = await instance.database;
+
+    return db.update(
+      arrivalGoodsTable,
+      arrivalGoodsModel.toJson(),
+      where: '${ArrivalGoodsFields.arrivalGoodsId} = ?',
+      whereArgs: [arrivalGoodsModel.arrivalGoodsId],
+    );
+  }
+
   Future<int> deleteArrivalGoods(ArrivalGoodsModel arrivalGoodsModel) async {
     final db = await instance.database;
     return db.delete(

@@ -1,6 +1,13 @@
 const String arrivalGoodsTable = 'arrivalsGoods';
 
 class ArrivalGoodsFields {
+  static const List<String> values = [
+    arrivalGoodsId,
+    brandId,
+    numOfBoxes,
+    arrivalGoodsDate,
+  ];
+
   static const String arrivalGoodsId = 'arrivalGoodsId';
   static const String brandId = 'brandId';
   static const String numOfBoxes = 'numOfBoxes';
