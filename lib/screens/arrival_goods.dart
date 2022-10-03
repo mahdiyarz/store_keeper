@@ -22,6 +22,14 @@ class _ArrivalGoodsState extends State<ArrivalGoods> {
   var brandNameController = TextEditingController();
 
   @override
+  void dispose() {
+    boxNumberController;
+    brandNameController;
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     Provider.of<BrandsProvider>(context, listen: false).fetchData();
