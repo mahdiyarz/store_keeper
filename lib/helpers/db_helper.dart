@@ -162,6 +162,34 @@ class DBHelper {
     return fetchResult.map((e) => BrandsModel.fromJson(e)).toList();
   }
 
+  Future<BrandsModel> fetchSingleBrandData(int brandsId) async {
+    final db = await instance.database;
+
+    final fetchResult = await db.query(
+      brandsTable,
+      columns: BrandsFields.values,
+      where: '${BrandsFields.brandId} = ?',
+      whereArgs: [brandsId],
+    );
+
+    if (fetchResult.isNotEmpty) {
+      return BrandsModel.fromJson(fetchResult.first);
+    } else {
+      throw Exception('ID $brandsId not found');
+    }
+  }
+
+  Future<int> updateBrands(BrandsModel brandsModel) async {
+    final db = await instance.database;
+
+    return db.update(
+      brandsTable,
+      brandsModel.toJson(),
+      where: '${BrandsFields.brandId} = ?',
+      whereArgs: [brandsModel.brandId],
+    );
+  }
+
   Future<int> deleteBrands(BrandsModel brandsModel) async {
     final db = await instance.database;
     return db.delete(

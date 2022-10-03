@@ -1,6 +1,11 @@
 const String brandsTable = 'brands';
 
 class BrandsFields {
+  static const List<String> values = [
+    brandId,
+    brandName,
+  ];
+
   static const String brandId = 'brandId';
   static const String brandName = 'brandName';
 }
