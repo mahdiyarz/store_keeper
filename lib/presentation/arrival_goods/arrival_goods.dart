@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../models/brands_model.dart';
-import '../models/arrival_goods_model.dart';
+import '../../models/brands_model.dart';
+import '../../models/arrival_goods_model.dart';
 
-import '../widgets/screens_style.dart';
+import '../../widgets/screens_style.dart';
 
-import '../providers/brands_provider.dart';
-import '../providers/arrival_goods_provider.dart';
+import '../../providers/brands_provider.dart';
+import '../../providers/arrival_goods_provider.dart';
 
 class ArrivalGoods extends StatefulWidget {
   static const routeName = '/arrival-goods';

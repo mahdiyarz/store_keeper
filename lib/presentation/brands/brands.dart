@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../models/brands_model.dart';
-import '../providers/brands_provider.dart';
-import '../widgets/screens_style.dart';
+import '../../models/brands_model.dart';
+import '../../providers/brands_provider.dart';
+import '../../widgets/screens_style.dart';
 
 class Brands extends StatefulWidget {
   static const routeName = '/brands';
