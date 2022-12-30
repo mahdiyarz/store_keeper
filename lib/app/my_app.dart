@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/brands_provider.dart';
-import '../providers/arrival_goods_provider.dart';
+import '../providers/import_providers.dart';
 
 import '../presentation/resources/routes_manager.dart';
 
