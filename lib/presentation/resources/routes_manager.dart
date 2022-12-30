@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../resources/strings_manager.dart';
-import '../home/home.dart';
-import '../arrival_goods/arrival_goods.dart';
-import '../brands/brands.dart';
+import '../import_presentation.dart';
 
 class Routes {
   static const String arrivalGoodsRoute = '/arrival-goods';
@@ -20,14 +18,6 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const ArrivalGoods());
       case Routes.brandsRoute:
         return MaterialPageRoute(builder: (_) => const Brands());
-      // case Routes.homeRoute:
-      //   return MaterialPageRoute(builder: (_) => const Home());
-      // case Routes.registerRoute:
-      //   return MaterialPageRoute(builder: (_) => const RegisterView());
-      // case Routes.forgotPasswordRoute:
-      //   return MaterialPageRoute(builder: (_) => const ForgotPasswordView());
-      // case Routes.storeDetailsRoute:
-      //   return MaterialPageRoute(builder: (_) => const StoreDetailsView());
       default:
         return unDefinedRoute();
     }
