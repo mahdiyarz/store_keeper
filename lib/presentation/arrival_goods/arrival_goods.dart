@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/brands_model.dart';
-import '../../models/arrival_goods_model.dart';
+import '../../presentation/resources/color_manager.dart';
+
+import '../../models/import_models.dart';
 
 import '../../widgets/screens_style.dart';
 
-import '../../providers/brands_provider.dart';
-import '../../providers/arrival_goods_provider.dart';
+import '../../providers/import_providers.dart';
 
 class ArrivalGoods extends StatefulWidget {
   static const routeName = '/arrival-goods';
@@ -70,16 +70,16 @@ class _ArrivalGoodsState extends State<ArrivalGoods> {
                               padding: const EdgeInsets.symmetric(
                                   vertical: 3, horizontal: 5),
                               margin: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                              decoration: const BoxDecoration(
+                              decoration: BoxDecoration(
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.black12,
+                                    color: ColorManager.shadow,
                                     blurRadius: 99,
                                   ),
                                 ],
                               ),
                               child: PhysicalModel(
-                                color: Colors.white,
+                                color: ColorManager.white,
                                 elevation: 5,
                                 shadowColor:
                                     const Color(0xff040039).withOpacity(.2),
