@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../presentation/resources/color_manager.dart';
+import '../resources/color_manager.dart';
 
 import '../../models/import_models.dart';
 
@@ -9,15 +9,15 @@ import '../../widgets/screens_style.dart';
 
 import '../../providers/import_providers.dart';
 
-class ArrivalGoods extends StatefulWidget {
-  static const routeName = '/arrival-goods';
-  const ArrivalGoods({Key? key}) : super(key: key);
+class ArrivalGoodsList extends StatefulWidget {
+  static const routeName = '/arrival-goods-list';
+  const ArrivalGoodsList({Key? key}) : super(key: key);
 
   @override
-  State<ArrivalGoods> createState() => _ArrivalGoodsState();
+  State<ArrivalGoodsList> createState() => _ArrivalGoodsListState();
 }
 
-class _ArrivalGoodsState extends State<ArrivalGoods> {
+class _ArrivalGoodsListState extends State<ArrivalGoodsList> {
   var boxNumberController = TextEditingController();
   var brandNameController = TextEditingController();
 
