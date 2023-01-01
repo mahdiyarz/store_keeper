@@ -7,6 +7,7 @@ class Routes {
   static const String arrivalGoodsRoute = '/arrival-goods-list';
   static const String homeRoute = '/home';
   static const String brandsRoute = '/brands';
+  static const String arrivalGoodsManageRoute = '/arrival-goods-manage';
 }
 
 class RouteGenerator {
@@ -18,6 +19,9 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const ArrivalGoodsList());
       case Routes.brandsRoute:
         return MaterialPageRoute(builder: (_) => const Brands());
+      case Routes.arrivalGoodsManageRoute:
+        return MaterialPageRoute(
+            builder: (_) => const ArrivalGoodsManagement());
       default:
         return unDefinedRoute();
     }
