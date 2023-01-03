@@ -1,43 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:store_keeper/presentation/import_presentation.dart';
-
-import '../resources/color_manager.dart';
 
 import '../../models/import_models.dart';
-
-import '../../widgets/screens_style.dart';
-
 import '../../providers/import_providers.dart';
+import '../../widgets/screens_style.dart';
+import '../resources/color_manager.dart';
 
-class ArrivalGoodsList extends StatefulWidget {
-  static const routeName = '/arrival-goods-list';
-  const ArrivalGoodsList({Key? key}) : super(key: key);
+class ArrivalGoodsManagement extends StatelessWidget {
+  static const routeName = '/arrival-goods-manage';
 
-  @override
-  State<ArrivalGoodsList> createState() => _ArrivalGoodsListState();
-}
+  final String title;
+  final int boxNumber;
+  final DateTime dateTime;
 
-class _ArrivalGoodsListState extends State<ArrivalGoodsList> {
-  var boxNumberController = TextEditingController();
-  var brandNameController = TextEditingController();
-
-  @override
-  void dispose() {
-    boxNumberController;
-    brandNameController;
-    // TODO: implement dispose
-    super.dispose();
-  }
-
+  const ArrivalGoodsManagement({
+    Key? key,
+    required this.title,
+    required this.boxNumber,
+    required this.dateTime,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     Provider.of<BrandsProvider>(context, listen: false).fetchData();
 
     return ScreensStyle(
-      screenTitle: 'ورودی های انبار',
-      screenDescription: 'ثبت، اصلاح و تهیه گزارش ورودی های انبار',
+      screenTitle: title,
+      screenDescription: 'ورود $boxNumber کارتن مورخ $dateTime',
       screenWidget: FutureBuilder(
         future: Provider.of<ArrivalGoodsProvider>(context, listen: false)
             .fetchData(),
@@ -91,19 +80,7 @@ class _ArrivalGoodsListState extends State<ArrivalGoodsList> {
                                   topRight: Radius.circular(20),
                                 ),
                                 child: InkWell(
-                                  onTap: () {
-                                    Navigator.of(context).pushNamed(
-                                      '/arrival-goods-manage',
-                                      arguments: ArrivalGoodsManagement(
-                                        title: arrivalGoodsBrand.brandName,
-                                        boxNumber: value
-                                            .arrivalGoodsItems[index]
-                                            .numOfBoxes,
-                                        dateTime: value.arrivalGoodsItems[index]
-                                            .arrivalGoodsDate,
-                                      ),
-                                    );
-                                  },
+                                  onTap: () {},
                                   child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -187,8 +164,8 @@ class _ArrivalGoodsListState extends State<ArrivalGoodsList> {
       bottomWidget: ElevatedButton.icon(
         onPressed: () {
           _showModalBottomSheet(context, width);
-          brandNameController.text = '';
-          boxNumberController.text = '';
+          // brandNameController.text = '';
+          // boxNumberController.text = '';
         },
         icon: const Icon(Icons.post_add_rounded),
         label: const Text('لیست جدید'),
@@ -221,7 +198,7 @@ class _ArrivalGoodsListState extends State<ArrivalGoodsList> {
                     ),
                   ),
                   TextFormField(
-                    controller: boxNumberController,
+                    // controller: boxNumberController,
                     keyboardType: TextInputType.number,
                     decoration: const InputDecoration(
                       hintText: 'تعداد جعبه',
@@ -246,84 +223,6 @@ class _ArrivalGoodsListState extends State<ArrivalGoodsList> {
                       List<BrandsModel> brands =
                           Provider.of<BrandsProvider>(context, listen: false)
                               .brandsItems;
-                      showDialog(
-                        context: context,
-                        builder: (context) => Directionality(
-                          textDirection: TextDirection.rtl,
-                          child: SimpleDialog(
-                            title: const Text('برند خود را انتخاب کنید',
-                                textAlign: TextAlign.center),
-                            children: [
-                              Container(
-                                width: width * .5,
-                                height: width * .8,
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8),
-                                child: GridView.builder(
-                                  physics: const BouncingScrollPhysics(
-                                      parent: AlwaysScrollableScrollPhysics()),
-                                  gridDelegate:
-                                      SliverGridDelegateWithMaxCrossAxisExtent(
-                                    maxCrossAxisExtent: width * .3,
-                                    childAspectRatio: 1.2,
-                                    crossAxisSpacing: 8,
-                                    mainAxisSpacing: 8,
-                                  ),
-                                  itemCount: brands.length,
-                                  itemBuilder: (context, index) => Container(
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(15),
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .secondary
-                                            .withOpacity(.3)),
-                                    child: Center(
-                                      child: ListTile(
-                                        title: FittedBox(
-                                          fit: BoxFit.scaleDown,
-                                          child: Text(brands[index].brandName,
-                                              style: const TextStyle(
-                                                  color: Colors.black54),
-                                              textAlign: TextAlign.center),
-                                        ),
-                                        onTap: () => Navigator.pop(context, [
-                                          brands[index].brandId,
-                                          brands[index].brandName,
-                                        ]),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(8, 5, 8, 0),
-                                child: ElevatedButton.icon(
-                                  onPressed: () {
-                                    Navigator.of(context)
-                                        .pushReplacementNamed('/brands');
-                                  },
-                                  icon: const Icon(Icons.dangerous, size: 18),
-                                  label: const Text('برند مورد نظر موجود نیست'),
-                                  style: ElevatedButton.styleFrom(
-                                    tapTargetSize:
-                                        MaterialTapTargetSize.shrinkWrap,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ).then((returnValue) {
-                        if (returnValue != null) {
-                          brandPostBack = returnValue;
-                          brandNameController.text = brandPostBack[0]
-                              .toString(); //? Pass brand id to out controller
-                          setState(() {
-                            showBrandName =
-                                returnValue; //? To show brand name in real time on button label
-                          });
-                        }
-                      });
                     },
                     child: showBrandName == null
                         ? const Text(
@@ -344,21 +243,23 @@ class _ArrivalGoodsListState extends State<ArrivalGoodsList> {
                     children: [
                       Expanded(
                         child: ElevatedButton(
-                          onPressed: brandNameController.text.isNotEmpty &&
-                                  boxNumberController.text.isNotEmpty
-                              ? () {
-                                  Navigator.of(context).pop();
+                          onPressed:
+                              // brandNameController.text.isNotEmpty &&
+                              // boxNumberController.text.isNotEmpty
+                              // ?
+                              () {
+                            // Navigator.of(context).pop();
 
-                                  Provider.of<ArrivalGoodsProvider>(context,
-                                          listen: false)
-                                      .insertData(ArrivalGoodsModel(
-                                          brandId: int.parse(
-                                              brandNameController.text),
-                                          numOfBoxes: int.parse(
-                                              boxNumberController.text),
-                                          arrivalGoodsDate: DateTime.now()));
-                                }
-                              : null,
+                            // Provider.of<ArrivalGoodsProvider>(context,
+                            // listen: false)
+                            // .insertData(ArrivalGoodsModel(
+                            // brandId: int.parse(
+                            //     brandNameController.text),
+                            // numOfBoxes: int.parse(
+                            //     boxNumberController.text),
+                            // arrivalGoodsDate: DateTime.now()));
+                          },
+                          // : null,
                           child: const Text('ثبت'),
                         ),
                       ),

@@ -20,8 +20,14 @@ class RouteGenerator {
       case Routes.brandsRoute:
         return MaterialPageRoute(builder: (_) => const Brands());
       case Routes.arrivalGoodsManageRoute:
+        final args = routeSettings.arguments as ArrivalGoodsManagement;
         return MaterialPageRoute(
-            builder: (_) => const ArrivalGoodsManagement());
+          builder: (_) => ArrivalGoodsManagement(
+            title: args.title,
+            boxNumber: args.boxNumber,
+            dateTime: args.dateTime,
+          ),
+        );
       default:
         return unDefinedRoute();
     }
