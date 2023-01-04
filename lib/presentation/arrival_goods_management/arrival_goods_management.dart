@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:persian/persian.dart';
 
 import '../../models/import_models.dart';
 import '../../providers/import_providers.dart';
@@ -26,7 +27,8 @@ class ArrivalGoodsManagement extends StatelessWidget {
 
     return ScreensStyle(
       screenTitle: title,
-      screenDescription: 'ورود $boxNumber کارتن مورخ $dateTime',
+      screenDescription:
+          'ورود ${boxNumber.toString().withPersianNumbers()} کارتن در تاریخ ${dateTime.toPersian()}',
       screenWidget: FutureBuilder(
         future: Provider.of<ArrivalGoodsProvider>(context, listen: false)
             .fetchData(),

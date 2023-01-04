@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:store_keeper/presentation/import_presentation.dart';
+import 'package:persian/persian.dart';
 
+import '../import_presentation.dart';
 import '../resources/color_manager.dart';
-
 import '../../models/import_models.dart';
-
 import '../../widgets/screens_style.dart';
-
 import '../../providers/import_providers.dart';
 
 class ArrivalGoodsList extends StatefulWidget {
@@ -24,9 +22,9 @@ class _ArrivalGoodsListState extends State<ArrivalGoodsList> {
 
   @override
   void dispose() {
-    boxNumberController;
-    brandNameController;
-    // TODO: implement dispose
+    boxNumberController.dispose();
+    brandNameController.dispose();
+
     super.dispose();
   }
 
@@ -141,7 +139,7 @@ class _ArrivalGoodsListState extends State<ArrivalGoodsList> {
                                             children: [
                                               FittedBox(
                                                 child: Text(
-                                                  'تعداد جعبه: ${value.arrivalGoodsItems[index].numOfBoxes.toString()}',
+                                                  'ورود ${value.arrivalGoodsItems[index].numOfBoxes.toString().withPersianNumbers()} جعبه به انبار',
                                                   style: const TextStyle(
                                                       fontSize: 16),
                                                 ),
@@ -149,9 +147,7 @@ class _ArrivalGoodsListState extends State<ArrivalGoodsList> {
                                               const SizedBox(height: 5),
                                               FittedBox(
                                                 child: Text(
-                                                  value.arrivalGoodsItems[index]
-                                                      .arrivalGoodsDate
-                                                      .toString(),
+                                                  'در تاریخ ${value.arrivalGoodsItems[index].arrivalGoodsDate.toPersian().toString()}',
                                                   style: const TextStyle(
                                                       color: Colors.black45),
                                                 ),
