@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../presentation/resources/import_resources.dart';
 import '../providers/import_providers.dart';
-
-import '../presentation/resources/routes_manager.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
