@@ -16,4 +16,7 @@ class AppStrings {
       'This app is an awesome flutter application using clean architecture #4';
 
   static const String skip = 'skip';
+
+  static const String errorTitle =
+      'مشکلی پیش آمده است، لطفا متن زیر را برای توسعه دهنده ارسال نمایید:';
 }
