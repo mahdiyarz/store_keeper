@@ -6,7 +6,7 @@ import '../import_presentation.dart';
 class Routes {
   static const String arrivalGoodsRoute = '/arrival-goods-list';
   static const String homeRoute = '/home';
-  static const String brandsRoute = '/brands';
+  static const String brandsScreenRoute = '/brands';
   static const String arrivalGoodsManageRoute = '/arrival-goods-manage';
 }
 
@@ -17,8 +17,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const Home());
       case Routes.arrivalGoodsRoute:
         return MaterialPageRoute(builder: (_) => const ArrivalGoodsList());
-      case Routes.brandsRoute:
-        return MaterialPageRoute(builder: (_) => const Brands());
+      case Routes.brandsScreenRoute:
+        return MaterialPageRoute(builder: (_) => const BrandsScreen());
       case Routes.arrivalGoodsManageRoute:
         final args = routeSettings.arguments as ArrivalGoodsManagement;
         return MaterialPageRoute(
