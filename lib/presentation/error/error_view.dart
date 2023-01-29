@@ -13,54 +13,56 @@ class ErrorView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorManager.error,
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(
-          AppPadding.p40,
-          AppPadding.p90,
-          AppPadding.p40,
-          AppPadding.p0,
-        ),
-        child: Column(
-          children: [
-            Icon(
-              Icons.error_rounded,
-              color: ColorManager.white,
-              size: AppSize.s150,
-            ),
-            const SizedBox(
-              height: AppSize.s20,
-            ),
-            Text(
-              AppStrings.errorTitle,
-              style: TextStyle(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(
+            AppPadding.p16,
+            AppPadding.p40,
+            AppPadding.p16,
+            AppPadding.p16,
+          ),
+          child: Column(
+            children: [
+              Icon(
+                Icons.error_rounded,
                 color: ColorManager.white,
-                fontSize: AppSize.s16,
-                fontWeight: FontWeightManager.bold,
+                size: AppSize.s150,
               ),
-              textAlign: TextAlign.justify,
-              textDirection: TextDirection.rtl,
-            ),
-            const SizedBox(
-              height: AppSize.s20,
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(
-                vertical: AppPadding.p5,
-                horizontal: AppPadding.p8,
+              const SizedBox(
+                height: AppSize.s12,
               ),
-              decoration: BoxDecoration(
-                  color: ColorManager.white,
-                  borderRadius: BorderRadius.circular(AppSize.s12)),
-              child: Text(
-                errorDetails.exception.toString(),
+              Text(
+                AppStrings.errorTitle,
                 style: TextStyle(
-                  color: ColorManager.error,
-                  fontSize: AppSize.s18,
+                  color: ColorManager.white,
+                  fontSize: AppSize.s14,
                   fontWeight: FontWeightManager.bold,
                 ),
+                textAlign: TextAlign.justify,
+                textDirection: TextDirection.rtl,
               ),
-            ),
-          ],
+              const SizedBox(
+                height: AppSize.s20,
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  vertical: AppPadding.p5,
+                  horizontal: AppPadding.p8,
+                ),
+                decoration: BoxDecoration(
+                    color: ColorManager.white,
+                    borderRadius: BorderRadius.circular(AppSize.s12)),
+                child: SelectableText(
+                  errorDetails.exception.toString(),
+                  style: TextStyle(
+                    color: ColorManager.error,
+                    fontSize: AppSize.s12,
+                    fontWeight: FontWeightManager.bold,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

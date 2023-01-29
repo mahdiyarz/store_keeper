@@ -18,5 +18,5 @@ class AppStrings {
   static const String skip = 'skip';
 
   static const String errorTitle =
-      'مشکلی پیش آمده است، لطفا متن زیر را برای توسعه دهنده ارسال نمایید:';
+      'مشکلی پیش آمده است؛ لطفا متن زیر را برای توسعه دهنده ارسال نمایید...';
 }
