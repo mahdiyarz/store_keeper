@@ -49,6 +49,7 @@ class DBHelper {
       CREATE TABLE $brandsTable(
         ${BrandsFields.brandId} $idType,
         ${BrandsFields.brandName}  $textType      
+        ${BrandsFields.brandLatinName}  $textType      
       )
      ''');
 
