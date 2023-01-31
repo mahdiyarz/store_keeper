@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:store_keeper/bloc/brands_bloc/brands_repository.dart';
 
 import '../presentation/resources/import_resources.dart';
-import '../providers/import_providers.dart';
+import '../bloc/bloc_exports.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -14,14 +14,17 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
+    return MultiBlocProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (context) => ArrivalGoodsProvider(),
+        BlocProvider<BrandsBloc>(
+          create: (_) => BrandsBloc(repository: BrandsRepositoryImplement()),
         ),
-        ChangeNotifierProvider(
-          create: (context) => BrandsProvider(),
-        ),
+        // ChangeNotifierProvider(
+        //   create: (context) => ArrivalGoodsProvider(),
+        // ),
+        // ChangeNotifierProvider(
+        //   create: (context) => BrandsProvider(),
+        // ),
       ],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
