@@ -41,7 +41,7 @@ class BrandsModel {
       );
 
   static BrandsModel fromJson(Map<String, Object?> json) => BrandsModel(
-        brandId: json[BrandsFields.brandId] as int,
+        brandId: json[BrandsFields.brandId] as int?,
         brandName: json[BrandsFields.brandName] as String,
         brandLatinName: json[BrandsFields.brandLatinName] as String,
       );

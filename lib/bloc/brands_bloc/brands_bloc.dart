@@ -72,8 +72,7 @@ class BrandsBloc extends Bloc<BrandsEvent, BrandsState> {
       );
       log('End FetchBrands on bloc');
     });
-    // on<FetchBrands>(_onFetchBrands);
-    on<FetchSpecificBrand>(_onFetchSpecificBrand);
+
     on<AddBrand>(_onAddBrand);
     on<EditBrand>(_onEditBrand);
     on<DeleteBrand>(_onDeleteBrand);
@@ -93,18 +92,37 @@ class BrandsBloc extends Bloc<BrandsEvent, BrandsState> {
     }
   }
 
-  void _onFetchBrands(FetchBrands event, Emitter<BrandsState> emit) async {
-    log('Fetching List of Brands...');
+  void _onEditBrand(EditBrand event, Emitter<BrandsState> emit) async {
+    log('Edit Brand process...');
 
-    final brandsList = await DBHelper.instance.fetchBrandsData();
+    final oldBrand = event.oldBrand;
+    final editedBrand = event.newBrand;
 
-    // emit(
-    // BrandsState(displayBrands: brandsList),
-    // );
+    if (oldBrand.brandName.isNotEmpty && oldBrand.brandLatinName.isNotEmpty) {
+      await DBHelper.instance.updateBrands(
+        BrandsModel(
+          brandId: oldBrand.brandId,
+          brandName: editedBrand.brandName,
+          brandLatinName: editedBrand.brandLatinName,
+        ),
+      );
+    }
   }
 
-  void _onFetchSpecificBrand(
-      FetchSpecificBrand event, Emitter<BrandsState> emit) {}
-  void _onEditBrand(EditBrand event, Emitter<BrandsState> emit) {}
-  void _onDeleteBrand(DeleteBrand event, Emitter<BrandsState> emit) {}
+  void _onDeleteBrand(DeleteBrand event, Emitter<BrandsState> emit) async {
+    log('DELETING...');
+
+    final deletedBrand = event.brand;
+
+    if (deletedBrand.brandName.isNotEmpty &&
+        deletedBrand.brandLatinName.isNotEmpty) {
+      await DBHelper.instance.deleteBrands(
+        BrandsModel(
+          brandId: deletedBrand.brandId,
+          brandName: deletedBrand.brandName,
+          brandLatinName: deletedBrand.brandLatinName,
+        ),
+      );
+    }
+  }
 }

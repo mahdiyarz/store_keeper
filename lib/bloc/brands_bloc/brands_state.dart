@@ -22,3 +22,13 @@ class DisplayBrandsState extends BrandsState {
   @override
   List<Object?> get props => [brandsList];
 }
+
+@immutable
+class DisplaySpecificBrandsState extends BrandsState {
+  final BrandsModel brand;
+
+  const DisplaySpecificBrandsState({required this.brand});
+
+  @override
+  List<Object?> get props => [brand];
+}
