@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:store_keeper/bloc/brands_bloc/brands_repository.dart';
 
 import '../presentation/resources/import_resources.dart';
 import '../bloc/bloc_exports.dart';
@@ -17,7 +16,7 @@ class _MyAppState extends State<MyApp> {
     return MultiBlocProvider(
       providers: [
         BlocProvider<BrandsBloc>(
-          create: (_) => BrandsBloc(repository: BrandsRepositoryImplement()),
+          create: (context) => BrandsBloc(),
         ),
         // ChangeNotifierProvider(
         //   create: (context) => ArrivalGoodsProvider(),
