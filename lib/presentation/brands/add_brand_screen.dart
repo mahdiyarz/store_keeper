@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:store_keeper/bloc/bloc_exports.dart';
+import 'package:store_keeper/models/brands_model.dart';
 
 class AddBrandScreen extends StatelessWidget {
   const AddBrandScreen({
@@ -7,6 +9,8 @@ class AddBrandScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final nameKey = GlobalKey<FormState>();
+    final latinNameKey = GlobalKey<FormState>();
     TextEditingController nameController = TextEditingController();
     TextEditingController latinNameController = TextEditingController();
 
@@ -41,6 +45,7 @@ class AddBrandScreen extends StatelessWidget {
               height: 25,
             ),
             TextFormField(
+              key: nameKey,
               autofocus: true,
               controller: nameController,
               keyboardType: TextInputType.name,
@@ -51,9 +56,7 @@ class AddBrandScreen extends StatelessWidget {
                 hintStyle: TextStyle(color: Colors.black26),
               ),
               validator: (value) {
-                if (value!.isEmpty) {
-                  return 'نام برند را وارد نکردید!';
-                }
+                if (value == null) 'نام برند را وارد نکردید!';
                 return null;
               },
             ),
@@ -61,6 +64,7 @@ class AddBrandScreen extends StatelessWidget {
             Directionality(
               textDirection: TextDirection.ltr,
               child: TextFormField(
+                key: latinNameKey,
                 textAlign: TextAlign.left,
                 controller: latinNameController,
                 keyboardType: TextInputType.name,
@@ -71,9 +75,7 @@ class AddBrandScreen extends StatelessWidget {
                   hintStyle: TextStyle(color: Colors.black26),
                 ),
                 validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'نام لاتین برند را وارد نکردید!';
-                  }
+                  if (value == null) 'نام لاتین برند را وارد نکردید!';
                   return null;
                 },
               ),
@@ -83,25 +85,43 @@ class AddBrandScreen extends StatelessWidget {
               children: [
                 Expanded(
                   child: ElevatedButton(
-                      onPressed: nameController.text.isNotEmpty
-                          ? () {
-                              // Navigator.of(context).pop();
-                              // if (brandsModel != null) {
-                              //   final BrandsModel updateBrand = BrandsModel(
-                              //     brandId: brandsModel.brandId,
-                              //     brandName: textController.text,
-                              //   );
-                              //   Provider.of<BrandsProvider>(context,
-                              //           listen: false)
-                              //       .updateData(updateBrand);
-                              // } else {
-                              //   Provider.of<BrandsProvider>(context,
-                              //           listen: false)
-                              //       .insertData(BrandsModel(
-                              //           brandName: textController.text));
-                              // }
-                            }
-                          : null,
+                      onPressed: () {
+                        if (nameController.value.text.isNotEmpty &&
+                            latinNameController.value.text.isNotEmpty) {
+                          final BrandsModel brand = BrandsModel(
+                            brandName: nameController.text,
+                            brandLatinName: latinNameController.text,
+                          );
+                          Navigator.of(context).pop();
+                          context
+                              .read<BrandsBloc>()
+                              .add(AddBrand(brand: brand));
+                          context.read<BrandsBloc>().add(const FetchBrands());
+                          nameController.clear();
+                          latinNameController.clear();
+                        } else if (nameController.value.text.isEmpty) {
+                          // TODO: implement validation
+                          return;
+                        } else if (latinNameController.value.text.isEmpty) {
+                          // TODO: implement validation
+                          return;
+                        }
+
+                        // if (brandsModel != null) {
+                        //   final BrandsModel updateBrand = BrandsModel(
+                        //     brandId: brandsModel.brandId,
+                        //     brandName: textController.text,
+                        //   );
+                        //   Provider.of<BrandsProvider>(context,
+                        //           listen: false)
+                        //       .updateData(updateBrand);
+                        // } else {
+                        //   Provider.of<BrandsProvider>(context,
+                        //           listen: false)
+                        //       .insertData(BrandsModel(
+                        //           brandName: textController.text));
+                        // }
+                      },
                       child: const Text('ثبت')),
                 ),
                 const SizedBox(width: 5),

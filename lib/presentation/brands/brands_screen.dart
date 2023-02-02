@@ -1,17 +1,33 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:store_keeper/bloc/bloc_exports.dart';
-import 'package:store_keeper/models/brands_model.dart';
 import 'package:store_keeper/widgets/screens_style.dart';
+
+import 'add_brand_screen.dart';
 
 class BrandsScreen extends StatelessWidget {
   const BrandsScreen({
     Key? key,
   }) : super(key: key);
 
+  void _showModalBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      isDismissible: false,
+      isScrollControlled: true,
+      context: context,
+      builder: (context) => SingleChildScrollView(
+        child: Container(
+          padding:
+              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          child: const AddBrandScreen(),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+
     return ScreensStyle(
       screenTitle: 'مدیریت برندها',
       screenDescription: 'ثبت، اصلاح و یا حذف برند',
@@ -28,8 +44,7 @@ class BrandsScreen extends StatelessWidget {
       ),
       bottomWidget: ElevatedButton.icon(
         onPressed: () {
-          // _showModalBottomSheet(context, width, null);
-          // textController.text = '';
+          _showModalBottomSheet(context);
         },
         icon: const Icon(Icons.post_add_rounded),
         label: const Text('اضافه کردن برند جدید'),
@@ -37,19 +52,63 @@ class BrandsScreen extends StatelessWidget {
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         ),
       ),
-      screenWidget: BlocConsumer<BrandsBloc, BrandsState>(
-        listener: (context, state) {
-          if (state is AddBrand) {
-            log('state add brand');
+      screenWidget: BlocBuilder<BrandsBloc, BrandsState>(
+        builder: (context, appState) {
+          if (appState is BrandsStateInitial) {
+            context.read<BrandsBloc>().add(const FetchBrands());
           }
-        },
-        builder: (context, state) {
-          final List<BrandsModel> brandsList = state.brandsList;
-          return FutureBuilder(
-            builder: (context, snapshot) =>
-                snapshot.connectionState == ConnectionState.waiting
-                    ? const CircularProgressIndicator()
-                    : Container(),
+          if (appState is DisplayBrandsState) {
+            return appState.brandsList.isNotEmpty
+                ? Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: GridView.builder(
+                      physics:
+                          const NeverScrollableScrollPhysics(), //! to disable GridView's scrolling
+                      shrinkWrap: true, //! You won't see infinite size error
+                      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                        maxCrossAxisExtent: screenWidth * .4,
+                        childAspectRatio: 1.1,
+                        crossAxisSpacing: 5,
+                        mainAxisSpacing: 5,
+                      ),
+                      itemBuilder: (context, index) => Container(
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(15)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: 99,
+                            ),
+                          ],
+                        ),
+                        child: Center(
+                          child: ListTile(
+                            title: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child:
+                                    Text(appState.brandsList[index].brandName)),
+                            onTap: () {
+                              // _showModalBottomSheet(context, width,
+                              //     value.brandsItems[index]);
+                              // textController.text =
+                              //     value.brandsItems[index].brandName;
+                            },
+                          ),
+                        ),
+                      ),
+                      itemCount: appState.brandsList.length,
+                    ),
+                  )
+                :
+                // TODO: Need more design for here
+                const Center(
+                    child: Text('هنوز هیچ برندی ثبت نشده!'),
+                  );
+          }
+          return Container(
+            color: Colors.white,
+            child: const Center(child: CircularProgressIndicator()),
           );
         },
       ),
