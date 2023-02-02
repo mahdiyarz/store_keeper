@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:store_keeper/bloc/bloc_exports.dart';
+import 'package:store_keeper/models/brands_model.dart';
 import 'package:store_keeper/widgets/screens_style.dart';
 
 import 'add_brand_screen.dart';
@@ -9,7 +10,7 @@ class BrandsScreen extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  void _showModalBottomSheet(BuildContext context) {
+  void _showModalBottomSheet(BuildContext context, {BrandsModel? brandsModel}) {
     showModalBottomSheet(
       isDismissible: false,
       isScrollControlled: true,
@@ -18,7 +19,7 @@ class BrandsScreen extends StatelessWidget {
         child: Container(
           padding:
               EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-          child: const AddBrandScreen(),
+          child: AddBrandScreen(oldBrand: brandsModel),
         ),
       ),
     );
@@ -89,10 +90,10 @@ class BrandsScreen extends StatelessWidget {
                                 child:
                                     Text(appState.brandsList[index].brandName)),
                             onTap: () {
-                              // _showModalBottomSheet(context, width,
-                              //     value.brandsItems[index]);
-                              // textController.text =
-                              //     value.brandsItems[index].brandName;
+                              _showModalBottomSheet(
+                                context,
+                                brandsModel: appState.brandsList[index],
+                              );
                             },
                           ),
                         ),

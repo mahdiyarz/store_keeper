@@ -3,7 +3,9 @@ import 'package:store_keeper/bloc/bloc_exports.dart';
 import 'package:store_keeper/models/brands_model.dart';
 
 class AddBrandScreen extends StatelessWidget {
+  final BrandsModel? oldBrand;
   const AddBrandScreen({
+    this.oldBrand,
     Key? key,
   }) : super(key: key);
 
@@ -13,6 +15,15 @@ class AddBrandScreen extends StatelessWidget {
     final latinNameKey = GlobalKey<FormState>();
     TextEditingController nameController = TextEditingController();
     TextEditingController latinNameController = TextEditingController();
+
+    if (oldBrand != null) {
+      if (oldBrand!.brandName.isNotEmpty) {
+        nameController.text = oldBrand!.brandName;
+      }
+      if (oldBrand!.brandLatinName.isNotEmpty) {
+        latinNameController.text = oldBrand!.brandLatinName;
+      }
+    }
 
     return Directionality(
       textDirection: TextDirection.rtl,
@@ -93,9 +104,14 @@ class AddBrandScreen extends StatelessWidget {
                             brandLatinName: latinNameController.text,
                           );
                           Navigator.of(context).pop();
-                          context
-                              .read<BrandsBloc>()
-                              .add(AddBrand(brand: brand));
+                          oldBrand != null
+                              ? context.read<BrandsBloc>().add(EditBrand(
+                                    oldBrand: oldBrand!,
+                                    newBrand: brand,
+                                  ))
+                              : context
+                                  .read<BrandsBloc>()
+                                  .add(AddBrand(brand: brand));
                           context.read<BrandsBloc>().add(const FetchBrands());
                           nameController.clear();
                           latinNameController.clear();
@@ -130,6 +146,22 @@ class AddBrandScreen extends StatelessWidget {
                       Navigator.of(context).pop();
                     },
                     child: const Text('انصراف')),
+                if (oldBrand != null) const SizedBox(width: 5),
+                if (oldBrand != null)
+                  ElevatedButton(
+                      onPressed: () {
+                        context.read<BrandsBloc>().add(
+                              DeleteBrand(brand: oldBrand!),
+                            );
+                        Navigator.of(context).pop();
+                        context.read<BrandsBloc>().add(const FetchBrands());
+                        nameController.clear();
+                        latinNameController.clear();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).errorColor,
+                      ),
+                      child: const Text('حذف')),
               ],
             )
           ],
