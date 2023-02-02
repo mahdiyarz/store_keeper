@@ -23,6 +23,7 @@ class DBHelper {
   Future<sqflite.Database> _initDB(String dbName) async {
     final dbPath = await sqflite.getDatabasesPath();
     final path = pathPackage.join(dbPath, dbName);
+    // await sqflite.deleteDatabase(path);
 
     return await sqflite.openDatabase(path, version: 1, onCreate: _createDB);
   }
@@ -36,7 +37,7 @@ class DBHelper {
     // const boolType = 'BOOLEAN NOT NULL';
     // const boolTypeNull = 'BOOLEAN';
 
-    db.execute('''
+    await db.execute('''
       CREATE TABLE $arrivalGoodsTable(
         ${ArrivalGoodsFields.arrivalGoodsId} $idType,
         ${ArrivalGoodsFields.brandId} $intType,
@@ -45,15 +46,15 @@ class DBHelper {
       )
      ''');
 
-    db.execute('''
+    await db.execute('''
       CREATE TABLE $brandsTable(
         ${BrandsFields.brandId} $idType,
-        ${BrandsFields.brandName}  $textType      
-        ${BrandsFields.brandLatinName}  $textType      
+        ${BrandsFields.brandName}  $textType,        
+        ${BrandsFields.brandLatinName} $textType   
       )
      ''');
 
-    db.execute('''
+    await db.execute('''
       CREATE TABLE $CountGoodsFields(
         ${CountGoodsFields.countGoodsId} $idType,
         ${CountGoodsFields.numOfBox} $intType,
@@ -65,7 +66,7 @@ class DBHelper {
       )
      ''');
 
-    db.execute('''
+    await db.execute('''
       CREATE TABLE $goodsTable(
         ${GoodsFields.goodId} $idType,
         ${GoodsFields.goodName} $textType,
@@ -75,7 +76,7 @@ class DBHelper {
       )
      ''');
 
-    db.execute('''
+    await db.execute('''
       CREATE TABLE $lakingTable(
         ${LakingFields.lakingId} $idType,
         ${LakingFields.lakingDate}  $textType,      
@@ -150,9 +151,9 @@ class DBHelper {
 
   Future<BrandsModel> insertBrands(BrandsModel brandsModel) async {
     final db = await instance.database;
-    final id = await db.insert(brandsTable, brandsModel.toJson());
+    final result = await db.insert(brandsTable, brandsModel.toJson());
 
-    return brandsModel.copy(brandId: id);
+    return brandsModel.copy(brandId: result);
   }
 
   Future<List<BrandsModel>> fetchBrandsData() async {
