@@ -29,7 +29,8 @@ class RouteGenerator {
           ),
         );
       default:
-        return unDefinedRoute();
+        return MaterialPageRoute(builder: (_) => const Home());
+      // unDefinedRoute();
     }
   }
 
