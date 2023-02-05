@@ -7,14 +7,12 @@ import '../../providers/import_providers.dart';
 import '../../widgets/screens_style.dart';
 import '../resources/color_manager.dart';
 
-class ArrivalGoodsManagement extends StatelessWidget {
-  static const routeName = '/arrival-goods-manage';
-
+class IncomingGoodsManagementScreen extends StatelessWidget {
   final String title;
   final int boxNumber;
   final DateTime dateTime;
 
-  const ArrivalGoodsManagement({
+  const IncomingGoodsManagementScreen({
     Key? key,
     required this.title,
     required this.boxNumber,

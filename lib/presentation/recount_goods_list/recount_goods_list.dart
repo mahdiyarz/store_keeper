@@ -91,7 +91,7 @@ class _RecountGoodsListState extends State<RecountGoodsList> {
                                   onTap: () {
                                     Navigator.of(context).pushNamed(
                                       '/arrival-goods-manage',
-                                      arguments: ArrivalGoodsManagement(
+                                      arguments: IncomingGoodsManagementScreen(
                                         title: arrivalGoodsBrand.brandName,
                                         boxNumber: value
                                             .arrivalGoodsItems[index]

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:store_keeper/bloc/bloc_exports.dart';
 import 'package:store_keeper/models/brands_model.dart';
 
-class AddBrandScreen extends StatelessWidget {
+class CreateOrUpdateBrandScreen extends StatelessWidget {
   final BrandsModel? oldBrand;
-  const AddBrandScreen({
+  const CreateOrUpdateBrandScreen({
     this.oldBrand,
     Key? key,
   }) : super(key: key);

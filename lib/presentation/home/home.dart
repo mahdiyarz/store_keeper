@@ -13,7 +13,7 @@ class Home extends StatelessWidget {
             ElevatedButton.icon(
                 onPressed: () {
                   Navigator.of(context)
-                      .pushReplacementNamed('/arrival-goods-list');
+                      .pushReplacementNamed('/incoming-goods-list');
                 },
                 icon: const Icon(Icons.store_mall_directory_rounded),
                 label: const Text('شمارش ورودی انبار')),
@@ -27,7 +27,8 @@ class Home extends StatelessWidget {
                 label: const Text('بروزرسانی اطلاعات')),
             ElevatedButton.icon(
                 onPressed: () {
-                  Navigator.of(context).pushReplacementNamed('/brands');
+                  Navigator.of(context)
+                      .pushReplacementNamed('/brands-management');
                 },
                 icon: const Icon(Icons.ballot_rounded),
                 label: const Text('ثبت اطلاعات اولیه')),

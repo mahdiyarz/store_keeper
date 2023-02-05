@@ -3,10 +3,10 @@ import 'package:store_keeper/bloc/bloc_exports.dart';
 import 'package:store_keeper/models/brands_model.dart';
 import 'package:store_keeper/widgets/screens_style.dart';
 
-import 'add_brand_screen.dart';
+import 'create_or_update_brand_screen.dart';
 
-class BrandsScreen extends StatelessWidget {
-  const BrandsScreen({
+class BrandsManagementScreen extends StatelessWidget {
+  const BrandsManagementScreen({
     Key? key,
   }) : super(key: key);
 
@@ -19,7 +19,7 @@ class BrandsScreen extends StatelessWidget {
         child: Container(
           padding:
               EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-          child: AddBrandScreen(oldBrand: brandsModel),
+          child: CreateOrUpdateBrandScreen(oldBrand: brandsModel),
         ),
       ),
     );
@@ -89,6 +89,11 @@ class BrandsScreen extends StatelessWidget {
                                 fit: BoxFit.scaleDown,
                                 child:
                                     Text(appState.brandsList[index].brandName)),
+                            subtitle: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Text(
+                                  appState.brandsList[index].brandLatinName),
+                            ),
                             onTap: () {
                               _showModalBottomSheet(
                                 context,

@@ -4,10 +4,11 @@ import '../resources/strings_manager.dart';
 import '../import_presentation.dart';
 
 class Routes {
-  static const String arrivalGoodsRoute = '/arrival-goods-list';
+  static const String incomingGoodsListsRoute = '/incoming-goods-list';
   static const String homeRoute = '/home';
-  static const String brandsScreenRoute = '/brands';
-  static const String arrivalGoodsManageRoute = '/arrival-goods-manage';
+  static const String brandsRoute = '/brands-management';
+  static const String incomingGoodsManagementRoute =
+      '/incoming-goods-management';
 }
 
 class RouteGenerator {
@@ -15,14 +16,16 @@ class RouteGenerator {
     switch (routeSettings.name) {
       case Routes.homeRoute:
         return MaterialPageRoute(builder: (_) => const Home());
-      case Routes.arrivalGoodsRoute:
-        return MaterialPageRoute(builder: (_) => const ArrivalGoodsList());
-      case Routes.brandsScreenRoute:
-        return MaterialPageRoute(builder: (_) => const BrandsScreen());
-      case Routes.arrivalGoodsManageRoute:
-        final args = routeSettings.arguments as ArrivalGoodsManagement;
+      case Routes.incomingGoodsListsRoute:
         return MaterialPageRoute(
-          builder: (_) => ArrivalGoodsManagement(
+            builder: (_) => const IncomingGoodsListScreen());
+      case Routes.brandsRoute:
+        return MaterialPageRoute(
+            builder: (_) => const BrandsManagementScreen());
+      case Routes.incomingGoodsManagementRoute:
+        final args = routeSettings.arguments as IncomingGoodsManagementScreen;
+        return MaterialPageRoute(
+          builder: (_) => IncomingGoodsManagementScreen(
             title: args.title,
             boxNumber: args.boxNumber,
             dateTime: args.dateTime,

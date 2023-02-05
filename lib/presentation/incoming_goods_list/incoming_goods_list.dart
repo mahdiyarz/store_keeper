@@ -8,15 +8,15 @@ import '../../models/import_models.dart';
 import '../../widgets/screens_style.dart';
 import '../../providers/import_providers.dart';
 
-class ArrivalGoodsList extends StatefulWidget {
-  static const routeName = '/arrival-goods-list';
-  const ArrivalGoodsList({Key? key}) : super(key: key);
+class IncomingGoodsListScreen extends StatefulWidget {
+  const IncomingGoodsListScreen({Key? key}) : super(key: key);
 
   @override
-  State<ArrivalGoodsList> createState() => _ArrivalGoodsListState();
+  State<IncomingGoodsListScreen> createState() =>
+      _IncomingGoodsListScreenState();
 }
 
-class _ArrivalGoodsListState extends State<ArrivalGoodsList> {
+class _IncomingGoodsListScreenState extends State<IncomingGoodsListScreen> {
   var boxNumberController = TextEditingController();
   var brandNameController = TextEditingController();
 
@@ -92,7 +92,7 @@ class _ArrivalGoodsListState extends State<ArrivalGoodsList> {
                                   onTap: () {
                                     Navigator.of(context).pushNamed(
                                       '/arrival-goods-manage',
-                                      arguments: ArrivalGoodsManagement(
+                                      arguments: IncomingGoodsManagementScreen(
                                         title: arrivalGoodsBrand.brandName,
                                         boxNumber: value
                                             .arrivalGoodsItems[index]
