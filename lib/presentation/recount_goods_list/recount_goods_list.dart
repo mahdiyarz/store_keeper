@@ -348,7 +348,7 @@ class _RecountGoodsListState extends State<RecountGoodsList> {
 
                                   Provider.of<ArrivalGoodsProvider>(context,
                                           listen: false)
-                                      .insertData(ArrivalGoodsModel(
+                                      .insertData(IncomingListModel(
                                           brandId: int.parse(
                                               brandNameController.text),
                                           numOfBoxes: int.parse(

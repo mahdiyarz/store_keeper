@@ -6,7 +6,7 @@ class CountGoodsFields {
   static const String numOfSeed = 'numOfSeed';
   static const String price = 'price';
   static const String goodsId = 'goodsId';
-  static const String arrivalGoodsId = 'arrivalGoodsId';
+  static const String incomingListId = 'incomingListId';
   static const String lakingId = 'lakingId';
 }
 
@@ -16,7 +16,7 @@ class CountGoodsModel {
   final int numOfSeed;
   final BigInt price;
   final int goodsId;
-  final int arrivalGoodsId;
+  final int incomingListId;
   final int lakingId;
 
   CountGoodsModel({
@@ -25,7 +25,7 @@ class CountGoodsModel {
     required this.numOfSeed,
     required this.price,
     required this.goodsId,
-    required this.arrivalGoodsId,
+    required this.incomingListId,
     required this.lakingId,
   });
 
@@ -35,7 +35,7 @@ class CountGoodsModel {
         CountGoodsFields.numOfSeed: numOfSeed,
         CountGoodsFields.price: price,
         CountGoodsFields.goodsId: goodsId,
-        CountGoodsFields.arrivalGoodsId: arrivalGoodsId,
+        CountGoodsFields.incomingListId: incomingListId,
         CountGoodsFields.lakingId: lakingId,
       };
 
@@ -45,7 +45,7 @@ class CountGoodsModel {
     int? numOfSeed,
     BigInt? price,
     int? goodsId,
-    int? arrivalGoodsId,
+    int? incomingListId,
     int? lakingId,
   }) =>
       CountGoodsModel(
@@ -54,7 +54,7 @@ class CountGoodsModel {
         numOfSeed: numOfSeed ?? this.numOfSeed,
         price: price ?? this.price,
         goodsId: goodsId ?? this.goodsId,
-        arrivalGoodsId: arrivalGoodsId ?? this.arrivalGoodsId,
+        incomingListId: incomingListId ?? this.incomingListId,
         lakingId: lakingId ?? this.lakingId,
       );
 
@@ -64,7 +64,7 @@ class CountGoodsModel {
         numOfSeed: json[CountGoodsFields.numOfSeed] as int,
         price: json[CountGoodsFields.price] as BigInt,
         goodsId: json[CountGoodsFields.goodsId] as int,
-        arrivalGoodsId: json[CountGoodsFields.arrivalGoodsId] as int,
+        incomingListId: json[CountGoodsFields.incomingListId] as int,
         lakingId: json[CountGoodsFields.lakingId] as int,
       );
 }

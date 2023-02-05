@@ -3,6 +3,9 @@ part of 'brands_bloc.dart';
 @immutable
 abstract class BrandsState extends Equatable {
   const BrandsState();
+
+  @override
+  List<Object?> get props => [];
 }
 
 @immutable

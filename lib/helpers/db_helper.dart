@@ -1,11 +1,7 @@
 import 'package:sqflite/sqflite.dart' as sqflite;
 import 'package:path/path.dart' as pathPackage;
 
-import '../models/arrival_goods_model.dart';
-import '../models/brands_model.dart';
-import '../models/count_goods_model.dart';
-import '../models/goods_model.dart';
-import '../models/laking_model.dart';
+import '../models/import_models.dart';
 
 class DBHelper {
   static final DBHelper instance = DBHelper._init();
@@ -38,11 +34,11 @@ class DBHelper {
     // const boolTypeNull = 'BOOLEAN';
 
     await db.execute('''
-      CREATE TABLE $arrivalGoodsTable(
-        ${ArrivalGoodsFields.arrivalGoodsId} $idType,
-        ${ArrivalGoodsFields.brandId} $intType,
-        ${ArrivalGoodsFields.numOfBoxes} $intType,
-        ${ArrivalGoodsFields.arrivalGoodsDate}  $textType      
+      CREATE TABLE $incomingListTable(
+        ${IncomingListFields.incomingListId} $idType,
+        ${IncomingListFields.brandId} $intType,
+        ${IncomingListFields.numOfBoxes} $intType,
+        ${IncomingListFields.incomingListDate}  $textType      
       )
      ''');
 
@@ -61,7 +57,7 @@ class DBHelper {
         ${CountGoodsFields.numOfSeed} $intType,
         ${CountGoodsFields.price}  $intType,
         ${CountGoodsFields.goodsId} $intType,
-        ${CountGoodsFields.arrivalGoodsId} $intType,
+        ${CountGoodsFields.incomingListId} $intType,
         ${CountGoodsFields.lakingId} $intType      
       )
      ''');
@@ -91,59 +87,59 @@ class DBHelper {
     db.close();
   }
 
-  //* Arrival Goods Logics
+  //* Incoming List Logics
 
-  Future<ArrivalGoodsModel> insertArrivalGoods(
-      ArrivalGoodsModel arrivalGoodsModel) async {
+  Future<IncomingListModel> insertIncomingList(
+      IncomingListModel incomingListModel) async {
     final db = await instance.database;
-    final id = await db.insert(arrivalGoodsTable, arrivalGoodsModel.toJson());
+    final id = await db.insert(incomingListTable, incomingListModel.toJson());
 
-    return arrivalGoodsModel.copy(arrivalGoodsId: id);
+    return incomingListModel.copy(incomingListId: id);
   }
 
-  Future<List<ArrivalGoodsModel>> fetchArrivalGoodsData() async {
+  Future<List<IncomingListModel>> fetchIncomingListData() async {
     final db = await instance.database;
-    const orderBy = '${ArrivalGoodsFields.arrivalGoodsDate} ASC';
-    final fetchResult = await db.query(arrivalGoodsTable, orderBy: orderBy);
+    const orderBy = '${IncomingListFields.incomingListDate} ASC';
+    final fetchResult = await db.query(incomingListTable, orderBy: orderBy);
 
-    return fetchResult.map((e) => ArrivalGoodsModel.fromJson(e)).toList();
+    return fetchResult.map((e) => IncomingListModel.fromJson(e)).toList();
   }
 
-  Future<ArrivalGoodsModel> fetchSingleArrivalGoodData(
-      int arrivalGoodsId) async {
+  Future<IncomingListModel> fetchSingleIncomingGoodData(
+      int incomingListId) async {
     final db = await instance.database;
 
     final fetchResult = await db.query(
-      arrivalGoodsTable,
-      columns: ArrivalGoodsFields.values,
-      where: '${ArrivalGoodsFields.arrivalGoodsId} = ?',
-      whereArgs: [arrivalGoodsId],
+      incomingListTable,
+      columns: IncomingListFields.values,
+      where: '${IncomingListFields.incomingListId} = ?',
+      whereArgs: [incomingListId],
     );
 
     if (fetchResult.isNotEmpty) {
-      return ArrivalGoodsModel.fromJson(fetchResult.first);
+      return IncomingListModel.fromJson(fetchResult.first);
     } else {
-      throw Exception('ID $arrivalGoodsId not found');
+      throw Exception('ID $incomingListId not found');
     }
   }
 
-  Future<int> updateArrivalGoods(ArrivalGoodsModel arrivalGoodsModel) async {
+  Future<int> updateIncomingList(IncomingListModel incomingListModel) async {
     final db = await instance.database;
 
     return db.update(
-      arrivalGoodsTable,
-      arrivalGoodsModel.toJson(),
-      where: '${ArrivalGoodsFields.arrivalGoodsId} = ?',
-      whereArgs: [arrivalGoodsModel.arrivalGoodsId],
+      incomingListTable,
+      incomingListModel.toJson(),
+      where: '${IncomingListFields.incomingListId} = ?',
+      whereArgs: [incomingListModel.incomingListId],
     );
   }
 
-  Future<int> deleteArrivalGoods(ArrivalGoodsModel arrivalGoodsModel) async {
+  Future<int> deleteIncomingList(IncomingListModel incomingListModel) async {
     final db = await instance.database;
     return db.delete(
-      arrivalGoodsTable,
-      where: '${ArrivalGoodsFields.arrivalGoodsId} = ?',
-      whereArgs: [arrivalGoodsModel.arrivalGoodsId],
+      incomingListTable,
+      where: '${IncomingListFields.incomingListId} = ?',
+      whereArgs: [incomingListModel.incomingListId],
     );
   }
 

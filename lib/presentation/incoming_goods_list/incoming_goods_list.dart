@@ -347,7 +347,7 @@ class _IncomingGoodsListScreenState extends State<IncomingGoodsListScreen> {
 
                                   Provider.of<ArrivalGoodsProvider>(context,
                                           listen: false)
-                                      .insertData(ArrivalGoodsModel(
+                                      .insertData(IncomingListModel(
                                           brandId: int.parse(
                                               brandNameController.text),
                                           numOfBoxes: int.parse(
