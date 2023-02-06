@@ -5,7 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:store_keeper/bloc/bloc_exports.dart';
 import 'package:store_keeper/helpers/db_helper.dart';
-// import 'package:store_keeper/bloc/brands_bloc/brands_repository.dart';
+
 import '../../models/brands_model.dart';
 
 part 'brands_event.dart';

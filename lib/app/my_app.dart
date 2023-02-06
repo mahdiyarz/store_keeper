@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:store_keeper/bloc/incoming_list_bloc/incoming_list_bloc.dart';
 
 import '../presentation/resources/import_resources.dart';
 import '../bloc/bloc_exports.dart';
@@ -17,6 +18,9 @@ class _MyAppState extends State<MyApp> {
       providers: [
         BlocProvider<BrandsBloc>(
           create: (context) => BrandsBloc(),
+        ),
+        BlocProvider<IncomingListBloc>(
+          create: (context) => IncomingListBloc(),
         ),
         // ChangeNotifierProvider(
         //   create: (context) => ArrivalGoodsProvider(),
