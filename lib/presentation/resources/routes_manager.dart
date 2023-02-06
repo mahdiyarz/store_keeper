@@ -4,7 +4,7 @@ import '../resources/strings_manager.dart';
 import '../import_presentation.dart';
 
 class Routes {
-  static const String incomingGoodsListsRoute = '/incoming-goods-list';
+  static const String incomingListsRoute = '/incoming-list';
   static const String homeRoute = '/home';
   static const String brandsRoute = '/brands-management';
   static const String incomingGoodsManagementRoute =
@@ -16,21 +16,20 @@ class RouteGenerator {
     switch (routeSettings.name) {
       case Routes.homeRoute:
         return MaterialPageRoute(builder: (_) => const Home());
-      case Routes.incomingGoodsListsRoute:
-        return MaterialPageRoute(
-            builder: (_) => const IncomingGoodsListScreen());
+      case Routes.incomingListsRoute:
+        return MaterialPageRoute(builder: (_) => const IncomingListScreen());
       case Routes.brandsRoute:
         return MaterialPageRoute(
             builder: (_) => const BrandsManagementScreen());
-      case Routes.incomingGoodsManagementRoute:
-        final args = routeSettings.arguments as IncomingGoodsManagementScreen;
-        return MaterialPageRoute(
-          builder: (_) => IncomingGoodsManagementScreen(
-            title: args.title,
-            boxNumber: args.boxNumber,
-            dateTime: args.dateTime,
-          ),
-        );
+      // case Routes.incomingGoodsManagementRoute:
+      //   final args = routeSettings.arguments as IncomingGoodsManagementScreen;
+      //   return MaterialPageRoute(
+      //     builder: (_) => IncomingGoodsManagementScreen(
+      //       title: args.title,
+      //       boxNumber: args.boxNumber,
+      //       dateTime: args.dateTime,
+      //     ),
+      //   );
       default:
         return MaterialPageRoute(builder: (_) => const Home());
       // unDefinedRoute();
