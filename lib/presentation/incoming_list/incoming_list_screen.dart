@@ -15,6 +15,7 @@ class IncomingListScreen extends StatefulWidget {
 class _IncomingListScreenState extends State<IncomingListScreen> {
   final TextEditingController boxNumberController = TextEditingController();
   final TextEditingController brandNameController = TextEditingController();
+  final TextEditingController brandIdController = TextEditingController();
 
   @override
   void dispose() {
@@ -223,6 +224,7 @@ class _IncomingListScreenState extends State<IncomingListScreen> {
               child: CreateOrUpdateIncomingListScreen(
                 boxNumberController: boxNumberController,
                 brandNameController: brandNameController,
+                brandIdController: brandIdController,
               ),
             ),
           );
