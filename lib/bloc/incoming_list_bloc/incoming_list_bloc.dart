@@ -21,5 +21,20 @@ class IncomingListBloc extends Bloc<IncomingListEvent, IncomingListState> {
 
       emit(DisplayAllIncomingList(allIncomingLists: allIncomingLists));
     });
+
+    on<AddIncomingLists>(_onAddIncomingLists);
   }
+}
+
+void _onAddIncomingLists(
+    AddIncomingLists event, Emitter<IncomingListState> emit) async {
+  log('run AddIncomingLists');
+
+  final addIncome = event.addIncomingList;
+
+  await DBHelper.instance.insertIncomingList(IncomingListModel(
+    brandId: addIncome.brandId,
+    numOfBoxes: addIncome.numOfBoxes,
+    incomingListDate: addIncome.incomingListDate,
+  ));
 }
