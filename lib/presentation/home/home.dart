@@ -12,8 +12,7 @@ class Home extends StatelessWidget {
           children: [
             ElevatedButton.icon(
                 onPressed: () {
-                  Navigator.of(context)
-                      .pushReplacementNamed('/incoming-goods-list');
+                  Navigator.of(context).pushReplacementNamed('/incoming-list');
                 },
                 icon: const Icon(Icons.store_mall_directory_rounded),
                 label: const Text('شمارش ورودی انبار')),
