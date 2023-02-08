@@ -13,13 +13,18 @@ part 'incoming_list_state.dart';
 class IncomingListBloc extends Bloc<IncomingListEvent, IncomingListState> {
   IncomingListBloc() : super(const IncomingListInitial()) {
     List<IncomingListModel> allIncomingLists;
+    List<BrandsModel> brandsList;
 
     on<FetchAllIncomingLists>((event, emit) async {
       log('start FetchAllIncoming on bloc');
 
+      brandsList = await DBHelper.instance.fetchBrandsData();
       allIncomingLists = await DBHelper.instance.fetchIncomingListData();
 
-      emit(DisplayAllIncomingList(allIncomingLists: allIncomingLists));
+      emit(DisplayAllIncomingList(
+        allIncomingLists: allIncomingLists,
+        brandsList: brandsList,
+      ));
     });
 
     on<AddIncomingLists>(_onAddIncomingLists);
@@ -36,5 +41,13 @@ void _onAddIncomingLists(
     brandId: addIncome.brandId,
     numOfBoxes: addIncome.numOfBoxes,
     incomingListDate: addIncome.incomingListDate,
+  ));
+
+  final allIncomingLists = await DBHelper.instance.fetchIncomingListData();
+  final brandsList = await DBHelper.instance.fetchBrandsData();
+
+  emit(DisplayAllIncomingList(
+    allIncomingLists: allIncomingLists,
+    brandsList: brandsList,
   ));
 }

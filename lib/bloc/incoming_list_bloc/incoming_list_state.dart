@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'incoming_list_bloc.dart';
 
 @immutable
@@ -18,12 +19,19 @@ class IncomingListInitial extends IncomingListState {
 
 @immutable
 class DisplayAllIncomingList extends IncomingListState {
+  final List<BrandsModel> brandsList;
   final List<IncomingListModel> allIncomingLists;
 
-  const DisplayAllIncomingList({required this.allIncomingLists});
+  const DisplayAllIncomingList({
+    required this.brandsList,
+    required this.allIncomingLists,
+  });
 
   @override
-  List<Object> get props => [allIncomingLists];
+  List<Object> get props => [
+        allIncomingLists,
+        brandsList,
+      ];
 }
 
 @immutable
