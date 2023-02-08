@@ -90,6 +90,9 @@ class BrandsBloc extends Bloc<BrandsEvent, BrandsState> {
         ),
       );
     }
+    final List<BrandsModel> brandsList =
+        await DBHelper.instance.fetchBrandsData();
+    emit(DisplayBrandsState(brandsList: brandsList));
   }
 
   void _onEditBrand(EditBrand event, Emitter<BrandsState> emit) async {
