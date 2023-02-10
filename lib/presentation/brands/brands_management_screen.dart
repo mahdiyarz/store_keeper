@@ -1,35 +1,18 @@
 import 'package:flutter/material.dart';
+
 import 'package:store_keeper/bloc/bloc_exports.dart';
+import 'package:store_keeper/presentation/resources/import_resources.dart';
 import 'package:store_keeper/widgets/screens_style.dart';
 
-import '../../models/import_models.dart';
-import '../resources/routes_manager.dart';
+import '../../widgets/CircleButton.dart';
+import '../../widgets/brands_grid_view.dart';
+import '../../widgets/show_modal_bottom_button.dart';
 import 'create_or_update_brand_screen.dart';
 
 class BrandsManagementScreen extends StatelessWidget {
   const BrandsManagementScreen({
     Key? key,
   }) : super(key: key);
-
-  void _showModalBottomSheet(
-    BuildContext context, {
-    BrandsModel? brandsModel,
-  }) {
-    showModalBottomSheet(
-      isDismissible: false,
-      isScrollControlled: true,
-      context: context,
-      builder: (context) => SingleChildScrollView(
-        child: Container(
-          padding:
-              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-          child: CreateOrUpdateBrandScreen(
-            oldBrand: brandsModel,
-          ),
-        ),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,26 +21,15 @@ class BrandsManagementScreen extends StatelessWidget {
     return ScreensStyle(
       screenTitle: 'مدیریت برندها',
       screenDescription: 'ثبت، اصلاح و یا حذف برند',
-      mainButton: CircleAvatar(
-        backgroundColor: Colors.black12,
-        child: IconButton(
-            onPressed: () {
-              Navigator.of(context).pushReplacementNamed(Routes.homeRoute);
-            },
-            icon: const Icon(
-              Icons.arrow_forward,
-              color: Colors.white,
-            )),
+      mainButton: const CircleButton(
+        iconNamedRoute: Routes.homeRoute,
+        iconShape: Icons.arrow_forward,
+        iconColor: Colors.white,
       ),
-      bottomWidget: ElevatedButton.icon(
-        onPressed: () {
-          _showModalBottomSheet(context);
-        },
-        icon: const Icon(Icons.post_add_rounded),
-        label: const Text('اضافه کردن برند جدید'),
-        style: ElevatedButton.styleFrom(
-          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        ),
+      bottomWidget: const ShowModalBottomButton(
+        buttonTitle: 'ایجاد برند جدید',
+        buttonIcon: Icons.playlist_add_circle_rounded,
+        showModalChildWidget: CreateOrUpdateBrandScreen(oldBrand: null),
       ),
       screenWidget: BlocBuilder<AppBloc, AppState>(
         builder: (context, appState) {
@@ -68,48 +40,9 @@ class BrandsManagementScreen extends StatelessWidget {
             return appState.brandsList.isNotEmpty
                 ? Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8),
-                    child: GridView.builder(
-                      physics:
-                          const NeverScrollableScrollPhysics(), //! to disable GridView's scrolling
-                      shrinkWrap: true, //! You won't see infinite size error
-                      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                        maxCrossAxisExtent: screenWidth * .4,
-                        childAspectRatio: 1.1,
-                        crossAxisSpacing: 5,
-                        mainAxisSpacing: 5,
-                      ),
-                      itemBuilder: (context, index) => Container(
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(15)),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black12,
-                              blurRadius: 99,
-                            ),
-                          ],
-                        ),
-                        child: Center(
-                          child: ListTile(
-                            title: FittedBox(
-                                fit: BoxFit.scaleDown,
-                                child:
-                                    Text(appState.brandsList[index].brandName)),
-                            subtitle: FittedBox(
-                              fit: BoxFit.scaleDown,
-                              child: Text(
-                                  appState.brandsList[index].brandLatinName),
-                            ),
-                            onTap: () {
-                              _showModalBottomSheet(
-                                context,
-                                brandsModel: appState.brandsList[index],
-                              );
-                            },
-                          ),
-                        ),
-                      ),
-                      itemCount: appState.brandsList.length,
+                    child: BrandsGridView(
+                      screenWidth: screenWidth,
+                      brandsList: appState.brandsList,
                     ),
                   )
                 :
