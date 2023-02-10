@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:store_keeper/bloc/bloc_exports.dart';
 
 import '../../models/import_models.dart';
-import '../brands/create_or_update_brand_screen.dart';
+import '../../widgets/show_dialog_button.dart';
+import '../../widgets/show_dialog_screen.dart';
 
 class CreateOrUpdateIncomingListScreen extends StatelessWidget {
   final TextEditingController boxNumberController;
@@ -17,23 +18,6 @@ class CreateOrUpdateIncomingListScreen extends StatelessWidget {
     required this.brandNameController,
     required this.brandIdController,
   }) : super(key: key);
-
-  void _showModalBottomSheet(BuildContext context, {BrandsModel? brandsModel}) {
-    showModalBottomSheet(
-      isDismissible: false,
-      isScrollControlled: true,
-      context: context,
-      builder: (context) => SingleChildScrollView(
-        child: Container(
-          padding:
-              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-          child: CreateOrUpdateBrandScreen(
-            oldBrand: brandsModel,
-          ),
-        ),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,132 +68,19 @@ class CreateOrUpdateIncomingListScreen extends StatelessWidget {
                         Theme.of(context).colorScheme.secondary.withOpacity(.3),
                   ),
                   onPressed: () {
-                    if (brandsState is DisplayAppState) {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return Directionality(
-                            textDirection: TextDirection.rtl,
-                            child: SimpleDialog(
-                              title: brandsState.brandsList.isNotEmpty
-                                  ? const Text('برند خود را انتخاب کنید',
-                                      textAlign: TextAlign.center)
-                                  : null,
-                              children: [
-                                Container(
-                                  width: width * .5,
-                                  height: width * .8,
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 8),
-                                  child: brandsState.brandsList.isEmpty
-                                      ? const Center(
-                                          child: Text(
-                                            'هنوز هیچ برندی ثبت نشده است!',
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        )
-                                      : GridView.builder(
-                                          physics: const BouncingScrollPhysics(
-                                              parent:
-                                                  AlwaysScrollableScrollPhysics()),
-                                          gridDelegate:
-                                              SliverGridDelegateWithMaxCrossAxisExtent(
-                                            maxCrossAxisExtent: width * .3,
-                                            childAspectRatio: 1.2,
-                                            crossAxisSpacing: 8,
-                                            mainAxisSpacing: 8,
-                                          ),
-                                          itemCount:
-                                              brandsState.brandsList.length,
-                                          itemBuilder: (context, index) =>
-                                              Container(
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(15),
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .secondary
-                                                    .withOpacity(.3)),
-                                            child: Center(
-                                              child: ListTile(
-                                                title: FittedBox(
-                                                  fit: BoxFit.scaleDown,
-                                                  child: Text(
-                                                      brandsState
-                                                          .brandsList[index]
-                                                          .brandName,
-                                                      style: const TextStyle(
-                                                          color:
-                                                              Colors.black54),
-                                                      textAlign:
-                                                          TextAlign.center),
-                                                ),
-                                                subtitle: FittedBox(
-                                                  fit: BoxFit.scaleDown,
-                                                  child: Text(
-                                                      brandsState
-                                                          .brandsList[index]
-                                                          .brandLatinName,
-                                                      style: const TextStyle(
-                                                          color:
-                                                              Colors.black54),
-                                                      textAlign:
-                                                          TextAlign.center),
-                                                ),
-                                                onLongPress: () {
-                                                  Navigator.of(context).pop();
-                                                  _showModalBottomSheet(context,
-                                                      brandsModel: brandsState
-                                                          .brandsList[index]);
-                                                },
-                                                onTap: () =>
-                                                    Navigator.pop(context, [
-                                                  brandsState.brandsList[index]
-                                                      .brandId,
-                                                  brandsState.brandsList[index]
-                                                      .brandName,
-                                                ]),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(8, 5, 8, 0),
-                                  child: ElevatedButton.icon(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                      _showModalBottomSheet(context);
-                                    },
-                                    icon: const Icon(Icons.edit_note_rounded,
-                                        size: 18),
-                                    label: const Text('ایجاد برند جدید'),
-                                    style: ElevatedButton.styleFrom(
-                                      tapTargetSize:
-                                          MaterialTapTargetSize.shrinkWrap,
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          );
-                        },
-                      ).then((returnValue) {
-                        log('value is $returnValue');
-                        if (returnValue != null) {
-                          brandNameController.text = returnValue[1];
-                          final List<BrandsModel> cashedBrands =
-                              brandsState.brandsList;
-                          final BrandsModel chosenBrand =
-                              cashedBrands.firstWhere((element) =>
-                                  element.brandName ==
-                                  brandNameController.text);
-                          brandIdController.text =
-                              chosenBrand.brandId.toString();
-                        }
-                      });
-                    }
+                    showBrandsDialog(context, brandsState, width)
+                        .then((returnValue) {
+                      log('value is $returnValue');
+                      if (returnValue != null) {
+                        brandNameController.text = returnValue[1];
+                        final List<BrandsModel> cashedBrands =
+                            brandsState.brandsList;
+                        final BrandsModel chosenBrand = cashedBrands.firstWhere(
+                            (element) =>
+                                element.brandName == brandNameController.text);
+                        brandIdController.text = chosenBrand.brandId.toString();
+                      }
+                    });
                   },
                   child: brandNameController.text.isEmpty
                       ? const Text(
@@ -272,5 +143,33 @@ class CreateOrUpdateIncomingListScreen extends StatelessWidget {
       }
       return const Text('data');
     });
+  }
+
+  Future<dynamic> showBrandsDialog(
+      BuildContext context, DisplayAppState brandsState, double width) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return Directionality(
+          textDirection: TextDirection.rtl,
+          child: SimpleDialog(
+            title: brandsState.brandsList.isNotEmpty
+                ? const Text('برند خود را انتخاب کنید',
+                    textAlign: TextAlign.center)
+                : null,
+            children: [
+              ShowDialogScreen(
+                width: width,
+                brandsList: brandsState.brandsList,
+              ),
+              const Padding(
+                padding: EdgeInsets.fromLTRB(8, 5, 8, 0),
+                child: ShowDialogButton(),
+              )
+            ],
+          ),
+        );
+      },
+    );
   }
 }
