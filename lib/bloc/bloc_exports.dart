@@ -1,3 +1,3 @@
-export 'package:flutter_bloc/flutter_bloc.dart';
+export 'app_bloc.dart';
 
-export './brands_bloc/brands_bloc.dart';
+export 'package:flutter_bloc/flutter_bloc.dart';

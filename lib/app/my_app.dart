@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:store_keeper/bloc/incoming_list_bloc/incoming_list_bloc.dart';
 
 import '../presentation/resources/import_resources.dart';
 import '../bloc/bloc_exports.dart';
@@ -14,21 +13,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<BrandsBloc>(
-          create: (context) => BrandsBloc(),
-        ),
-        BlocProvider<IncomingListBloc>(
-          create: (context) => IncomingListBloc(),
-        ),
-        // ChangeNotifierProvider(
-        //   create: (context) => ArrivalGoodsProvider(),
-        // ),
-        // ChangeNotifierProvider(
-        //   create: (context) => BrandsProvider(),
-        // ),
-      ],
+    return BlocProvider(
+      create: (context) => AppBloc(),
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
         onGenerateRoute: RouteGenerator.getRoute,

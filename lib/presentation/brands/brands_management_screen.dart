@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:store_keeper/bloc/bloc_exports.dart';
-import 'package:store_keeper/models/brands_model.dart';
 import 'package:store_keeper/widgets/screens_style.dart';
 
+import '../../models/import_models.dart';
 import 'create_or_update_brand_screen.dart';
 
 class BrandsManagementScreen extends StatelessWidget {
@@ -10,7 +10,10 @@ class BrandsManagementScreen extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  void _showModalBottomSheet(BuildContext context, {BrandsModel? brandsModel}) {
+  void _showModalBottomSheet(
+    BuildContext context, {
+    BrandsModel? brandsModel,
+  }) {
     showModalBottomSheet(
       isDismissible: false,
       isScrollControlled: true,
@@ -19,7 +22,9 @@ class BrandsManagementScreen extends StatelessWidget {
         child: Container(
           padding:
               EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-          child: CreateOrUpdateBrandScreen(oldBrand: brandsModel),
+          child: CreateOrUpdateBrandScreen(
+            oldBrand: brandsModel,
+          ),
         ),
       ),
     );
@@ -53,12 +58,12 @@ class BrandsManagementScreen extends StatelessWidget {
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         ),
       ),
-      screenWidget: BlocBuilder<BrandsBloc, BrandsState>(
+      screenWidget: BlocBuilder<AppBloc, AppState>(
         builder: (context, appState) {
-          if (appState is BrandsStateInitial) {
-            context.read<BrandsBloc>().add(const FetchBrands());
+          if (appState is AppStateInitial) {
+            context.read<AppBloc>().add(const FetchEvent());
           }
-          if (appState is DisplayBrandsState) {
+          if (appState is DisplayAppState) {
             return appState.brandsList.isNotEmpty
                 ? Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8),

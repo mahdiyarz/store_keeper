@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:store_keeper/bloc/bloc_exports.dart';
-import 'package:store_keeper/models/brands_model.dart';
+
+import '/bloc/bloc_exports.dart';
+import '/models/import_models.dart';
 
 class CreateOrUpdateBrandScreen extends StatelessWidget {
   final BrandsModel? oldBrand;
   const CreateOrUpdateBrandScreen({
-    this.oldBrand,
     Key? key,
+    required this.oldBrand,
   }) : super(key: key);
 
   @override
@@ -105,14 +106,13 @@ class CreateOrUpdateBrandScreen extends StatelessWidget {
                           );
                           Navigator.of(context).pop();
                           oldBrand != null
-                              ? context.read<BrandsBloc>().add(EditBrand(
+                              ? context.read<AppBloc>().add(EditBrand(
                                     oldBrand: oldBrand!,
                                     newBrand: brand,
                                   ))
                               : context
-                                  .read<BrandsBloc>()
+                                  .read<AppBloc>()
                                   .add(AddBrand(brand: brand));
-                          context.read<BrandsBloc>().add(const FetchBrands());
                           nameController.clear();
                           latinNameController.clear();
                         } else if (nameController.value.text.isEmpty) {
@@ -122,21 +122,6 @@ class CreateOrUpdateBrandScreen extends StatelessWidget {
                           // TODO: implement validation
                           return;
                         }
-
-                        // if (brandsModel != null) {
-                        //   final BrandsModel updateBrand = BrandsModel(
-                        //     brandId: brandsModel.brandId,
-                        //     brandName: textController.text,
-                        //   );
-                        //   Provider.of<BrandsProvider>(context,
-                        //           listen: false)
-                        //       .updateData(updateBrand);
-                        // } else {
-                        //   Provider.of<BrandsProvider>(context,
-                        //           listen: false)
-                        //       .insertData(BrandsModel(
-                        //           brandName: textController.text));
-                        // }
                       },
                       child: const Text('ثبت')),
                 ),
@@ -150,11 +135,12 @@ class CreateOrUpdateBrandScreen extends StatelessWidget {
                 if (oldBrand != null)
                   ElevatedButton(
                       onPressed: () {
-                        context.read<BrandsBloc>().add(
-                              DeleteBrand(brand: oldBrand!),
+                        context.read<AppBloc>().add(
+                              DeleteBrand(
+                                brand: oldBrand!,
+                              ),
                             );
                         Navigator.of(context).pop();
-                        context.read<BrandsBloc>().add(const FetchBrands());
                         nameController.clear();
                         latinNameController.clear();
                       },

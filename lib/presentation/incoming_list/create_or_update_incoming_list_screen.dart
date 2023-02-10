@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import 'package:store_keeper/bloc/bloc_exports.dart';
 
-import '../../bloc/incoming_list_bloc/incoming_list_bloc.dart';
 import '../../models/import_models.dart';
 import '../brands/create_or_update_brand_screen.dart';
 
@@ -28,7 +27,9 @@ class CreateOrUpdateIncomingListScreen extends StatelessWidget {
         child: Container(
           padding:
               EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-          child: CreateOrUpdateBrandScreen(oldBrand: brandsModel),
+          child: CreateOrUpdateBrandScreen(
+            oldBrand: brandsModel,
+          ),
         ),
       ),
     );
@@ -38,12 +39,11 @@ class CreateOrUpdateIncomingListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
 
-    return BlocBuilder<BrandsBloc, BrandsState>(
-        builder: (context, brandsState) {
-      if (brandsState is BrandsStateInitial) {
-        context.read<BrandsBloc>().add(const FetchBrands());
+    return BlocBuilder<AppBloc, AppState>(builder: (context, brandsState) {
+      if (brandsState is AppStateInitial) {
+        context.read<AppBloc>().add(const FetchEvent());
       }
-      if (brandsState is DisplayBrandsState) {
+      if (brandsState is DisplayAppState) {
         return Directionality(
           textDirection: TextDirection.rtl,
           child: Padding(
@@ -84,7 +84,7 @@ class CreateOrUpdateIncomingListScreen extends StatelessWidget {
                         Theme.of(context).colorScheme.secondary.withOpacity(.3),
                   ),
                   onPressed: () {
-                    if (brandsState is DisplayBrandsState) {
+                    if (brandsState is DisplayAppState) {
                       showDialog(
                         context: context,
                         builder: (context) {
@@ -234,9 +234,9 @@ class CreateOrUpdateIncomingListScreen extends StatelessWidget {
                                 boxNumberController.text.isNotEmpty &&
                                 brandIdController.text.isNotEmpty
                             ? () {
-                                context.read<IncomingListBloc>().add(
-                                      AddIncomingLists(
-                                        addIncomingList: IncomingListModel(
+                                context.read<AppBloc>().add(
+                                      AddIncomingList(
+                                        addIncomingListItem: IncomingListModel(
                                           brandId: int.parse(
                                             brandIdController.text,
                                           ),
