@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../resources/routes_manager.dart';
+
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
 
@@ -12,7 +14,8 @@ class Home extends StatelessWidget {
           children: [
             ElevatedButton.icon(
                 onPressed: () {
-                  Navigator.of(context).pushReplacementNamed('/incoming-list');
+                  Navigator.of(context)
+                      .pushReplacementNamed(Routes.incomingListsRoute);
                 },
                 icon: const Icon(Icons.store_mall_directory_rounded),
                 label: const Text('شمارش ورودی انبار')),
@@ -27,7 +30,7 @@ class Home extends StatelessWidget {
             ElevatedButton.icon(
                 onPressed: () {
                   Navigator.of(context)
-                      .pushReplacementNamed('/brands-management');
+                      .pushReplacementNamed(Routes.brandsRoute);
                 },
                 icon: const Icon(Icons.ballot_rounded),
                 label: const Text('ثبت اطلاعات اولیه')),

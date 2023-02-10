@@ -24,7 +24,7 @@ class IncomingListScreen extends StatelessWidget {
         backgroundColor: Colors.black12,
         child: IconButton(
             onPressed: () {
-              Navigator.of(context).pop();
+              Navigator.of(context).pushReplacementNamed(Routes.homeRoute);
             },
             icon: const Icon(
               Icons.arrow_forward,

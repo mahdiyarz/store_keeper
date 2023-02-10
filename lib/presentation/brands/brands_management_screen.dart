@@ -3,6 +3,7 @@ import 'package:store_keeper/bloc/bloc_exports.dart';
 import 'package:store_keeper/widgets/screens_style.dart';
 
 import '../../models/import_models.dart';
+import '../resources/routes_manager.dart';
 import 'create_or_update_brand_screen.dart';
 
 class BrandsManagementScreen extends StatelessWidget {
@@ -41,7 +42,7 @@ class BrandsManagementScreen extends StatelessWidget {
         backgroundColor: Colors.black12,
         child: IconButton(
             onPressed: () {
-              Navigator.of(context).pop();
+              Navigator.of(context).pushReplacementNamed(Routes.homeRoute);
             },
             icon: const Icon(
               Icons.arrow_forward,
