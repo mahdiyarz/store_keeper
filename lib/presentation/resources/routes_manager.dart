@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:store_keeper/presentation/resources/assets_manager.dart';
 
 import '../resources/strings_manager.dart';
 import '../import_presentation.dart';
@@ -15,33 +16,33 @@ class RouteGenerator {
   static Route<dynamic> getRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
       case Routes.homeRoute:
-        return MaterialPageRoute(builder: (_) => const Home());
+        return MaterialPageRoute(builder: (context) => const Home());
       case Routes.incomingListsRoute:
-        return MaterialPageRoute(builder: (_) => const IncomingListScreen());
+        return MaterialPageRoute(builder: (context) => IncomingListScreen());
       case Routes.brandsRoute:
         return MaterialPageRoute(
-            builder: (_) => const BrandsManagementScreen());
-      // case Routes.incomingGoodsManagementRoute:
-      //   final args = routeSettings.arguments as IncomingGoodsManagementScreen;
-      //   return MaterialPageRoute(
-      //     builder: (_) => IncomingGoodsManagementScreen(
-      //       title: args.title,
-      //       boxNumber: args.boxNumber,
-      //       dateTime: args.dateTime,
-      //     ),
-      //   );
+            builder: (context) => const BrandsManagementScreen());
+
       default:
-        return MaterialPageRoute(builder: (_) => const Home());
-      // unDefinedRoute();
+        return unDefinedRoute();
     }
   }
 
   static Route<dynamic> unDefinedRoute() {
     return MaterialPageRoute(
-        builder: (_) => Scaffold(
-              appBar: AppBar(),
-              body: const Center(
-                child: Text(AppStrings.noRouteFound),
+        builder: (context) => Scaffold(
+              body: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(ImageAssets.notFoundPageRoute),
+                  const Text(AppStrings.noRouteFound),
+                  TextButton(
+                      onPressed: () {
+                        Navigator.of(context)
+                            .pushReplacementNamed(Routes.homeRoute);
+                      },
+                      child: const Text('بازگشت به صفحه اصلی'))
+                ],
               ),
             ));
   }
