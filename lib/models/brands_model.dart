@@ -1,3 +1,5 @@
+import 'package:equatable/equatable.dart';
+
 const String brandsTable = 'brands';
 
 class BrandsFields {
@@ -12,7 +14,7 @@ class BrandsFields {
   static const String brandLatinName = 'brandLatinName';
 }
 
-class BrandsModel {
+class BrandsModel extends Equatable {
   final int? brandId;
   final String brandName;
   final String brandLatinName;
@@ -45,4 +47,11 @@ class BrandsModel {
         brandName: json[BrandsFields.brandName] as String,
         brandLatinName: json[BrandsFields.brandLatinName] as String,
       );
+
+  @override
+  List<Object?> get props => [
+        brandId,
+        brandName,
+        brandLatinName,
+      ];
 }

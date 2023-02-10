@@ -1,3 +1,5 @@
+import 'package:equatable/equatable.dart';
+
 const String incomingListTable = 'incomingList';
 
 class IncomingListFields {
@@ -14,13 +16,13 @@ class IncomingListFields {
   static const String incomingListDate = 'incomingListDate';
 }
 
-class IncomingListModel {
+class IncomingListModel extends Equatable {
   final int? incomingListId;
   final int brandId;
   final int numOfBoxes;
   final DateTime incomingListDate;
 
-  IncomingListModel({
+  const IncomingListModel({
     this.incomingListId,
     required this.brandId,
     required this.numOfBoxes,
@@ -55,4 +57,12 @@ class IncomingListModel {
         incomingListDate:
             DateTime.parse(json[IncomingListFields.incomingListDate] as String),
       );
+
+  @override
+  List<Object?> get props => [
+        incomingListId,
+        brandId,
+        numOfBoxes,
+        incomingListDate,
+      ];
 }

@@ -1,3 +1,5 @@
+import 'package:equatable/equatable.dart';
+
 const String countGoodsTable = 'countGoods';
 
 class CountGoodsFields {
@@ -10,7 +12,7 @@ class CountGoodsFields {
   static const String lakingId = 'lakingId';
 }
 
-class CountGoodsModel {
+class CountGoodsModel extends Equatable {
   final int countGoodsId;
   final int numOfBox;
   final int numOfSeed;
@@ -19,7 +21,7 @@ class CountGoodsModel {
   final int incomingListId;
   final int lakingId;
 
-  CountGoodsModel({
+  const CountGoodsModel({
     required this.countGoodsId,
     required this.numOfBox,
     required this.numOfSeed,
@@ -67,4 +69,15 @@ class CountGoodsModel {
         incomingListId: json[CountGoodsFields.incomingListId] as int,
         lakingId: json[CountGoodsFields.lakingId] as int,
       );
+
+  @override
+  List<Object?> get props => [
+        countGoodsId,
+        numOfBox,
+        numOfSeed,
+        price,
+        goodsId,
+        incomingListId,
+        lakingId,
+      ];
 }

@@ -1,3 +1,5 @@
+import 'package:equatable/equatable.dart';
+
 const String lakingTable = 'laking';
 
 class LakingFields {
@@ -6,12 +8,12 @@ class LakingFields {
   static const String lakingNum = 'lakingNum';
 }
 
-class LakingModel {
+class LakingModel extends Equatable {
   final int lakingId;
   final DateTime lakingDate;
   final int lakingNum;
 
-  LakingModel({
+  const LakingModel({
     required this.lakingId,
     required this.lakingDate,
     required this.lakingNum,
@@ -39,4 +41,11 @@ class LakingModel {
         lakingDate: DateTime.parse(json[LakingFields.lakingDate] as String),
         lakingNum: json[LakingFields.lakingNum] as int,
       );
+
+  @override
+  List<Object?> get props => [
+        lakingId,
+        lakingDate,
+        lakingNum,
+      ];
 }

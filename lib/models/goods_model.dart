@@ -1,3 +1,5 @@
+import 'package:equatable/equatable.dart';
+
 const String goodsTable = 'goods';
 
 class GoodsFields {
@@ -8,14 +10,14 @@ class GoodsFields {
   static const String barcode = 'barcode';
 }
 
-class GoodsModel {
+class GoodsModel extends Equatable {
   final int goodId;
   final String goodName;
   final int brandId;
   final int numInBox;
   final BigInt barcode;
 
-  GoodsModel({
+  const GoodsModel({
     required this.goodId,
     required this.goodName,
     required this.brandId,
@@ -53,4 +55,13 @@ class GoodsModel {
         numInBox: json[GoodsFields.numInBox] as int,
         barcode: json[GoodsFields.barcode] as BigInt,
       );
+
+  @override
+  List<Object?> get props => [
+        goodId,
+        goodName,
+        brandId,
+        numInBox,
+        barcode,
+      ];
 }
