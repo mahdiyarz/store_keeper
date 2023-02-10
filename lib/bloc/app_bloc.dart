@@ -60,9 +60,15 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       );
     }
 
+    final List<BrandsModel> lastUpdatedBrands =
+        await DBHelper.instance.fetchBrandsData();
+
     emit(
       DisplayAppState(
-        brandsList: _brandsList..insert(0, brand),
+        // brandsList: _brandsList..insert(0, brand),
+        brandsList: _brandsList
+          ..clear()
+          ..addAll(lastUpdatedBrands),
         incomingList: _incomingList,
         goodsList: _goodsList,
       ),
