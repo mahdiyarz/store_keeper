@@ -65,7 +65,6 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
     emit(
       DisplayAppState(
-        // brandsList: _brandsList..insert(0, brand),
         brandsList: _brandsList
           ..clear()
           ..addAll(lastUpdatedBrands),
@@ -104,24 +103,20 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   }
 
   void _onDeleteBrand(DeleteBrand event, Emitter<AppState> emit) async {
-    // TODO: fix delete logic
     log('run DELETE Brand');
 
     final BrandsModel deletedBrand = event.brand;
-    final bool isExistBrandOnIncomingList = _incomingList
-            .firstWhere((element) => element.brandId == deletedBrand.brandId)
-            .toString()
-            .isEmpty
-        ? true
-        : false;
-    final bool isExistBrandOnGoods = _goodsList
-            .firstWhere((element) => element.brandId == deletedBrand.brandId)
-            .toString()
-            .isEmpty
-        ? true
-        : false;
 
-    if (isExistBrandOnIncomingList == true && isExistBrandOnGoods == true) {
+    final bool isExistBrandOnIncomingList = _incomingList.isNotEmpty
+        ? _incomingList
+            .any((element) => element.brandId == deletedBrand.brandId)
+        : false; //! false means we can delete this brand and it is not exist on incoming list
+
+    final bool isExistBrandOnGoods = _goodsList.isNotEmpty
+        ? _goodsList.any((element) => element.brandId == deletedBrand.brandId)
+        : false; //! false means we can delete this brand and it is not exist on goods list
+
+    if (isExistBrandOnIncomingList == false && isExistBrandOnGoods == false) {
       await DBHelper.instance.deleteBrands(
         BrandsModel(
           brandId: deletedBrand.brandId,
@@ -137,10 +132,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
           goodsList: _goodsList,
         ),
       );
-      log('Deleting brand finished');
     }
-
-    log('can not Delete brand');
   }
 
   void _onAddIncomingList(AddIncomingList event, Emitter<AppState> emit) async {
