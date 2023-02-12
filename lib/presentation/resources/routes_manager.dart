@@ -22,6 +22,15 @@ class RouteGenerator {
       case Routes.brandsRoute:
         return MaterialPageRoute(
             builder: (context) => const BrandsManagementScreen());
+      case Routes.incomingGoodsManagementRoute:
+        final args = routeSettings.arguments as IncomingGoodsManagementScreen;
+        return MaterialPageRoute(
+          builder: (context) => IncomingGoodsManagementScreen(
+            title: args.title,
+            boxNumber: args.boxNumber,
+            dateTime: args.dateTime,
+          ),
+        );
 
       default:
         return unDefinedRoute();

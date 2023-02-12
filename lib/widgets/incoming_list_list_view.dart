@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:persian/persian.dart';
+import 'package:store_keeper/presentation/import_presentation.dart';
 
 import '../models/import_models.dart';
 import '../presentation/resources/import_resources.dart';
@@ -25,7 +26,7 @@ class IncomingListListView extends StatelessWidget {
         final incomingItemsBrand = brandsList.firstWhere((element) =>
             element.brandId ==
             incomingList[index]
-                .brandId); //*This logic find brand of specific arrival goods
+                .brandId); //*This method find the brand of each incoming item
 
         return Container(
           padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 5),
@@ -50,6 +51,14 @@ class IncomingListListView extends StatelessWidget {
             ),
             child: InkWell(
               onTap: () {
+                Navigator.of(context).pushReplacementNamed(
+                  Routes.incomingGoodsManagementRoute,
+                  arguments: IncomingGoodsManagementScreen(
+                    title: incomingItemsBrand.brandName,
+                    boxNumber: incomingList[index].numOfBoxes,
+                    dateTime: incomingList[index].incomingListDate,
+                  ),
+                );
                 // Navigator.of(context).pushNamed(
                 //   '/arrival-goods-manage',
                 //   arguments: IncomingGoodsManagementScreen(

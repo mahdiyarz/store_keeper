@@ -28,7 +28,7 @@ class IncomingListScreen extends StatelessWidget {
         iconColor: Colors.white,
       ),
       bottomWidget: ShowModalBottomButton(
-        buttonTitle: 'ایجاد برند جدید',
+        buttonTitle: 'ثبت ورود به انبار',
         buttonIcon: Icons.playlist_add_circle_rounded,
         showModalChildWidget: CreateOrUpdateIncomingListScreen(
           boxNumberController: boxNumberController,
