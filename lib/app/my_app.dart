@@ -15,8 +15,9 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => AppBloc(),
-      child: const MaterialApp(
+      child: MaterialApp(
         debugShowCheckedModeBanner: false,
+        theme: getApplicationTheme(),
         onGenerateRoute: RouteGenerator.getRoute,
         initialRoute: Routes.homeRoute,
       ),
