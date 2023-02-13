@@ -39,7 +39,7 @@ ThemeData getApplicationTheme() {
     buttonTheme: ButtonThemeData(
       shape: const StadiumBorder(),
       disabledColor: ColorManager.grey1,
-      buttonColor: ColorManager.primary,
+      buttonColor: ColorManager.secondary,
       splashColor: ColorManager.primaryOpacity70,
     ),
 
@@ -47,7 +47,7 @@ ThemeData getApplicationTheme() {
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         textStyle: getRegularStyle(color: ColorManager.white),
-        backgroundColor: ColorManager.primary,
+        backgroundColor: ColorManager.secondary,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppSize.s12),
         ),
