@@ -57,6 +57,10 @@ ThemeData getApplicationTheme() {
     //* Text theme
     textTheme: TextTheme(
       headline1: getBoldStyle(
+        color: ColorManager.background,
+        fontSize: FontSize.s18,
+      ),
+      headline2: getBoldStyle(
         color: ColorManager.darkGrey,
         fontSize: FontSize.s16,
       ),
@@ -72,7 +76,15 @@ ThemeData getApplicationTheme() {
         color: ColorManager.grey1,
       ),
       bodyText1: getRegularStyle(
-        color: ColorManager.grey,
+        color: ColorManager.lightGrey,
+        fontSize: FontSize.s16,
+      ),
+      bodyText2: getRegularStyle(
+        color: ColorManager.darkGrey,
+      ),
+      headline3: getBoldStyle(
+        color: ColorManager.white,
+        fontSize: FontSize.s12,
       ),
     ),
 
