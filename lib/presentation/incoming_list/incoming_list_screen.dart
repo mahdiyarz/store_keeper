@@ -20,14 +20,14 @@ class IncomingListScreen extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
 
     return ScreensStyle(
-      screenTitle: 'ورودی های انبار',
-      screenDescription: 'ثبت، اصلاح و تهیه گزارش ورودی های انبار',
-      mainButton: const CircleButton(
+      title: 'ورودی های انبار',
+      description: 'ثبت، اصلاح و تهیه گزارش ورودی های انبار',
+      actionIcon: const CircleButton(
         iconNamedRoute: Routes.homeRoute,
         iconShape: Icons.arrow_forward,
         iconColor: Colors.white,
       ),
-      bottomWidget: ShowModalBottomButton(
+      bodyButton: ShowModalBottomButton(
         buttonTitle: 'ثبت ورود به انبار',
         buttonIcon: Icons.playlist_add_circle_rounded,
         showModalChildWidget: CreateOrUpdateIncomingListScreen(
@@ -36,7 +36,7 @@ class IncomingListScreen extends StatelessWidget {
           brandIdController: brandIdController,
         ),
       ),
-      screenWidget: BlocBuilder<AppBloc, AppState>(
+      body: BlocBuilder<AppBloc, AppState>(
         builder: (context, appState) {
           if (appState is AppStateInitial) {
             context.read<AppBloc>().add(const FetchEvent());

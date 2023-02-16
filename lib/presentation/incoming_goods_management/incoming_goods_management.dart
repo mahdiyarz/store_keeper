@@ -20,11 +20,11 @@ class IncomingGoodsManagementScreen extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
 
     return ScreensStyle(
-      screenTitle: title,
-      screenDescription:
+      title: title,
+      description:
           'ورود ${boxNumber.toString().withPersianNumbers()} کارتن در تاریخ ${dateTime.toPersian()}',
-      screenWidget: Container(),
-      mainButton: CircleAvatar(
+      body: Container(),
+      actionIcon: CircleAvatar(
         backgroundColor: Colors.black12,
         child: IconButton(
             onPressed: () {
@@ -36,10 +36,10 @@ class IncomingGoodsManagementScreen extends StatelessWidget {
               color: Colors.white,
             )),
       ),
-      bottomWidget: ElevatedButton.icon(
+      bodyButton: ElevatedButton.icon(
         onPressed: () {},
         icon: const Icon(Icons.post_add_rounded),
-        label: const Text('لیست جدید'),
+        label: const Text('ثبت کالا'),
         style: ElevatedButton.styleFrom(
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         ),

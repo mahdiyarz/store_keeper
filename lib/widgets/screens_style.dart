@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 
 class ScreensStyle extends StatelessWidget {
-  final String screenTitle;
-  final String screenDescription;
-  final Widget screenWidget;
-  final Widget bottomWidget;
-  final Widget mainButton;
+  final String title;
+  final String description;
+  final Widget body;
+  final Widget actionIcon;
+  final Widget bodyButton;
 
   const ScreensStyle({
     Key? key,
-    required this.screenTitle,
-    required this.screenDescription,
-    required this.screenWidget,
-    required this.bottomWidget,
-    required this.mainButton,
+    required this.title,
+    required this.description,
+    required this.body,
+    required this.actionIcon,
+    required this.bodyButton,
   }) : super(key: key);
 
   @override
@@ -38,7 +38,7 @@ class ScreensStyle extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            screenTitle,
+                            title,
                             style: TextStyle(
                               fontSize: 27,
                               color: Colors.black.withOpacity(.6),
@@ -47,7 +47,7 @@ class ScreensStyle extends StatelessWidget {
                           ),
                           SizedBox(height: width / 45),
                           Text(
-                            screenDescription,
+                            description,
                             style: TextStyle(
                               fontSize: 19,
                               color: Colors.black.withOpacity(.5),
@@ -58,7 +58,7 @@ class ScreensStyle extends StatelessWidget {
                         ],
                       ),
                     ),
-                    screenWidget,
+                    body,
                     SizedBox(
                       height: width / 10,
                     )
@@ -67,13 +67,14 @@ class ScreensStyle extends StatelessWidget {
                 Positioned(
                   left: width / 15,
                   top: width / 20,
-                  child: mainButton,
+                  child: actionIcon,
                 ),
                 Positioned(
-                  bottom: 0,
-                  child: SizedBox(
+                  bottom: 5,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
                     width: width,
-                    child: bottomWidget,
+                    child: bodyButton,
                   ),
                 ),
               ],

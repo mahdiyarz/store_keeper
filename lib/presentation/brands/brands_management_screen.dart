@@ -19,19 +19,19 @@ class BrandsManagementScreen extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
 
     return ScreensStyle(
-      screenTitle: 'مدیریت برندها',
-      screenDescription: 'ثبت، اصلاح و یا حذف برند',
-      mainButton: const CircleButton(
+      title: 'مدیریت برندها',
+      description: 'ثبت، اصلاح و یا حذف برند',
+      actionIcon: CircleButton(
         iconNamedRoute: Routes.homeRoute,
         iconShape: Icons.arrow_forward,
-        iconColor: Colors.white,
+        iconColor: ColorManager.white,
       ),
-      bottomWidget: const ShowModalBottomButton(
+      bodyButton: const ShowModalBottomButton(
         buttonTitle: 'ایجاد برند جدید',
         buttonIcon: Icons.playlist_add_circle_rounded,
         showModalChildWidget: CreateOrUpdateBrandScreen(oldBrand: null),
       ),
-      screenWidget: BlocBuilder<AppBloc, AppState>(
+      body: BlocBuilder<AppBloc, AppState>(
         builder: (context, appState) {
           if (appState is AppStateInitial) {
             context.read<AppBloc>().add(const FetchEvent());
