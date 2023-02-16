@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:store_keeper/presentation/resources/color_manager.dart';
 
 class CircleButton extends StatelessWidget {
   final IconData iconShape;
@@ -14,7 +15,7 @@ class CircleButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
-      backgroundColor: Colors.black12,
+      backgroundColor: ColorManager.lightSecondary.withOpacity(.4),
       child: IconButton(
           onPressed: () =>
               Navigator.of(context).pushReplacementNamed(iconNamedRoute),
