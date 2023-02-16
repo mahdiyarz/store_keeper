@@ -5,8 +5,8 @@ class ColorManager {
   static Color darkPrimary = HexColor.fromHex('#96cace'); //* update
   static Color primaryOpacity70 = HexColor.fromHex('#b0d9d7ab'); //* update
   static Color primaryContainer = HexColor.fromHex('#c3e1e2'); //* update
-  static Color secondary = HexColor.fromHex('#ff5a3d'); //* update
-  static Color secondaryOpacity70 = HexColor.fromHex('#ff5a3da3'); //* update
+  static Color secondary = HexColor.fromHex('#ff563d'); //* update
+  static Color lightSecondary = HexColor.fromHex('#ff7d3d'); //* update
   static Color error = HexColor.fromHex('#a44a3f');
   static Color grey = HexColor.fromHex('#737477');
   static Color grey1 = HexColor.fromHex('#707070');
@@ -15,6 +15,7 @@ class ColorManager {
   static Color darkGrey = HexColor.fromHex('#525252');
   static Color white = HexColor.fromHex('#FFFFFF');
   static Color shadow = HexColor.fromHex('#1A000000');
+  static Color background = HexColor.fromHex('#eef7fb');
 }
 
 extension HexColor on Color {
