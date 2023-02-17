@@ -124,85 +124,7 @@ class _ControlPanelState extends State<ControlPanel>
                 const SizedBox(
                   width: 5,
                 ),
-                // HomeButton(
-                //   title: 'راه اندازی',
-                //   icon: Icons.settings_outlined,
-                //   routeName: Routes.brandsRoute,
-                // ),
-                InkWell(
-                  onTap: () {
-                    if (_isToggle != null && _isToggle == true) {
-                      _animationController.reverse();
-                    } else {
-                      _animationController.forward();
-                    }
-                    setState(() {
-                      isTapped = !isTapped;
-                      HapticFeedback.lightImpact();
-                    });
-                  },
-                  child: AnimatedContainer(
-                    duration: const Duration(microseconds: 300),
-                    curve: Curves.fastLinearToSlowEaseIn,
-                    width: width / 6,
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: isTapped
-                          ? ColorManager.darkPrimary
-                          : ColorManager.primary,
-                      boxShadow: isTapped
-                          ? [
-                              BoxShadow(
-                                color: ColorManager.shadow.withOpacity(.8),
-                                blurRadius: 3,
-                                offset: const Offset(1.5, 1.5),
-                              ),
-                            ]
-                          : [
-                              BoxShadow(
-                                color: ColorManager.shadow,
-                                blurRadius: 5,
-                                spreadRadius: 0,
-                                offset: const Offset(3, 3),
-                              ),
-                            ],
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(20),
-                      ),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: CircleAvatar(
-                            backgroundColor: isTapped
-                                ? ColorManager.secondary
-                                : ColorManager.onPrimary,
-                            child: Icon(
-                              Icons.settings_outlined,
-                              color: isTapped
-                                  ? ColorManager.darkPrimary
-                                  : ColorManager.primary,
-                            ),
-                          ),
-                        ),
-                        FittedBox(
-                          fit: BoxFit.scaleDown,
-                          child: Text(
-                            'راه اندازی',
-                            style: TextStyle(
-                              color: isTapped
-                                  ? ColorManager.secondary
-                                  : ColorManager.onPrimary,
-                              fontSize: FontSize.s12,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                animatedHomeButton(width),
               ],
             ),
           ),
@@ -251,6 +173,80 @@ class _ControlPanelState extends State<ControlPanel>
             ),
           )
         ],
+      ),
+    );
+  }
+
+  InkWell animatedHomeButton(double width) {
+    return InkWell(
+      onTap: () {
+        if (_isToggle != null && _isToggle == true) {
+          _animationController.reverse();
+        } else {
+          _animationController.forward();
+        }
+        setState(() {
+          isTapped = !isTapped;
+          HapticFeedback.lightImpact();
+        });
+      },
+      child: AnimatedContainer(
+        duration: const Duration(microseconds: 300),
+        curve: Curves.fastLinearToSlowEaseIn,
+        width: width / 6,
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: isTapped ? ColorManager.darkPrimary : ColorManager.primary,
+          boxShadow: isTapped
+              ? [
+                  BoxShadow(
+                    color: ColorManager.shadow.withOpacity(.8),
+                    blurRadius: 3,
+                    offset: const Offset(1.5, 1.5),
+                  ),
+                ]
+              : [
+                  BoxShadow(
+                    color: ColorManager.shadow,
+                    blurRadius: 5,
+                    spreadRadius: 0,
+                    offset: const Offset(3, 3),
+                  ),
+                ],
+          borderRadius: const BorderRadius.all(
+            Radius.circular(20),
+          ),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+              child: CircleAvatar(
+                backgroundColor:
+                    isTapped ? ColorManager.secondary : ColorManager.onPrimary,
+                child: Icon(
+                  Icons.settings_outlined,
+                  color: isTapped
+                      ? ColorManager.darkPrimary
+                      : ColorManager.primary,
+                ),
+              ),
+            ),
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(
+                'راه اندازی',
+                style: TextStyle(
+                  color: isTapped
+                      ? ColorManager.secondary
+                      : ColorManager.onPrimary,
+                  fontSize: FontSize.s12,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
