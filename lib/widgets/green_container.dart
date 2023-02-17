@@ -12,7 +12,7 @@ class GreenContainer extends StatelessWidget {
     final double width = MediaQuery.of(context).size.width;
     return Container(
       width: width,
-      height: width * .6,
+      height: width * .52,
       padding: const EdgeInsets.symmetric(
         vertical: 15,
         horizontal: 20,
@@ -20,6 +20,8 @@ class GreenContainer extends StatelessWidget {
       decoration: BoxDecoration(
         color: ColorManager.darkPrimary,
         borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(8),
+          topRight: Radius.circular(8),
           bottomLeft: Radius.circular(35),
           bottomRight: Radius.circular(35),
         ),
