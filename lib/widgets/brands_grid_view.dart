@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:store_keeper/models/brands_model.dart';
+import 'package:store_keeper/presentation/resources/color_manager.dart';
 
 import '../presentation/brands/create_or_update_brand_screen.dart';
 
@@ -39,16 +40,17 @@ class BrandsGridView extends StatelessWidget {
           const NeverScrollableScrollPhysics(), //! to disable GridView's scrolling
       shrinkWrap: true, //! You won't see infinite size error
       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-        maxCrossAxisExtent: screenWidth * .4,
+        maxCrossAxisExtent: screenWidth * .3,
         childAspectRatio: 1.1,
         crossAxisSpacing: 5,
         mainAxisSpacing: 5,
       ),
+      itemCount: brandsList.length,
       itemBuilder: (context, index) => Container(
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(15)),
-          boxShadow: [
+        decoration: BoxDecoration(
+          color: ColorManager.primary,
+          borderRadius: const BorderRadius.all(Radius.circular(25)),
+          boxShadow: const [
             BoxShadow(
               color: Colors.black12,
               blurRadius: 99,
@@ -59,10 +61,16 @@ class BrandsGridView extends StatelessWidget {
           child: ListTile(
             title: FittedBox(
                 fit: BoxFit.scaleDown,
-                child: Text(brandsList[index].brandName)),
+                child: Text(
+                  brandsList[index].brandName,
+                  style: Theme.of(context).textTheme.bodyText1,
+                )),
             subtitle: FittedBox(
               fit: BoxFit.scaleDown,
-              child: Text(brandsList[index].brandLatinName),
+              child: Text(
+                brandsList[index].brandLatinName,
+                style: Theme.of(context).textTheme.subtitle2,
+              ),
             ),
             onTap: () {
               _showModalBottomSheet(
@@ -73,7 +81,6 @@ class BrandsGridView extends StatelessWidget {
           ),
         ),
       ),
-      itemCount: brandsList.length,
     );
   }
 }
