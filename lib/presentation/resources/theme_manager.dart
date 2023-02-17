@@ -7,52 +7,86 @@ import 'color_manager.dart';
 
 ThemeData getApplicationTheme() {
   return ThemeData(
+    useMaterial3: true,
+    fontFamily: FontConstants.fontFamily,
+    colorScheme: ColorScheme(
+      brightness: Brightness.light,
+      primary: ColorManager.primary,
+      onPrimary: ColorManager.onPrimary,
+      primaryContainer: ColorManager.primaryContainer,
+      onPrimaryContainer: ColorManager.onPrimaryContainer,
+      secondary: ColorManager.secondary,
+      onSecondary: ColorManager.onSecondary,
+      // secondaryContainer: ColorManager.secondaryContainer,
+      // onSecondaryContainer: ColorManager.onSecondaryContainer,
+      // tertiary: ColorManager.tertiary,
+      // onTertiary: ColorManager.onTertiary,
+      // tertiaryContainer: ColorManager.tertiaryContainer,
+      // onTertiaryContainer: ColorManager.onTertiaryContainer,
+      error: ColorManager.error,
+      onError: ColorManager.onError,
+      // errorContainer: ColorManager.errorContainer,
+      // onErrorContainer: ColorManager.onErrorContainer,
+      background: ColorManager.background,
+      onBackground: ColorManager.onBackground,
+      surface: ColorManager.surface,
+      onSurface: ColorManager.onSurface,
+      // surfaceVariant: ColorManager.surfaceVariant,
+      // onSurfaceVariant: ColorManager.onSurfaceVariant,
+      outline: ColorManager.outline,
+      // inverseSurface: ColorManager.inverseSurface,
+      // onInverseSurface: ColorManager.onInverseSurface,
+      // inversePrimary: ColorManager.inversePrimary,
+      // surfaceTint: ColorManager.surfaceTint,
+      shadow: ColorManager.shadow,
+    ),
+
     //* Main colors of the app
-    primaryColor: ColorManager.primary,
-    primaryColorLight: ColorManager.primaryOpacity70,
-    primaryColorDark: ColorManager.darkPrimary,
-    colorScheme:
-        ColorScheme.fromSwatch().copyWith(secondary: ColorManager.grey),
-    splashColor: ColorManager.primaryOpacity70,
-    disabledColor: ColorManager.grey1,
+    // primaryColor: ColorManager.primary,
+    // primaryColorLight: ColorManager.primaryOpacity70,
+    // primaryColorDark: ColorManager.darkPrimary,
+    // colorScheme:
+    //     ColorScheme.fromSwatch().copyWith(secondary: ColorManager.grey),
+    // splashColor: ColorManager.primaryOpacity70,
+    // disabledColor: ColorManager.grey1,
 
-    //* Card view theme
-    cardTheme: CardTheme(
-      color: ColorManager.white,
-      shadowColor: ColorManager.grey,
-      elevation: AppSize.s4,
-    ),
+    // //* Card view theme
+    // cardTheme: CardTheme(
+    //   color: ColorManager.white,
+    //   shadowColor: ColorManager.grey,
+    //   elevation: AppSize.s4,
+    // ),
 
-    //* App bar theme
-    appBarTheme: AppBarTheme(
-      centerTitle: true,
-      color: ColorManager.primary,
-      elevation: AppSize.s4,
-      shadowColor: ColorManager.primaryOpacity70,
-      titleTextStyle: getRegularStyle(
-        color: ColorManager.white,
-        fontSize: FontSize.s16,
-      ),
-    ),
+    // //* App bar theme
+    // appBarTheme: AppBarTheme(
+    //   centerTitle: true,
+    //   color: ColorManager.primary,
+    //   elevation: AppSize.s4,
+    //   shadowColor: ColorManager.primaryOpacity70,
+    //   titleTextStyle: getRegularStyle(
+    //     color: ColorManager.white,
+    //     fontSize: FontSize.s16,
+    //   ),
+    // ),
 
-    //* Button theme
-    buttonTheme: ButtonThemeData(
-      shape: const StadiumBorder(),
-      disabledColor: ColorManager.grey1,
-      buttonColor: ColorManager.secondary,
-      splashColor: ColorManager.primaryOpacity70,
-    ),
+    // //* Button theme
+    // buttonTheme: ButtonThemeData(
+    //   shape: const StadiumBorder(),
+    //   disabledColor: ColorManager.grey1,
+    //   buttonColor: ColorManager.secondary,
+    //   splashColor: ColorManager.primaryOpacity70,
+    // ),
 
-    //* Elevated button theme
-    elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ElevatedButton.styleFrom(
-        textStyle: getRegularStyle(color: ColorManager.white),
-        backgroundColor: ColorManager.secondary,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppSize.s12),
-        ),
-      ),
-    ),
+    // //* Elevated button theme
+    // elevatedButtonTheme: ElevatedButtonThemeData(
+    //   style: ElevatedButton.styleFrom(
+    //     textStyle: getRegularStyle(color: ColorManager.white),
+    //     backgroundColor: ColorManager.secondary,
+    //     shape: RoundedRectangleBorder(
+    //       borderRadius: BorderRadius.circular(AppSize.s12),
+    //     ),
+    //   ),
+    // ),
 
     //* Text theme
     textTheme: TextTheme(
