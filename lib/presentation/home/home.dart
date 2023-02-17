@@ -15,25 +15,23 @@ class Home extends StatelessWidget {
       body: SafeArea(
         child: Directionality(
           textDirection: TextDirection.rtl,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Stack(
             children: [
-              Stack(
-                children: const [
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 5,
-                      horizontal: 8,
-                    ),
-                    child: IntroduceContainer(),
-                  ),
-                  ControlPanel(),
-                ],
+              const Padding(
+                padding: EdgeInsets.symmetric(
+                  vertical: 5,
+                  horizontal: 8,
+                ),
+                child: IntroduceContainer(),
               ),
-              Image.asset(ImageAssets.homeScreen),
-              SizedBox(
-                height: width * .001,
+              Positioned(
+                bottom: 25,
+                child: SizedBox(
+                    width: width,
+                    height: width,
+                    child: Image.asset(ImageAssets.homeScreen)),
               ),
+              const ControlPanel(),
             ],
           ),
         ),
