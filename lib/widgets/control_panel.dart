@@ -165,7 +165,7 @@ class _ControlPanelState extends State<ControlPanel>
                     HomeButton(
                       title: 'کالاها',
                       icon: Icons.fit_screen_rounded,
-                      routeName: Routes.incomingGoodsManagementRoute,
+                      routeName: Routes.goodsRoute,
                     ),
                   ],
                 ),
