@@ -9,46 +9,43 @@ ThemeData getApplicationTheme() {
   return ThemeData(
     useMaterial3: true,
     fontFamily: FontConstants.fontFamily,
-    colorScheme: ColorScheme(
-      brightness: Brightness.light,
-      primary: ColorManager.primary,
-      onPrimary: ColorManager.onPrimary,
-      primaryContainer: ColorManager.primaryContainer,
-      onPrimaryContainer: ColorManager.onPrimaryContainer,
-      secondary: ColorManager.secondary,
-      onSecondary: ColorManager.onSecondary,
-      // secondaryContainer: ColorManager.secondaryContainer,
-      // onSecondaryContainer: ColorManager.onSecondaryContainer,
-      // tertiary: ColorManager.tertiary,
-      // onTertiary: ColorManager.onTertiary,
-      // tertiaryContainer: ColorManager.tertiaryContainer,
-      // onTertiaryContainer: ColorManager.onTertiaryContainer,
-      error: ColorManager.error,
-      onError: ColorManager.onError,
-      // errorContainer: ColorManager.errorContainer,
-      // onErrorContainer: ColorManager.onErrorContainer,
-      background: ColorManager.background,
-      onBackground: ColorManager.onBackground,
-      surface: ColorManager.surface,
-      onSurface: ColorManager.onSurface,
-      // surfaceVariant: ColorManager.surfaceVariant,
-      // onSurfaceVariant: ColorManager.onSurfaceVariant,
-      outline: ColorManager.outline,
-      // inverseSurface: ColorManager.inverseSurface,
-      // onInverseSurface: ColorManager.onInverseSurface,
-      // inversePrimary: ColorManager.inversePrimary,
-      // surfaceTint: ColorManager.surfaceTint,
-      shadow: ColorManager.shadow,
-    ),
+    // colorScheme: ColorScheme(
+    //   brightness: Brightness.light,
+    //   primary: ColorManager.primary,
+    //   onPrimary: ColorManager.onPrimary,
+    //   primaryContainer: ColorManager.primaryContainer,
+    //   onPrimaryContainer: ColorManager.onPrimaryContainer,
+    //   secondary: ColorManager.secondary,
+    //   onSecondary: ColorManager.onSecondary,
+    // secondaryContainer: ColorManager.secondaryContainer,
+    // onSecondaryContainer: ColorManager.onSecondaryContainer,
+    // tertiary: ColorManager.tertiary,
+    // onTertiary: ColorManager.onTertiary,
+    // tertiaryContainer: ColorManager.tertiaryContainer,
+    // onTertiaryContainer: ColorManager.onTertiaryContainer,
+    // error: ColorManager.error,
+    // onError: ColorManager.onError,
+    // errorContainer: ColorManager.errorContainer,
+    // onErrorContainer: ColorManager.onErrorContainer,
+    // background: ColorManager.background,
+    // onBackground: ColorManager.onBackground,
+    // surface: ColorManager.surface,
+    // onSurface: ColorManager.onSurface,
+    // surfaceVariant: ColorManager.surfaceVariant,
+    // onSurfaceVariant: ColorManager.onSurfaceVariant,
+    // outline: ColorManager.outline,
+    // inverseSurface: ColorManager.inverseSurface,
+    // onInverseSurface: ColorManager.onInverseSurface,
+    // inversePrimary: ColorManager.inversePrimary,
+    // surfaceTint: ColorManager.surfaceTint,
+    // shadow: ColorManager.shadow,
+    // ),
 
     //* Main colors of the app
-    // primaryColor: ColorManager.primary,
-    // primaryColorLight: ColorManager.primaryOpacity70,
-    // primaryColorDark: ColorManager.darkPrimary,
-    // colorScheme:
-    //     ColorScheme.fromSwatch().copyWith(secondary: ColorManager.grey),
-    // splashColor: ColorManager.primaryOpacity70,
-    // disabledColor: ColorManager.grey1,
+    primaryColor: ColorManager.primary,
+    colorScheme:
+        ColorScheme.fromSwatch().copyWith(secondary: ColorManager.secondary),
+    disabledColor: ColorManager.grey1,
 
     // //* Card view theme
     // cardTheme: CardTheme(
@@ -74,19 +71,19 @@ ThemeData getApplicationTheme() {
     //   shape: const StadiumBorder(),
     //   disabledColor: ColorManager.grey1,
     //   buttonColor: ColorManager.secondary,
-    //   splashColor: ColorManager.primaryOpacity70,
     // ),
 
-    // //* Elevated button theme
-    // elevatedButtonTheme: ElevatedButtonThemeData(
-    //   style: ElevatedButton.styleFrom(
-    //     textStyle: getRegularStyle(color: ColorManager.white),
-    //     backgroundColor: ColorManager.secondary,
-    //     shape: RoundedRectangleBorder(
-    //       borderRadius: BorderRadius.circular(AppSize.s12),
-    //     ),
-    //   ),
-    // ),
+    //* Elevated button theme
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        textStyle: getRegularStyle(color: ColorManager.onPrimary),
+        backgroundColor: ColorManager.primary,
+        foregroundColor: ColorManager.onPrimary,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppSize.s14),
+        ),
+      ),
+    ),
 
     //* Text theme
     textTheme: TextTheme(
@@ -110,7 +107,7 @@ ThemeData getApplicationTheme() {
         color: ColorManager.grey1,
       ),
       bodyText1: getRegularStyle(
-        color: ColorManager.darkGrey,
+        color: ColorManager.onPrimaryContainer,
         fontSize: FontSize.s16,
       ),
       bodyText2: getRegularStyle(
@@ -126,12 +123,13 @@ ThemeData getApplicationTheme() {
     //* Input decoration theme (text form field)
     inputDecorationTheme: InputDecorationTheme(
       contentPadding: const EdgeInsets.all(AppPadding.p8),
-      hintStyle: getRegularStyle(color: ColorManager.grey1),
-      labelStyle: getMediumStyle(color: ColorManager.darkGrey),
-      errorStyle: getRegularStyle(color: ColorManager.error),
+      hintStyle:
+          getRegularStyle(color: ColorManager.onSecondary.withOpacity(.4)),
+      labelStyle: getMediumStyle(color: ColorManager.onSecondary),
+      errorStyle: getRegularStyle(color: ColorManager.onError),
       enabledBorder: OutlineInputBorder(
         borderSide: BorderSide(
-          color: ColorManager.grey,
+          color: ColorManager.secondary,
           width: AppSize.s1,
         ),
         borderRadius: const BorderRadius.all(Radius.circular(AppSize.s8)),

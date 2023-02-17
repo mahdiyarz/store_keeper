@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:store_keeper/presentation/resources/font_manager.dart';
+
+import '../presentation/resources/import_resources.dart';
 
 class HomeButton extends StatelessWidget {
   const HomeButton({
@@ -22,20 +23,15 @@ class HomeButton extends StatelessWidget {
         width: width / 6,
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.primary,
+          color: ColorManager.primary,
           boxShadow: [
             BoxShadow(
-              color: Theme.of(context).colorScheme.shadow,
+              color: ColorManager.shadow,
               blurRadius: 5,
               spreadRadius: 0,
               offset: const Offset(3, 3),
             ),
           ],
-          // gradient: LinearGradient(
-          //   begin: Alignment.topLeft,
-          //   end: Alignment.bottomRight,
-          //   colors: [ColorManager.lightSecondary, ColorManager.secondary],
-          // ),
           borderRadius: const BorderRadius.all(
             Radius.circular(20),
           ),
@@ -45,10 +41,10 @@ class HomeButton extends StatelessWidget {
           children: [
             Expanded(
               child: CircleAvatar(
-                backgroundColor: Theme.of(context).colorScheme.onPrimary,
+                backgroundColor: ColorManager.onPrimary,
                 child: Icon(
                   icon,
-                  color: Theme.of(context).colorScheme.primary,
+                  color: ColorManager.primary,
                 ),
               ),
             ),
@@ -57,7 +53,7 @@ class HomeButton extends StatelessWidget {
               child: Text(
                 title,
                 style: TextStyle(
-                  color: Theme.of(context).colorScheme.onPrimary,
+                  color: ColorManager.onPrimary,
                   fontSize: FontSize.s12,
                   fontWeight: FontWeight.bold,
                 ),

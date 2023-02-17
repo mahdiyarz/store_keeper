@@ -48,12 +48,14 @@ class BrandsGridView extends StatelessWidget {
       itemCount: brandsList.length,
       itemBuilder: (context, index) => Container(
         decoration: BoxDecoration(
-          color: ColorManager.primary,
+          color: ColorManager.primaryContainer,
           borderRadius: const BorderRadius.all(Radius.circular(25)),
-          boxShadow: const [
+          boxShadow: [
             BoxShadow(
-              color: Colors.black12,
-              blurRadius: 99,
+              color: ColorManager.shadow,
+              blurRadius: 15,
+              offset: const Offset(5, 10),
+              spreadRadius: 0,
             ),
           ],
         ),

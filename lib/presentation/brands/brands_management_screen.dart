@@ -21,10 +21,9 @@ class BrandsManagementScreen extends StatelessWidget {
     return ScreensStyle(
       title: 'مدیریت برندها',
       description: 'ثبت، اصلاح و یا حذف برند',
-      actionIcon: CircleButton(
+      actionIcon: const CircleButton(
         iconNamedRoute: Routes.homeRoute,
         iconShape: Icons.arrow_forward,
-        iconColor: ColorManager.white,
       ),
       bodyButton: const ShowModalBottomButton(
         buttonTitle: 'ایجاد برند جدید',
@@ -39,7 +38,7 @@ class BrandsManagementScreen extends StatelessWidget {
           if (appState is DisplayAppState) {
             return appState.brandsList.isNotEmpty
                 ? Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: BrandsGridView(
                       screenWidth: screenWidth,
                       brandsList: appState.brandsList,

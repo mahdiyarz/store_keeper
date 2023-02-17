@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:store_keeper/presentation/resources/color_manager.dart';
 
 class ShowModalBottomButton extends StatelessWidget {
   final Widget showModalChildWidget;
@@ -15,6 +16,7 @@ class ShowModalBottomButton extends StatelessWidget {
     showModalBottomSheet(
       isDismissible: false,
       isScrollControlled: true,
+      backgroundColor: ColorManager.primaryContainer,
       context: context,
       builder: (context) => SingleChildScrollView(
         child: Container(
@@ -32,8 +34,12 @@ class ShowModalBottomButton extends StatelessWidget {
       onPressed: () {
         _showModalBottomSheet(context);
       },
-      icon: Icon(buttonIcon),
-      label: Text(buttonTitle),
+      icon: Icon(
+        buttonIcon,
+      ),
+      label: Text(
+        buttonTitle,
+      ),
       style: ElevatedButton.styleFrom(
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
       ),

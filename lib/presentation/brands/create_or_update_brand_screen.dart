@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:store_keeper/presentation/resources/color_manager.dart';
 
 import '/bloc/bloc_exports.dart';
 import '/models/import_models.dart';
@@ -37,19 +38,19 @@ class CreateOrUpdateBrandScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             nameController.text.isEmpty
-                ? const Text(
+                ? Text(
                     'لطفا نام برند مورد نظر خود را وارد کنید و دکمه ثبت را بزنید...',
                     style: TextStyle(
                       fontSize: 15,
-                      color: Colors.black45,
+                      color: ColorManager.onSecondary,
                       fontWeight: FontWeight.w500,
                     ),
                   )
-                : const Text(
+                : Text(
                     'لطفا نام برند را ویرایش کنید و دکمه ثبت را بزنید...',
                     style: TextStyle(
                       fontSize: 15,
-                      color: Colors.black45,
+                      color: ColorManager.onSecondary,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -62,10 +63,11 @@ class CreateOrUpdateBrandScreen extends StatelessWidget {
               controller: nameController,
               keyboardType: TextInputType.name,
               decoration: const InputDecoration(
-                label: Text('نام برند'),
+                label: Text(
+                  'نام برند',
+                ),
                 border: OutlineInputBorder(),
                 hintText: 'به فارسی تایپ کنید...',
-                hintStyle: TextStyle(color: Colors.black26),
               ),
               validator: (value) {
                 if (value == null) 'نام برند را وارد نکردید!';
@@ -82,9 +84,10 @@ class CreateOrUpdateBrandScreen extends StatelessWidget {
                 keyboardType: TextInputType.name,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
-                  label: Text('Brand\'s Name'),
+                  label: Text(
+                    'Brand\'s Name',
+                  ),
                   hintText: 'Type in English...',
-                  hintStyle: TextStyle(color: Colors.black26),
                 ),
                 validator: (value) {
                   if (value == null) 'نام لاتین برند را وارد نکردید!';

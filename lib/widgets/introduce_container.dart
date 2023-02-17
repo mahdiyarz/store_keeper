@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../presentation/resources/import_resources.dart';
+
 class IntroduceContainer extends StatelessWidget {
   const IntroduceContainer({
     Key? key,
@@ -16,7 +18,7 @@ class IntroduceContainer extends StatelessWidget {
         horizontal: 20,
       ),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.primaryContainer,
+        color: ColorManager.primaryContainer,
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(8),
           topRight: Radius.circular(8),

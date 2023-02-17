@@ -25,7 +25,6 @@ class IncomingListScreen extends StatelessWidget {
       actionIcon: const CircleButton(
         iconNamedRoute: Routes.homeRoute,
         iconShape: Icons.arrow_forward,
-        iconColor: Colors.white,
       ),
       bodyButton: ShowModalBottomButton(
         buttonTitle: 'ثبت ورود به انبار',

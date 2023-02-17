@@ -22,7 +22,7 @@ class ControlPanel extends StatelessWidget {
               child: Text(
             'انبار جیبی',
             style: TextStyle(
-                color: Theme.of(context).colorScheme.onPrimaryContainer,
+                color: ColorManager.onPrimaryContainer,
                 fontSize: FontSize.s20,
                 fontWeight: FontWeight.bold,
                 shadows: [
@@ -36,7 +36,7 @@ class ControlPanel extends StatelessWidget {
               child: Text(
             'مدیریت انبارت، توی جیبته',
             style: TextStyle(
-              color: Theme.of(context).colorScheme.onPrimaryContainer,
+              color: ColorManager.onPrimaryContainer,
               fontSize: FontSize.s14,
             ),
           )),
@@ -51,7 +51,7 @@ class ControlPanel extends StatelessWidget {
               vertical: 20,
             ),
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.secondary,
+              color: ColorManager.secondary,
               borderRadius: const BorderRadius.all(
                 Radius.circular(25),
               ),
