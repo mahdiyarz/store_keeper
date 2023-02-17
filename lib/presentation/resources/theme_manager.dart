@@ -73,6 +73,16 @@ ThemeData getApplicationTheme() {
     //   buttonColor: ColorManager.secondary,
     // ),
 
+    //* Show modal bottom theme
+    bottomSheetTheme: BottomSheetThemeData(
+      backgroundColor: ColorManager.primaryContainer,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(30.0),
+        ),
+      ),
+    ),
+
     //* Elevated button theme
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(

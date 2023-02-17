@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:store_keeper/presentation/resources/color_manager.dart';
 
 class ShowModalBottomButton extends StatelessWidget {
   final Widget showModalChildWidget;
@@ -16,7 +15,9 @@ class ShowModalBottomButton extends StatelessWidget {
     showModalBottomSheet(
       isDismissible: false,
       isScrollControlled: true,
-      backgroundColor: ColorManager.primaryContainer,
+      constraints: BoxConstraints(
+        maxWidth: MediaQuery.of(context).size.width - 20,
+      ),
       context: context,
       builder: (context) => SingleChildScrollView(
         child: Container(
