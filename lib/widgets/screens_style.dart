@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:store_keeper/presentation/resources/color_manager.dart';
 
 class ScreensStyle extends StatelessWidget {
   final String title;
@@ -23,7 +24,7 @@ class ScreensStyle extends StatelessWidget {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor: ColorManager.background,
           body: SafeArea(
             child: Stack(
               children: [
@@ -40,16 +41,16 @@ class ScreensStyle extends StatelessWidget {
                           Text(
                             title,
                             style: TextStyle(
-                              fontSize: 27,
+                              fontSize: 20,
                               color: Colors.black.withOpacity(.6),
                               fontWeight: FontWeight.w700,
                             ),
                           ),
-                          SizedBox(height: width / 45),
+                          SizedBox(height: width / 100),
                           Text(
                             description,
                             style: TextStyle(
-                              fontSize: 19,
+                              fontSize: 16,
                               color: Colors.black.withOpacity(.5),
                               fontWeight: FontWeight.w500,
                             ),
