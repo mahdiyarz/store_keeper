@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../widgets/control_panel.dart';
-import '../../widgets/green_container.dart';
+import '../../widgets/introduce_container.dart';
 import '../resources/import_resources.dart';
 
 class Home extends StatelessWidget {
@@ -12,7 +12,6 @@ class Home extends StatelessWidget {
     final double width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor: ColorManager.background,
       body: SafeArea(
         child: Directionality(
           textDirection: TextDirection.rtl,
@@ -26,7 +25,7 @@ class Home extends StatelessWidget {
                       vertical: 5,
                       horizontal: 8,
                     ),
-                    child: GreenContainer(),
+                    child: IntroduceContainer(),
                   ),
                   ControlPanel(),
                 ],

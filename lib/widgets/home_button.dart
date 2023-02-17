@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../presentation/resources/import_resources.dart';
+import 'package:store_keeper/presentation/resources/font_manager.dart';
 
 class HomeButton extends StatelessWidget {
   const HomeButton({
@@ -23,17 +22,20 @@ class HomeButton extends StatelessWidget {
         width: width / 6,
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.primary,
           boxShadow: [
             BoxShadow(
-              color: ColorManager.lightGrey,
-              blurRadius: 20,
+              color: Theme.of(context).colorScheme.shadow,
+              blurRadius: 5,
+              spreadRadius: 0,
+              offset: const Offset(3, 3),
             ),
           ],
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [ColorManager.lightSecondary, ColorManager.secondary],
-          ),
+          // gradient: LinearGradient(
+          //   begin: Alignment.topLeft,
+          //   end: Alignment.bottomRight,
+          //   colors: [ColorManager.lightSecondary, ColorManager.secondary],
+          // ),
           borderRadius: const BorderRadius.all(
             Radius.circular(20),
           ),
@@ -43,10 +45,10 @@ class HomeButton extends StatelessWidget {
           children: [
             Expanded(
               child: CircleAvatar(
-                backgroundColor: ColorManager.darkPrimary,
+                backgroundColor: Theme.of(context).colorScheme.onPrimary,
                 child: Icon(
                   icon,
-                  color: ColorManager.white,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
               ),
             ),
@@ -54,7 +56,11 @@ class HomeButton extends StatelessWidget {
               fit: BoxFit.scaleDown,
               child: Text(
                 title,
-                style: Theme.of(context).textTheme.headline3,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onPrimary,
+                  fontSize: FontSize.s12,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ],

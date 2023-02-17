@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../presentation/resources/color_manager.dart';
-
-class GreenContainer extends StatelessWidget {
-  const GreenContainer({
+class IntroduceContainer extends StatelessWidget {
+  const IntroduceContainer({
     Key? key,
   }) : super(key: key);
 
@@ -18,7 +16,7 @@ class GreenContainer extends StatelessWidget {
         horizontal: 20,
       ),
       decoration: BoxDecoration(
-        color: ColorManager.darkPrimary,
+        color: Theme.of(context).colorScheme.primaryContainer,
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(8),
           topRight: Radius.circular(8),

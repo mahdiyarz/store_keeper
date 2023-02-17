@@ -21,12 +21,24 @@ class ControlPanel extends StatelessWidget {
           Center(
               child: Text(
             'انبار جیبی',
-            style: Theme.of(context).textTheme.headline1,
+            style: TextStyle(
+                color: Theme.of(context).colorScheme.onPrimaryContainer,
+                fontSize: FontSize.s20,
+                fontWeight: FontWeight.bold,
+                shadows: [
+                  Shadow(
+                    blurRadius: 65,
+                    color: Theme.of(context).colorScheme.shadow,
+                  )
+                ]),
           )),
           Center(
               child: Text(
             'مدیریت انبارت، توی جیبته',
-            style: Theme.of(context).textTheme.subtitle1,
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onPrimaryContainer,
+              fontSize: FontSize.s14,
+            ),
           )),
           const SizedBox(
             height: 35,
@@ -39,7 +51,7 @@ class ControlPanel extends StatelessWidget {
               vertical: 20,
             ),
             decoration: BoxDecoration(
-              color: ColorManager.white,
+              color: Theme.of(context).colorScheme.secondary,
               borderRadius: const BorderRadius.all(
                 Radius.circular(25),
               ),
