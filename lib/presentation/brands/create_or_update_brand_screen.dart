@@ -74,7 +74,7 @@ class CreateOrUpdateBrandScreen extends StatelessWidget {
                 return null;
               },
             ),
-            const SizedBox(height: 5),
+            const SizedBox(height: 8),
             Directionality(
               textDirection: TextDirection.ltr,
               child: TextFormField(
@@ -148,7 +148,8 @@ class CreateOrUpdateBrandScreen extends StatelessWidget {
                         latinNameController.clear();
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).errorColor,
+                        backgroundColor: ColorManager.error,
+                        foregroundColor: ColorManager.onError,
                       ),
                       child: const Text('حذف')),
               ],
