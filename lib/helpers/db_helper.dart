@@ -29,7 +29,7 @@ class DBHelper {
     const textType = 'TEXT NOT NULL';
     // const textTypeNull = 'TEXT';
     const intType = 'INTEGER NOT NULL';
-    // const intTypeNull = 'INTEGER';
+    const intTypeNull = 'INTEGER';
     // const boolType = 'BOOLEAN NOT NULL';
     // const boolTypeNull = 'BOOLEAN';
 
@@ -66,9 +66,11 @@ class DBHelper {
       CREATE TABLE $goodsTable(
         ${GoodsFields.goodId} $idType,
         ${GoodsFields.goodName} $textType,
+        ${GoodsFields.goodLatinName} $textType,
         ${GoodsFields.brandId} $intType,
         ${GoodsFields.numInBox}  $intType,
-        ${GoodsFields.barcode} $intType      
+        ${GoodsFields.barcode} $intTypeNull,      
+        ${GoodsFields.accountingCode} $intTypeNull,      
       )
      ''');
 
