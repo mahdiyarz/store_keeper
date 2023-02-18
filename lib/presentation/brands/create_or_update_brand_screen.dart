@@ -74,7 +74,7 @@ class CreateOrUpdateBrandScreen extends StatelessWidget {
                 return null;
               },
             ),
-            const SizedBox(height: 25),
+            const SizedBox(height: 5),
             Directionality(
               textDirection: TextDirection.ltr,
               child: TextFormField(

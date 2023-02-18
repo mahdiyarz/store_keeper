@@ -191,7 +191,7 @@ class _ControlPanelState extends State<ControlPanel>
         });
       },
       child: AnimatedContainer(
-        duration: const Duration(microseconds: 300),
+        duration: const Duration(microseconds: 50),
         curve: Curves.fastLinearToSlowEaseIn,
         width: width / 6,
         padding: const EdgeInsets.all(10),

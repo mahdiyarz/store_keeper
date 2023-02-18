@@ -105,10 +105,13 @@ ThemeData getApplicationTheme() {
         color: ColorManager.darkGrey,
         fontSize: FontSize.s16,
       ),
+
+      //! This is text form field text style
       subtitle1: getMediumStyle(
-        color: ColorManager.grey,
+        color: ColorManager.onSecondary,
         fontSize: FontSize.s16,
       ),
+
       subtitle2: getMediumStyle(
         color: ColorManager.lightGrey,
         fontSize: FontSize.s14,

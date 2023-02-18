@@ -12,6 +12,9 @@ class ShowDialogButton extends StatelessWidget {
     showModalBottomSheet(
       isDismissible: false,
       isScrollControlled: true,
+      constraints: BoxConstraints(
+        maxWidth: MediaQuery.of(context).size.width - 20,
+      ),
       context: context,
       builder: (context) => SingleChildScrollView(
         child: Container(
