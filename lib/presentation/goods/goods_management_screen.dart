@@ -62,10 +62,11 @@ class GoodsManagementScreen extends StatelessWidget {
                       goodsList: appState.goodsList,
                     ),
                   )
-                :
-                // TODO: Need more design for here
-                const Center(
-                    child: Text('هنوز هیچ کالایی ثبت نشده!'),
+                : Column(
+                    children: [
+                      Image.asset(ImageAssets.goodsScreen),
+                      const Text('هنوز هیچ کالایی ثبت نشده!'),
+                    ],
                   );
           }
           return Container(

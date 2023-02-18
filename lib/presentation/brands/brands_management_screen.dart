@@ -44,10 +44,11 @@ class BrandsManagementScreen extends StatelessWidget {
                       brandsList: appState.brandsList,
                     ),
                   )
-                :
-                // TODO: Need more design for here
-                const Center(
-                    child: Text('هنوز هیچ برندی ثبت نشده!'),
+                : Column(
+                    children: [
+                      Image.asset(ImageAssets.brandsScreen),
+                      const Text('هنوز هیچ برندی ثبت نشده!'),
+                    ],
                   );
           }
           return Container(
