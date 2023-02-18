@@ -70,7 +70,7 @@ class DBHelper {
         ${GoodsFields.brandId} $intType,
         ${GoodsFields.numInBox}  $intType,
         ${GoodsFields.barcode} $intTypeNull,      
-        ${GoodsFields.accountingCode} $intTypeNull,      
+        ${GoodsFields.accountingCode} $intTypeNull      
       )
      ''');
 
