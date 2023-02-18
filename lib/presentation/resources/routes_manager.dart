@@ -26,7 +26,7 @@ class RouteGenerator {
             builder: (context) => const BrandsManagementScreen());
       case Routes.goodsRoute:
         return MaterialPageRoute(
-          builder: (context) => const GoodsManagementScreen(),
+          builder: (context) => GoodsManagementScreen(),
         );
       case Routes.incomingGoodsManagementRoute:
         final args = routeSettings.arguments as IncomingGoodsManagementScreen;
