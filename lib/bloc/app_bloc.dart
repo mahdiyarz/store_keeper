@@ -14,6 +14,8 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   final List<BrandsModel> _brandsList = [];
   final List<IncomingListModel> _incomingList = [];
   final List<GoodsModel> _goodsList = [];
+  late String _failureMessage;
+  late String _successMessage;
 
   AppBloc() : super(const AppStateInitial()) {
     on<FetchEvent>(_onFetchEvent);
@@ -21,10 +23,13 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     on<EditBrand>(_onEditBrand);
     on<DeleteBrand>(_onDeleteBrand);
     on<AddIncomingList>(_onAddIncomingList);
+    on<AddGood>(_onAddGood);
   }
 
   void _onFetchEvent(FetchEvent event, Emitter<AppState> emit) async {
     log('start FetchEVENT on bloc');
+    _failureMessage = '';
+    _successMessage = '';
 
     _brandsList
       ..clear()
@@ -41,6 +46,8 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         brandsList: _brandsList,
         incomingList: _incomingList,
         goodsList: _goodsList,
+        failureMessage: _failureMessage,
+        successMessage: _successMessage,
       ),
     );
     log('End FetchEVENT on bloc');
@@ -48,6 +55,8 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
   void _onAddBrand(AddBrand event, Emitter<AppState> emit) async {
     log('run ADD Brand');
+    _failureMessage = '';
+    _successMessage = '';
 
     final BrandsModel brand = event.brand;
 
@@ -70,12 +79,16 @@ class AppBloc extends Bloc<AppEvent, AppState> {
           ..addAll(lastUpdatedBrands),
         incomingList: _incomingList,
         goodsList: _goodsList,
+        failureMessage: _failureMessage,
+        successMessage: _successMessage,
       ),
     );
   }
 
   void _onEditBrand(EditBrand event, Emitter<AppState> emit) async {
     log('run EDIT Brand');
+    _failureMessage = '';
+    _successMessage = '';
 
     final BrandsModel oldBrand = event.oldBrand;
     final BrandsModel editedBrand = event.newBrand;
@@ -98,12 +111,16 @@ class AppBloc extends Bloc<AppEvent, AppState> {
           ..insert(oldBrandIndex, editedBrand),
         incomingList: _incomingList,
         goodsList: _goodsList,
+        failureMessage: _failureMessage,
+        successMessage: _successMessage,
       ),
     );
   }
 
   void _onDeleteBrand(DeleteBrand event, Emitter<AppState> emit) async {
     log('run DELETE Brand');
+    _failureMessage = '';
+    _successMessage = '';
 
     final BrandsModel deletedBrand = event.brand;
 
@@ -117,22 +134,55 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         : false; //! false means we can delete this brand and it is not exist on goods list
 
     if (isExistBrandOnIncomingList == false && isExistBrandOnGoods == false) {
-      await DBHelper.instance.deleteBrands(
-        BrandsModel(
-          brandId: deletedBrand.brandId,
-          brandName: deletedBrand.brandName,
-          brandLatinName: deletedBrand.brandLatinName,
-        ),
-      );
-
+      try {
+        final response = await DBHelper.instance.deleteBrands(
+          BrandsModel(
+            brandId: deletedBrand.brandId,
+            brandName: deletedBrand.brandName,
+            brandLatinName: deletedBrand.brandLatinName,
+          ),
+        );
+        if (response == 0) {
+          _failureMessage = 'در فرآیند حذف مشکلی پیش آمده است';
+          emit(
+            DisplayAppState(
+              brandsList: _brandsList,
+              incomingList: _incomingList,
+              goodsList: _goodsList,
+              failureMessage: _failureMessage,
+              successMessage: _successMessage,
+            ),
+          );
+        } else {
+          _successMessage = 'با موفقیت حذف شد.';
+          emit(
+            DisplayAppState(
+              brandsList: _brandsList..remove(deletedBrand),
+              incomingList: _incomingList,
+              goodsList: _goodsList,
+              failureMessage: _failureMessage,
+              successMessage: _successMessage,
+            ),
+          );
+        }
+      } catch (e) {
+        log(e.toString(), time: DateTime.now());
+      }
+    } else {
+      _failureMessage = 'امکان حذف وجود ندارد.';
       emit(
         DisplayAppState(
-          brandsList: _brandsList..remove(deletedBrand),
+          brandsList: _brandsList,
           incomingList: _incomingList,
           goodsList: _goodsList,
+          failureMessage: _failureMessage,
+          successMessage: _successMessage,
         ),
       );
     }
+    log('message');
+    _failureMessage = '';
+    _successMessage = '';
   }
 
   void _onAddIncomingList(AddIncomingList event, Emitter<AppState> emit) async {
@@ -150,6 +200,55 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         brandsList: _brandsList,
         incomingList: _incomingList..insert(0, incomingListItem),
         goodsList: _goodsList,
+        failureMessage: _failureMessage,
+        successMessage: _successMessage,
+      ),
+    );
+  }
+
+  void _onAddGood(AddGood event, Emitter<AppState> emit) async {
+    log('run ADD good');
+
+    final GoodsModel good = event.good;
+
+    if (good.goodName.isNotEmpty &&
+        good.goodLatinName.isNotEmpty &&
+        good.numInBox.toString().isNotEmpty &&
+        good.brandId.toString().isNotEmpty) {
+      if (good.barcode.toString().isNotEmpty) {
+        await DBHelper.instance.insertGoods(
+          GoodsModel(
+            goodName: good.goodName,
+            goodLatinName: good.goodLatinName,
+            brandId: good.brandId,
+            numInBox: good.numInBox,
+            barcode: good.barcode,
+          ),
+        );
+      } else {
+        await DBHelper.instance.insertGoods(
+          GoodsModel(
+            goodName: good.goodName,
+            goodLatinName: good.goodLatinName,
+            brandId: good.brandId,
+            numInBox: good.numInBox,
+          ),
+        );
+      }
+    }
+
+    final List<GoodsModel> lastUpdatedGoods =
+        await DBHelper.instance.fetchGoodsData();
+
+    emit(
+      DisplayAppState(
+        brandsList: _brandsList,
+        incomingList: _incomingList,
+        goodsList: _goodsList
+          ..clear()
+          ..addAll(lastUpdatedGoods),
+        failureMessage: _failureMessage,
+        successMessage: _successMessage,
       ),
     );
   }

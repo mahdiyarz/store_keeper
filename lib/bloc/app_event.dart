@@ -95,3 +95,18 @@ class EditIncomingList extends AppEvent {
         newIncomingListItem,
       ];
 }
+
+//* Goods CRUD
+
+@immutable
+class AddGood extends AppEvent {
+  final GoodsModel good;
+  const AddGood({
+    required this.good,
+  });
+
+  @override
+  List<Object> get props => [
+        good,
+      ];
+}

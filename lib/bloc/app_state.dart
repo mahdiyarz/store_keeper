@@ -21,11 +21,15 @@ class DisplayAppState extends AppState {
   final List<BrandsModel> brandsList;
   final List<IncomingListModel> incomingList;
   final List<GoodsModel> goodsList;
+  final String failureMessage;
+  final String successMessage;
 
   const DisplayAppState({
     required this.brandsList,
     required this.incomingList,
     required this.goodsList,
+    required this.failureMessage,
+    required this.successMessage,
   });
 
   @override
@@ -33,5 +37,7 @@ class DisplayAppState extends AppState {
         brandsList,
         incomingList,
         goodsList,
+        failureMessage,
+        successMessage,
       ];
 }
