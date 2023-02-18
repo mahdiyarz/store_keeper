@@ -14,6 +14,8 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   final List<BrandsModel> _brandsList = [];
   final List<IncomingListModel> _incomingList = [];
   final List<GoodsModel> _goodsList = [];
+  final List<CountGoodsModel> _countGoodsList = [];
+  final List<LakingModel> _lakingList = [];
   late String _failureMessage;
   late String _successMessage;
 
@@ -24,6 +26,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     on<DeleteBrand>(_onDeleteBrand);
     on<AddIncomingList>(_onAddIncomingList);
     on<AddGood>(_onAddGood);
+    on<DeleteGood>(_onDeleteGood);
   }
 
   void _onFetchEvent(FetchEvent event, Emitter<AppState> emit) async {
@@ -40,12 +43,20 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     _goodsList
       ..clear()
       ..addAll(await DBHelper.instance.fetchGoodsData());
+    _countGoodsList
+      ..clear()
+      ..addAll(await DBHelper.instance.fetchCountGoodsData());
+    _lakingList
+      ..clear()
+      ..addAll(await DBHelper.instance.fetchLakingData());
 
     emit(
       DisplayAppState(
         brandsList: _brandsList,
         incomingList: _incomingList,
         goodsList: _goodsList,
+        countGoodsList: _countGoodsList,
+        lakingList: _lakingList,
         failureMessage: _failureMessage,
         successMessage: _successMessage,
       ),
@@ -79,6 +90,8 @@ class AppBloc extends Bloc<AppEvent, AppState> {
           ..addAll(lastUpdatedBrands),
         incomingList: _incomingList,
         goodsList: _goodsList,
+        countGoodsList: _countGoodsList,
+        lakingList: _lakingList,
         failureMessage: _failureMessage,
         successMessage: _successMessage,
       ),
@@ -102,19 +115,21 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         brandName: editedBrand.brandName,
         brandLatinName: editedBrand.brandLatinName,
       ));
-    }
 
-    emit(
-      DisplayAppState(
-        brandsList: _brandsList
-          ..remove(oldBrand)
-          ..insert(oldBrandIndex, editedBrand),
-        incomingList: _incomingList,
-        goodsList: _goodsList,
-        failureMessage: _failureMessage,
-        successMessage: _successMessage,
-      ),
-    );
+      emit(
+        DisplayAppState(
+          brandsList: _brandsList
+            ..remove(oldBrand)
+            ..insert(oldBrandIndex, editedBrand),
+          incomingList: _incomingList,
+          goodsList: _goodsList,
+          countGoodsList: _countGoodsList,
+          lakingList: _lakingList,
+          failureMessage: _failureMessage,
+          successMessage: _successMessage,
+        ),
+      );
+    }
   }
 
   void _onDeleteBrand(DeleteBrand event, Emitter<AppState> emit) async {
@@ -149,6 +164,8 @@ class AppBloc extends Bloc<AppEvent, AppState> {
               brandsList: _brandsList,
               incomingList: _incomingList,
               goodsList: _goodsList,
+              countGoodsList: _countGoodsList,
+              lakingList: _lakingList,
               failureMessage: _failureMessage,
               successMessage: _successMessage,
             ),
@@ -160,6 +177,8 @@ class AppBloc extends Bloc<AppEvent, AppState> {
               brandsList: _brandsList..remove(deletedBrand),
               incomingList: _incomingList,
               goodsList: _goodsList,
+              countGoodsList: _countGoodsList,
+              lakingList: _lakingList,
               failureMessage: _failureMessage,
               successMessage: _successMessage,
             ),
@@ -175,6 +194,8 @@ class AppBloc extends Bloc<AppEvent, AppState> {
           brandsList: _brandsList,
           incomingList: _incomingList,
           goodsList: _goodsList,
+          countGoodsList: _countGoodsList,
+          lakingList: _lakingList,
           failureMessage: _failureMessage,
           successMessage: _successMessage,
         ),
@@ -200,6 +221,8 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         brandsList: _brandsList,
         incomingList: _incomingList..insert(0, incomingListItem),
         goodsList: _goodsList,
+        countGoodsList: _countGoodsList,
+        lakingList: _lakingList,
         failureMessage: _failureMessage,
         successMessage: _successMessage,
       ),
@@ -247,9 +270,75 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         goodsList: _goodsList
           ..clear()
           ..addAll(lastUpdatedGoods),
+        countGoodsList: _countGoodsList,
+        lakingList: _lakingList,
         failureMessage: _failureMessage,
         successMessage: _successMessage,
       ),
     );
+  }
+
+  void _onDeleteGood(DeleteGood event, Emitter<AppState> emit) async {
+    log('run DELETE Good');
+
+    final GoodsModel deletedGood = event.deletedGood;
+
+    final bool isExistGoodOnCountGoods = _countGoodsList.isNotEmpty
+        ? _countGoodsList
+            .any((element) => element.goodsId == deletedGood.goodId)
+        : false; //! false means we can delete this brand and it is not exist on count goods list
+    if (isExistGoodOnCountGoods == false) {
+      await DBHelper.instance.deleteGoods(deletedGood);
+      emit(
+        DisplayAppState(
+            brandsList: _brandsList,
+            incomingList: _incomingList,
+            goodsList: _goodsList..remove(deletedGood),
+            countGoodsList: _countGoodsList,
+            lakingList: _lakingList,
+            failureMessage: _failureMessage,
+            successMessage: _successMessage),
+      );
+    }
+  }
+
+  void _onEditGood(EditGood event, Emitter<AppState> emit) async {
+    log('run Edit good');
+
+    final GoodsModel oldGood = event.oldGood;
+    final GoodsModel editedGood = event.newGood;
+
+    final int oldGoodIndex = _goodsList.indexOf(oldGood);
+
+    if (editedGood.goodName.isNotEmpty &&
+        editedGood.goodLatinName.isNotEmpty &&
+        editedGood.brandId.toString().isNotEmpty &&
+        editedGood.numInBox.toString().isNotEmpty) {
+      await DBHelper.instance.updateGoods(
+        GoodsModel(
+          goodId: oldGood.goodId,
+          goodName: editedGood.goodName,
+          goodLatinName: editedGood.goodLatinName,
+          brandId: editedGood.brandId,
+          numInBox: editedGood.numInBox,
+          barcode: editedGood.barcode,
+          accountingCode: editedGood.accountingCode,
+        ),
+      );
+
+      emit(
+        DisplayAppState(
+          brandsList: _brandsList,
+          incomingList: _incomingList,
+          goodsList: _goodsList
+            ..remove(oldGood)
+            ..insert(oldGoodIndex, editedGood),
+          countGoodsList: _countGoodsList,
+          lakingList: _lakingList,
+          failureMessage: _failureMessage,
+          successMessage: _successMessage,
+        ),
+      );
+    }
   }
 }
