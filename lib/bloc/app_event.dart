@@ -124,16 +124,16 @@ class DeleteGood extends AppEvent {
 }
 
 class EditGood extends AppEvent {
-  final GoodsModel oldGood;
-  final GoodsModel newGood;
+  final int oldGoodId;
+  final GoodsModel editedGood;
   const EditGood({
-    required this.oldGood,
-    required this.newGood,
+    required this.oldGoodId,
+    required this.editedGood,
   });
 
   @override
   List<Object> get props => [
-        oldGood,
-        newGood,
+        oldGoodId,
+        editedGood,
       ];
 }

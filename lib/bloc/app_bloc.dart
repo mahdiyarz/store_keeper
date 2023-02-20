@@ -27,6 +27,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     on<AddIncomingList>(_onAddIncomingList);
     on<AddGood>(_onAddGood);
     on<DeleteGood>(_onDeleteGood);
+    on<EditGood>(_onEditGood);
   }
 
   void _onFetchEvent(FetchEvent event, Emitter<AppState> emit) async {
@@ -305,8 +306,11 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   void _onEditGood(EditGood event, Emitter<AppState> emit) async {
     log('run Edit good');
 
-    final GoodsModel oldGood = event.oldGood;
-    final GoodsModel editedGood = event.newGood;
+    final int goodId = event.oldGoodId;
+    final GoodsModel oldGood =
+        _goodsList.firstWhere((element) => element.goodId == goodId);
+
+    final GoodsModel editedGood = event.editedGood;
 
     final int oldGoodIndex = _goodsList.indexOf(oldGood);
 
@@ -316,7 +320,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         editedGood.numInBox.toString().isNotEmpty) {
       await DBHelper.instance.updateGoods(
         GoodsModel(
-          goodId: oldGood.goodId,
+          goodId: goodId,
           goodName: editedGood.goodName,
           goodLatinName: editedGood.goodLatinName,
           brandId: editedGood.brandId,
