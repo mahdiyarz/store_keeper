@@ -95,6 +95,20 @@ ThemeData getApplicationTheme() {
       ),
     ),
 
+    //* SnackBar show theme
+    snackBarTheme: SnackBarThemeData(
+      backgroundColor: ColorManager.secondary,
+      contentTextStyle: TextStyle(
+        color: ColorManager.onSecondary,
+        fontFamily: FontConstants.fontFamily,
+        fontWeight: FontWeight.bold,
+      ),
+      elevation: 5,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppSize.s14),
+      ),
+    ),
+
     //* Text theme
     textTheme: TextTheme(
       headline1: getBoldStyle(
