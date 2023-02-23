@@ -11,28 +11,33 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
 
-    return Scaffold(
-      body: SafeArea(
-        child: Directionality(
-          textDirection: TextDirection.rtl,
-          child: Stack(
-            children: [
-              const Padding(
-                padding: EdgeInsets.symmetric(
-                  vertical: 5,
-                  horizontal: 8,
+    return WillPopScope(
+      onWillPop: () async {
+        return false;
+      },
+      child: Scaffold(
+        body: SafeArea(
+          child: Directionality(
+            textDirection: TextDirection.rtl,
+            child: Stack(
+              children: [
+                const Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 5,
+                    horizontal: 8,
+                  ),
+                  child: IntroduceContainer(),
                 ),
-                child: IntroduceContainer(),
-              ),
-              Positioned(
-                bottom: 25,
-                child: SizedBox(
-                    width: width,
-                    height: width,
-                    child: Image.asset(ImageAssets.homeScreen)),
-              ),
-              const ControlPanel(),
-            ],
+                Positioned(
+                  bottom: 25,
+                  child: SizedBox(
+                      width: width,
+                      height: width,
+                      child: Image.asset(ImageAssets.homeScreen)),
+                ),
+                const ControlPanel(),
+              ],
+            ),
           ),
         ),
       ),
