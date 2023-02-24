@@ -10,18 +10,9 @@ import '../../widgets/show_modal_bottom_button.dart';
 import 'create_or_update_good_screen.dart';
 
 class GoodsManagementScreen extends StatelessWidget {
-  GoodsManagementScreen({
+  const GoodsManagementScreen({
     Key? key,
   }) : super(key: key);
-
-  final TextEditingController goodNameController = TextEditingController();
-  final TextEditingController goodLatinNameController = TextEditingController();
-  final TextEditingController numberInBoxController = TextEditingController();
-  final TextEditingController barcodeController = TextEditingController();
-  final TextEditingController brandNameController = TextEditingController();
-  final TextEditingController brandIdController = TextEditingController();
-  final TextEditingController accountingCodeController =
-      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -34,17 +25,12 @@ class GoodsManagementScreen extends StatelessWidget {
         iconNamedRoute: Routes.homeRoute,
         iconShape: Icons.arrow_forward,
       ),
-      bodyButton: ShowModalBottomButton(
+      bodyButton: const ShowModalBottomButton(
         buttonTitle: 'ایجاد کالای جدید',
         buttonIcon: Icons.playlist_add_circle_rounded,
         showModalChildWidget: CreateOrUpdateGoodScreen(
-          goodNameController: goodNameController,
-          goodLatinNameController: goodLatinNameController,
-          numberInBoxController: numberInBoxController,
-          brandIdController: brandIdController,
-          brandNameController: brandNameController,
-          barcodeController: barcodeController,
-          accountingCodeController: accountingCodeController,
+          oldGood: null,
+          brandsList: null,
         ),
       ),
       body: BlocBuilder<AppBloc, AppState>(
@@ -65,7 +51,7 @@ class GoodsManagementScreen extends StatelessWidget {
                 : Column(
                     children: [
                       Image.asset(ImageAssets.goodsScreen),
-                      const Text('هنوز هیچ کالایی ثبت نشده!'),
+                      const Text('چرا هنوز کالایی نیست اینجا؟'),
                     ],
                   );
           }

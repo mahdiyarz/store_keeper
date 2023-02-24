@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:store_keeper/presentation/goods/create_or_update_good_screen.dart';
 
 import '../models/import_models.dart';
 import '../presentation/resources/import_resources.dart';
@@ -14,6 +15,27 @@ class GoodsListView extends StatelessWidget {
     required this.goodsList,
   }) : super(key: key);
 
+  void _showModalBottomSheet({
+    required BuildContext context,
+    required GoodsModel oldGood,
+  }) {
+    showModalBottomSheet(
+      isDismissible: false,
+      isScrollControlled: true,
+      context: context,
+      builder: (context) => SingleChildScrollView(
+        child: Container(
+          padding:
+              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          child: CreateOrUpdateGoodScreen(
+            oldGood: oldGood,
+            brandsList: brandsList,
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -25,7 +47,6 @@ class GoodsListView extends StatelessWidget {
             element.brandId ==
             goodsList[index]
                 .brandId); //*This method find the brand of each incoming item
-
         return Container(
           padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 5),
           margin: const EdgeInsets.fromLTRB(8, 0, 8, 0),
@@ -51,25 +72,10 @@ class GoodsListView extends StatelessWidget {
             ),
             child: InkWell(
               onTap: () {
-                // Navigator.of(context).pushReplacementNamed(
-                //   Routes.incomingGoodsManagementRoute,
-                //   arguments: IncomingGoodsManagementScreen(
-                //     title: incomingItemsBrand.brandName,
-                //     boxNumber: incomingList[index].numOfBoxes,
-                //     dateTime: incomingList[index].incomingListDate,
-                //   ),
-                // );
-                // Navigator.of(context).pushNamed(
-                //   '/arrival-goods-manage',
-                //   arguments: IncomingGoodsManagementScreen(
-                //     title: arrivalGoodsBrand.brandName,
-                //     boxNumber: value
-                //         .arrivalGoodsItems[index]
-                //         .numOfBoxes,
-                //     dateTime: value.arrivalGoodsItems[index]
-                //         .arrivalGoodsDate,
-                //   ),
-                // );
+                _showModalBottomSheet(
+                  context: context,
+                  oldGood: goodsList[index],
+                );
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
