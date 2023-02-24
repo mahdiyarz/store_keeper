@@ -59,28 +59,57 @@ class _ControlPanelState extends State<ControlPanel>
           SizedBox(
             height: width * .2,
           ),
-          Center(
-              child: Text(
-            'انبار جیبی',
-            style: TextStyle(
-                color: ColorManager.onPrimaryContainer,
-                fontSize: FontSize.s20,
-                fontWeight: FontWeight.bold,
-                shadows: [
-                  Shadow(
-                    blurRadius: 65,
-                    color: Theme.of(context).colorScheme.shadow,
-                  )
-                ]),
-          )),
-          Center(
-              child: Text(
-            'مدیریت انبارت، توی جیبته',
-            style: TextStyle(
-              color: ColorManager.onPrimaryContainer,
-              fontSize: FontSize.s14,
-            ),
-          )),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              CircleAvatar(
+                backgroundColor: ColorManager.secondary,
+                child: IconButton(
+                    onPressed: () {
+                      SystemNavigator.pop();
+                    },
+                    icon: Icon(
+                      Icons.close,
+                      color: ColorManager.primary,
+                    )),
+              ),
+              Column(
+                children: [
+                  Center(
+                      child: Text(
+                    'انبار جیبی',
+                    style: TextStyle(
+                        color: ColorManager.onPrimaryContainer,
+                        fontSize: FontSize.s20,
+                        fontWeight: FontWeight.bold,
+                        shadows: [
+                          Shadow(
+                            blurRadius: 65,
+                            color: Theme.of(context).colorScheme.shadow,
+                          )
+                        ]),
+                  )),
+                  Center(
+                      child: Text(
+                    'مدیریت انبارت، توی جیبته',
+                    style: TextStyle(
+                      color: ColorManager.onPrimaryContainer,
+                      fontSize: FontSize.s14,
+                    ),
+                  )),
+                ],
+              ),
+              CircleAvatar(
+                backgroundColor: ColorManager.secondary,
+                child: IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.menu_open_rounded,
+                      color: ColorManager.primary,
+                    )),
+              ),
+            ],
+          ),
           const SizedBox(
             height: 35,
           ),
@@ -111,7 +140,7 @@ class _ControlPanelState extends State<ControlPanel>
                 const HomeButton(
                   title: 'انبار گردانی',
                   icon: Icons.app_registration_rounded,
-                  routeName: Routes.homeRoute,
+                  routeName: '',
                 ),
                 const SizedBox(
                   width: 5,
@@ -119,7 +148,7 @@ class _ControlPanelState extends State<ControlPanel>
                 const HomeButton(
                   title: 'بروزرسانی',
                   icon: Icons.refresh_rounded,
-                  routeName: Routes.homeRoute,
+                  routeName: '',
                 ),
                 const SizedBox(
                   width: 5,
