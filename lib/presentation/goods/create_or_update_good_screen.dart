@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 
 import 'package:store_keeper/bloc/bloc_exports.dart';
@@ -37,7 +35,6 @@ class _CreateOrUpdateGoodScreenState extends State<CreateOrUpdateGoodScreen> {
   @override
   Widget build(BuildContext context) {
     if (widget.oldGood != null) {
-      log(widget.oldGood!.goodId.toString());
       goodNameController.text = widget.oldGood!.goodName;
       goodLatinNameController.text = widget.oldGood!.goodLatinName;
       numberInBoxController.text = widget.oldGood!.numInBox.toString();
@@ -192,47 +189,45 @@ class _CreateOrUpdateGoodScreenState extends State<CreateOrUpdateGoodScreen> {
                   const SizedBox(
                     height: 8,
                   ),
-                  Container(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: TextFormField(
-                            controller: brandNameController,
-                            readOnly: true,
-                            decoration: InputDecoration(
-                              errorStyle: TextStyle(
-                                color: ColorManager.error.withOpacity(.7),
-                                fontWeight: FontWeight.bold,
-                                shadows: [
-                                  Shadow(
-                                    offset: const Offset(0, 0),
-                                    color: ColorManager.onError,
-                                    blurRadius: 30,
-                                  )
-                                ],
-                              ),
-                              hintText: 'هنوز برند انتخاب نکردی...',
-                              border: const OutlineInputBorder(),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          controller: brandNameController,
+                          readOnly: true,
+                          decoration: InputDecoration(
+                            errorStyle: TextStyle(
+                              color: ColorManager.error.withOpacity(.7),
+                              fontWeight: FontWeight.bold,
+                              shadows: [
+                                Shadow(
+                                  offset: const Offset(0, 0),
+                                  color: ColorManager.onError,
+                                  blurRadius: 30,
+                                )
+                              ],
                             ),
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'اصل کار همین برندشه، با دقت انتخاب کن...';
-                              }
-                              return null;
-                            },
+                            hintText: 'هنوز برند انتخاب نکردی...',
+                            border: const OutlineInputBorder(),
                           ),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'اصل کار همین برندشه، با دقت انتخاب کن...';
+                            }
+                            return null;
+                          },
                         ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        SelectingBrand(
-                          goodState: goodState,
-                          brandNameController: brandNameController,
-                          brandIdController: brandIdController,
-                        ),
-                      ],
-                    ),
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      SelectingBrand(
+                        goodState: goodState,
+                        brandNameController: brandNameController,
+                        brandIdController: brandIdController,
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 25),
                   Row(
@@ -263,32 +258,25 @@ class _CreateOrUpdateGoodScreenState extends State<CreateOrUpdateGoodScreen> {
                                   ),
                                 );
                                 widget.oldGood != null
-                                    ? [
-                                        log(widget.oldGood!.goodId.toString()),
-                                        context.read<AppBloc>().add(
-                                              EditGood(
-                                                oldGoodId:
-                                                    widget.oldGood!.goodId!,
-                                                editedGood: GoodsModel(
-                                                  goodName:
-                                                      goodNameController.text,
-                                                  goodLatinName:
-                                                      goodLatinNameController
-                                                          .text,
-                                                  brandId: int.parse(
-                                                      brandIdController.text),
-                                                  numInBox: int.parse(
-                                                      numberInBoxController
-                                                          .text),
-                                                  barcode: int.tryParse(
-                                                      barcodeController.text),
-                                                  accountingCode: int.tryParse(
-                                                      accountingCodeController
-                                                          .text),
-                                                ),
-                                              ),
+                                    ? context.read<AppBloc>().add(
+                                          EditGood(
+                                            oldGoodId: widget.oldGood!.goodId!,
+                                            editedGood: GoodsModel(
+                                              goodName: goodNameController.text,
+                                              goodLatinName:
+                                                  goodLatinNameController.text,
+                                              brandId: int.parse(
+                                                  brandIdController.text),
+                                              numInBox: int.parse(
+                                                  numberInBoxController.text),
+                                              barcode: int.tryParse(
+                                                  barcodeController.text),
+                                              accountingCode: int.tryParse(
+                                                  accountingCodeController
+                                                      .text),
                                             ),
-                                      ]
+                                          ),
+                                        )
                                     : context.read<AppBloc>().add(
                                           AddGood(
                                             good: GoodsModel(
@@ -308,13 +296,7 @@ class _CreateOrUpdateGoodScreenState extends State<CreateOrUpdateGoodScreen> {
                                           ),
                                         );
                                 Navigator.of(context).pop();
-                                goodNameController.clear();
-                                goodLatinNameController.clear();
-                                numberInBoxController.clear();
-                                brandNameController.clear();
-                                brandIdController.clear();
-                                barcodeController.clear();
-                                accountingCodeController.clear();
+                                clearTextControllers();
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(snackBar);
                               }
@@ -330,6 +312,33 @@ class _CreateOrUpdateGoodScreenState extends State<CreateOrUpdateGoodScreen> {
                         },
                         child: const Text('انصراف'),
                       ),
+                      if (widget.oldGood != null) const SizedBox(width: 5),
+                      if (widget.oldGood != null)
+                        ElevatedButton(
+                          onPressed: () {
+                            context.read<AppBloc>().add(
+                                  DeleteGood(deletedGood: widget.oldGood!),
+                                );
+                            Navigator.of(context).pop();
+                            clearTextControllers();
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
+                              dismissDirection: DismissDirection.up,
+                              content: Text(
+                                'این کالا از لیستت حذف شد',
+                                textAlign: TextAlign.center,
+                              ),
+                              duration: Duration(
+                                seconds: 2,
+                              ),
+                            ));
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: ColorManager.error,
+                            foregroundColor: ColorManager.onError,
+                          ),
+                          child: const Text('حذف'),
+                        ),
                     ],
                   ),
                 ],
@@ -340,5 +349,15 @@ class _CreateOrUpdateGoodScreenState extends State<CreateOrUpdateGoodScreen> {
       }
       return const Text('data');
     });
+  }
+
+  void clearTextControllers() {
+    goodNameController.clear();
+    goodLatinNameController.clear();
+    numberInBoxController.clear();
+    brandNameController.clear();
+    brandIdController.clear();
+    barcodeController.clear();
+    accountingCodeController.clear();
   }
 }
