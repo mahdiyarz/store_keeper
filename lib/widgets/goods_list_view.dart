@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:persian/persian.dart';
 import 'package:store_keeper/presentation/goods/create_or_update_good_screen.dart';
 
 import '../models/import_models.dart';
@@ -33,6 +34,231 @@ class GoodsListView extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Future<dynamic> _showGoodsDialog(
+    BuildContext context,
+    double width,
+    GoodsModel goodsModel,
+    BrandsModel brandName,
+  ) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return Directionality(
+          textDirection: TextDirection.rtl,
+          child: SimpleDialog(
+            elevation: 5,
+            backgroundColor: ColorManager.background.withOpacity(.8),
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                width: width,
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            height: width * .3,
+                            width: width * .3,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(25),
+                              color: ColorManager.primaryContainer,
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  child: Text(
+                                    brandName.brandName,
+                                    style: TextStyle(
+                                      color: ColorManager.onPrimaryContainer,
+                                    ),
+                                  ),
+                                ),
+                                FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  child: Text(
+                                    brandName.brandLatinName,
+                                    style: TextStyle(
+                                      color: ColorManager.onPrimaryContainer
+                                          .withOpacity(.6),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            child: Container(
+                              margin: const EdgeInsets.only(right: 5),
+                              height: width * .3,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25),
+                                color: ColorManager.error,
+                              ),
+                              child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.contact_support_rounded,
+                                      color: ColorManager.onError,
+                                      size: 45,
+                                    ),
+                                    FittedBox(
+                                      fit: BoxFit.scaleDown,
+                                      child: Text(
+                                        'با جعبه های ${goodsModel.numInBox.toString().withPersianNumbers()}تایی',
+                                        style: TextStyle(
+                                          color: ColorManager.onError,
+                                        ),
+                                      ),
+                                    ),
+                                  ]),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        margin: const EdgeInsets.symmetric(vertical: 5),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 3,
+                          horizontal: 8,
+                        ),
+                        height: width * .2,
+                        width: width,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(25),
+                          color: ColorManager.secondary,
+                        ),
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(
+                                  goodsModel.goodName,
+                                  style: TextStyle(
+                                    color: ColorManager.onPrimaryContainer,
+                                  ),
+                                ),
+                              ),
+                              FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(
+                                  goodsModel.goodLatinName,
+                                  style: TextStyle(
+                                    color: ColorManager.onPrimaryContainer
+                                        .withOpacity(.6),
+                                  ),
+                                ),
+                              ),
+                            ]),
+                      ),
+                      Row(
+                        children: [
+                          CircleAvatar(
+                            backgroundColor: ColorManager.primaryContainer,
+                            foregroundColor: ColorManager.primary,
+                            child: const Icon(Icons.qr_code_2_rounded),
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Expanded(
+                            child: goodsModel.barcode != null
+                                ? Text(
+                                    goodsModel.barcode.toString(),
+                                    style: TextStyle(
+                                      color: ColorManager.onBackground,
+                                    ),
+                                  )
+                                : Text(
+                                    'بارکد برای این کالا ثبت نشده',
+                                    style: TextStyle(
+                                      color: ColorManager.onBackground,
+                                    ),
+                                  ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        children: [
+                          CircleAvatar(
+                            backgroundColor: ColorManager.primaryContainer,
+                            foregroundColor: ColorManager.primary,
+                            child: const Icon(Icons.account_tree_rounded),
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Expanded(
+                            child: goodsModel.accountingCode != null
+                                ? Text(
+                                    goodsModel.accountingCode
+                                        .toString()
+                                        .withPersianNumbers(),
+                                    style: TextStyle(
+                                      color: ColorManager.onBackground,
+                                    ),
+                                  )
+                                : Text(
+                                    'کد سیستم مالی ثبت نشده',
+                                    style: TextStyle(
+                                      color: ColorManager.onBackground,
+                                    ),
+                                  ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 25,
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: ElevatedButton.icon(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                _showModalBottomSheet(
+                                    context: context, oldGood: goodsModel);
+                              },
+                              icon: const Icon(Icons.save_as_rounded),
+                              label: const Text('میخوام ویرایشش کنم'),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          CircleAvatar(
+                            backgroundColor:
+                                ColorManager.primary.withOpacity(.7),
+                            child: IconButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                icon: Icon(
+                                  Icons.arrow_forward,
+                                  color: ColorManager.onPrimary.withOpacity(.7),
+                                )),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -71,12 +297,16 @@ class GoodsListView extends StatelessWidget {
               topRight: Radius.circular(20),
             ),
             child: InkWell(
-              onTap: () {
-                _showModalBottomSheet(
-                  context: context,
-                  oldGood: goodsList[index],
-                );
-              },
+              onDoubleTap: () => _showModalBottomSheet(
+                context: context,
+                oldGood: goodsList[index],
+              ),
+              onTap: () => _showGoodsDialog(
+                context,
+                width,
+                goodsList[index],
+                thisGoodBrand,
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -122,7 +352,7 @@ class GoodsListView extends StatelessWidget {
                           FittedBox(
                             fit: BoxFit.scaleDown,
                             child: Text(
-                              'تعداد در هر جعبه: ${goodsList[index].numInBox}',
+                              'تعداد در هر جعبه: ${goodsList[index].numInBox.toString().withPersianNumbers()}',
                               style: TextStyle(
                                 color: ColorManager.onPrimaryContainer
                                     .withOpacity(.7),
