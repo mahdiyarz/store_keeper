@@ -26,6 +26,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     on<DeleteBrand>(_onDeleteBrand);
     on<AddIncomingList>(_onAddIncomingList);
     on<EditIncomingList>(_onEditIncomingList);
+    on<DeleteIncomingList>(_onDeleteIncomingList);
     on<AddGood>(_onAddGood);
     on<DeleteGood>(_onDeleteGood);
     on<EditGood>(_onEditGood);
@@ -394,6 +395,47 @@ class AppBloc extends Bloc<AppEvent, AppState> {
                 incomingListDate: editedIncomingList.incomingListDate,
               ),
             ),
+          goodsList: _goodsList,
+          countGoodsList: _countGoodsList,
+          lakingList: _lakingList,
+          failureMessage: _failureMessage,
+          successMessage: _successMessage,
+        ),
+      );
+    }
+  }
+
+  void _onDeleteIncomingList(
+      DeleteIncomingList event, Emitter<AppState> emit) async {
+    final IncomingListModel deletedIncomeItem = event.deleteIncomingListItem;
+
+    final bool isExistIncomingListOnCountGoods = _countGoodsList.isNotEmpty
+        ? _countGoodsList.any((element) =>
+            element.incomingListId == deletedIncomeItem.incomingListId)
+        : false; //! false means it is not exist on count goods list
+
+    if (isExistIncomingListOnCountGoods == true) {
+      await DBHelper.instance.deleteCountGoodsOfIncomingList(deletedIncomeItem);
+      await DBHelper.instance.deleteIncomingList(deletedIncomeItem);
+      emit(
+        DisplayAppState(
+          brandsList: _brandsList,
+          incomingList: _incomingList..remove(deletedIncomeItem),
+          goodsList: _goodsList,
+          countGoodsList: _countGoodsList
+            ..removeWhere((element) =>
+                element.incomingListId == deletedIncomeItem.incomingListId),
+          lakingList: _lakingList,
+          failureMessage: _failureMessage,
+          successMessage: _successMessage,
+        ),
+      );
+    } else {
+      await DBHelper.instance.deleteIncomingList(deletedIncomeItem);
+      emit(
+        DisplayAppState(
+          brandsList: _brandsList,
+          incomingList: _incomingList..remove(deletedIncomeItem),
           goodsList: _goodsList,
           countGoodsList: _countGoodsList,
           lakingList: _lakingList,

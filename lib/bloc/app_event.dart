@@ -137,3 +137,18 @@ class EditGood extends AppEvent {
         editedGood,
       ];
 }
+
+//* Count Goods CRUD
+
+@immutable
+class AddCountGood extends AppEvent {
+  final CountGoodsModel countedGood;
+  const AddCountGood({
+    required this.countedGood,
+  });
+
+  @override
+  List<Object> get props => [
+        countedGood,
+      ];
+}
