@@ -82,16 +82,16 @@ class DeleteIncomingList extends AppEvent {
 
 @immutable
 class EditIncomingList extends AppEvent {
-  final IncomingListModel oldIncomingListItem;
+  final int oldIncomingListId;
   final IncomingListModel newIncomingListItem;
   const EditIncomingList({
-    required this.oldIncomingListItem,
+    required this.oldIncomingListId,
     required this.newIncomingListItem,
   });
 
   @override
   List<Object> get props => [
-        oldIncomingListItem,
+        oldIncomingListId,
         newIncomingListItem,
       ];
 }

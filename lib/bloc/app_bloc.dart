@@ -25,6 +25,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     on<EditBrand>(_onEditBrand);
     on<DeleteBrand>(_onDeleteBrand);
     on<AddIncomingList>(_onAddIncomingList);
+    on<EditIncomingList>(_onEditIncomingList);
     on<AddGood>(_onAddGood);
     on<DeleteGood>(_onDeleteGood);
     on<EditGood>(_onEditGood);
@@ -348,6 +349,52 @@ class AppBloc extends Bloc<AppEvent, AppState> {
                 barcode: editedGood.barcode,
               ),
             ),
+          countGoodsList: _countGoodsList,
+          lakingList: _lakingList,
+          failureMessage: _failureMessage,
+          successMessage: _successMessage,
+        ),
+      );
+    }
+  }
+
+  void _onEditIncomingList(
+      EditIncomingList event, Emitter<AppState> emit) async {
+    final int incomeId = event.oldIncomingListId;
+    final IncomingListModel oldIncomingList = _incomingList
+        .firstWhere((element) => element.incomingListId == incomeId);
+
+    final IncomingListModel editedIncomingList = event.newIncomingListItem;
+
+    final int oldIncomeIndex = _incomingList.indexOf(oldIncomingList);
+
+    if (editedIncomingList.numOfBoxes.toString().isNotEmpty &&
+        editedIncomingList.brandId.toString().isNotEmpty &&
+        editedIncomingList.incomingListDate.toString().isNotEmpty) {
+      await DBHelper.instance.updateIncomingList(
+        IncomingListModel(
+          incomingListId: incomeId,
+          brandId: editedIncomingList.brandId,
+          numOfBoxes: editedIncomingList.numOfBoxes,
+          incomingListDate: editedIncomingList.incomingListDate,
+        ),
+      );
+
+      emit(
+        DisplayAppState(
+          brandsList: _brandsList,
+          incomingList: _incomingList
+            ..remove(oldIncomingList)
+            ..insert(
+              oldIncomeIndex,
+              IncomingListModel(
+                incomingListId: incomeId,
+                brandId: editedIncomingList.brandId,
+                numOfBoxes: editedIncomingList.numOfBoxes,
+                incomingListDate: editedIncomingList.incomingListDate,
+              ),
+            ),
+          goodsList: _goodsList,
           countGoodsList: _countGoodsList,
           lakingList: _lakingList,
           failureMessage: _failureMessage,
