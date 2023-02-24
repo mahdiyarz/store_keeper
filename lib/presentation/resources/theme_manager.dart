@@ -75,7 +75,7 @@ ThemeData getApplicationTheme() {
 
     //* Show modal bottom theme
     bottomSheetTheme: BottomSheetThemeData(
-      backgroundColor: ColorManager.primaryContainer,
+      backgroundColor: ColorManager.secondary,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
           Radius.circular(30.0),
@@ -97,9 +97,9 @@ ThemeData getApplicationTheme() {
 
     //* SnackBar show theme
     snackBarTheme: SnackBarThemeData(
-      backgroundColor: ColorManager.secondary,
+      backgroundColor: ColorManager.primary,
       contentTextStyle: TextStyle(
-        color: ColorManager.onSecondary,
+        color: ColorManager.onPrimary,
         fontFamily: FontConstants.fontFamily,
         fontWeight: FontWeight.bold,
       ),
@@ -156,7 +156,7 @@ ThemeData getApplicationTheme() {
       errorStyle: getRegularStyle(color: ColorManager.onError),
       enabledBorder: OutlineInputBorder(
         borderSide: BorderSide(
-          color: ColorManager.secondary,
+          color: ColorManager.primaryContainer,
           width: AppSize.s1,
         ),
         borderRadius: const BorderRadius.all(Radius.circular(AppSize.s8)),

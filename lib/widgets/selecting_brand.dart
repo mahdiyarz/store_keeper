@@ -31,7 +31,7 @@ class SelectingBrand extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
         ),
         elevation: 0,
-        backgroundColor: ColorManager.secondary,
+        backgroundColor: ColorManager.primaryContainer,
       ),
       onPressed: () {
         showBrandsDialog(context, goodState, width).then((returnValue) {
@@ -49,7 +49,7 @@ class SelectingBrand extends StatelessWidget {
       child: Text(
         'کدوم برند؟',
         style: TextStyle(
-          color: ColorManager.onSecondary,
+          color: ColorManager.onPrimaryContainer,
         ),
       ),
     );
