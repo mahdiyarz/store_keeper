@@ -53,8 +53,8 @@ class DBHelper {
     await db.execute('''
       CREATE TABLE $countGoodsTable(
         ${CountGoodsFields.countGoodsId} $idType,
-        ${CountGoodsFields.numOfBox} $intType,
-        ${CountGoodsFields.numOfSeed} $intType,
+        ${CountGoodsFields.numOfBox} $intTypeNull,
+        ${CountGoodsFields.numOfSeed} $intTypeNull,
         ${CountGoodsFields.price}  $intTypeNull, 
         ${CountGoodsFields.goodsId} $intType,
         ${CountGoodsFields.incomingListId} $intTypeNull,
@@ -223,6 +223,16 @@ class DBHelper {
       countGoodsTable,
       where: '${CountGoodsFields.countGoodsId} = ?',
       whereArgs: [countGoodsModel.countGoodsId],
+    );
+  }
+
+  Future<int> deleteCountGoodsOfIncomingList(
+      IncomingListModel incomingListModel) async {
+    final db = await instance.database;
+    return db.delete(
+      countGoodsTable,
+      where: '${CountGoodsFields.incomingListId} = ?',
+      whereArgs: [incomingListModel.incomingListId],
     );
   }
 

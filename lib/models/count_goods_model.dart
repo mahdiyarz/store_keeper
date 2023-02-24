@@ -3,6 +3,16 @@ import 'package:equatable/equatable.dart';
 const String countGoodsTable = 'countGoods';
 
 class CountGoodsFields {
+  static const List<String> values = [
+    countGoodsId,
+    numOfBox,
+    numOfSeed,
+    price,
+    goodsId,
+    incomingListId,
+    lakingId,
+  ];
+
   static const String countGoodsId = 'countGoodsId';
   static const String numOfBox = 'numOfBox';
   static const String numOfSeed = 'numOfSeed';
@@ -14,12 +24,12 @@ class CountGoodsFields {
 
 class CountGoodsModel extends Equatable {
   final int countGoodsId;
-  final int numOfBox;
-  final int numOfSeed;
-  final BigInt price;
+  final int? numOfBox;
+  final int? numOfSeed;
+  final int? price;
   final int goodsId;
-  final int incomingListId;
-  final int lakingId;
+  final int? incomingListId;
+  final int? lakingId;
 
   const CountGoodsModel({
     required this.countGoodsId,
@@ -31,7 +41,7 @@ class CountGoodsModel extends Equatable {
     required this.lakingId,
   });
 
-  Map<String, Object> toJson() => {
+  Map<String, Object?> toJson() => {
         CountGoodsFields.countGoodsId: countGoodsId,
         CountGoodsFields.numOfBox: numOfBox,
         CountGoodsFields.numOfSeed: numOfSeed,
@@ -45,7 +55,7 @@ class CountGoodsModel extends Equatable {
     int? countGoodsId,
     int? numOfBox,
     int? numOfSeed,
-    BigInt? price,
+    int? price,
     int? goodsId,
     int? incomingListId,
     int? lakingId,
@@ -64,7 +74,7 @@ class CountGoodsModel extends Equatable {
         countGoodsId: json[CountGoodsFields.countGoodsId] as int,
         numOfBox: json[CountGoodsFields.numOfBox] as int,
         numOfSeed: json[CountGoodsFields.numOfSeed] as int,
-        price: json[CountGoodsFields.price] as BigInt,
+        price: json[CountGoodsFields.price] as int,
         goodsId: json[CountGoodsFields.goodsId] as int,
         incomingListId: json[CountGoodsFields.incomingListId] as int,
         lakingId: json[CountGoodsFields.lakingId] as int,
