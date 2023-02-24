@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../widgets/control_panel.dart';
+import '../../widgets/custom_drawer.dart';
 import '../../widgets/introduce_container.dart';
 import '../resources/import_resources.dart';
 
@@ -16,6 +17,7 @@ class Home extends StatelessWidget {
         return false;
       },
       child: Scaffold(
+        drawer: const CustomDrawer(),
         body: SafeArea(
           child: Directionality(
             textDirection: TextDirection.rtl,

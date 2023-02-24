@@ -65,9 +65,7 @@ class _ControlPanelState extends State<ControlPanel>
               CircleAvatar(
                 backgroundColor: ColorManager.secondary,
                 child: IconButton(
-                    onPressed: () {
-                      SystemNavigator.pop();
-                    },
+                    onPressed: () => SystemNavigator.pop(),
                     icon: Icon(
                       Icons.close,
                       color: ColorManager.primary,
@@ -102,9 +100,9 @@ class _ControlPanelState extends State<ControlPanel>
               CircleAvatar(
                 backgroundColor: ColorManager.secondary,
                 child: IconButton(
-                    onPressed: () {},
+                    onPressed: () => Scaffold.of(context).openDrawer(),
                     icon: Icon(
-                      Icons.menu_open_rounded,
+                      Icons.menu,
                       color: ColorManager.primary,
                     )),
               ),
