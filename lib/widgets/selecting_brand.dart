@@ -47,7 +47,7 @@ class SelectingBrand extends StatelessWidget {
         });
       },
       child: Text(
-        'بگو کدوم؟',
+        'کدوم برند؟',
         style: TextStyle(
           color: ColorManager.onSecondary,
         ),

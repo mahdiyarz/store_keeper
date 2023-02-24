@@ -4,254 +4,341 @@ import 'package:flutter/material.dart';
 
 import 'package:store_keeper/bloc/bloc_exports.dart';
 import 'package:store_keeper/presentation/resources/color_manager.dart';
+import 'package:store_keeper/widgets/selecting_brand.dart';
 
 import '../../models/import_models.dart';
-import '../../widgets/show_dialog_button.dart';
-import '../../widgets/show_dialog_screen.dart';
 
-class CreateOrUpdateGoodScreen extends StatelessWidget {
-  final TextEditingController goodNameController;
-  final TextEditingController goodLatinNameController;
-  final TextEditingController numberInBoxController;
-  final TextEditingController brandNameController;
-  final TextEditingController? barcodeController;
-  final TextEditingController? accountingCodeController;
-  final TextEditingController brandIdController;
+class CreateOrUpdateGoodScreen extends StatefulWidget {
+  final GoodsModel? oldGood;
+  final List<BrandsModel>? brandsList;
+
   const CreateOrUpdateGoodScreen({
     Key? key,
-    required this.goodNameController,
-    required this.goodLatinNameController,
-    required this.numberInBoxController,
-    required this.brandNameController,
-    this.barcodeController,
-    this.accountingCodeController,
-    required this.brandIdController,
+    required this.oldGood,
+    required this.brandsList,
   }) : super(key: key);
 
   @override
+  State<CreateOrUpdateGoodScreen> createState() =>
+      _CreateOrUpdateGoodScreenState();
+}
+
+class _CreateOrUpdateGoodScreenState extends State<CreateOrUpdateGoodScreen> {
+  final _formKey = GlobalKey<FormState>();
+
+  TextEditingController goodNameController = TextEditingController();
+  TextEditingController goodLatinNameController = TextEditingController();
+  TextEditingController numberInBoxController = TextEditingController();
+  TextEditingController brandNameController = TextEditingController();
+  TextEditingController barcodeController = TextEditingController();
+  TextEditingController accountingCodeController = TextEditingController();
+  TextEditingController brandIdController = TextEditingController();
+
+  @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+    if (widget.oldGood != null) {
+      log(widget.oldGood!.goodId.toString());
+      goodNameController.text = widget.oldGood!.goodName;
+      goodLatinNameController.text = widget.oldGood!.goodLatinName;
+      numberInBoxController.text = widget.oldGood!.numInBox.toString();
+      final String brandName = widget.brandsList!
+          .firstWhere((element) => element.brandId == widget.oldGood!.brandId)
+          .brandName;
+      brandNameController.text = brandName;
+      brandIdController.text = widget.oldGood!.brandId.toString();
+      if (widget.oldGood!.accountingCode != null) {
+        accountingCodeController.text =
+            widget.oldGood!.accountingCode.toString();
+      }
+      if (widget.oldGood!.barcode != null) {
+        barcodeController.text = widget.oldGood!.barcode.toString();
+      }
+    }
 
     return BlocBuilder<AppBloc, AppState>(builder: (context, goodState) {
       if (goodState is AppStateInitial) {
         context.read<AppBloc>().add(const FetchEvent());
       }
       if (goodState is DisplayAppState) {
-        return Directionality(
-          textDirection: TextDirection.rtl,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(
-                  'لطفا موارد مورد نیاز را کامل کنید و دکمه ثبت را بزنید...',
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: ColorManager.onPrimaryContainer,
-                    fontWeight: FontWeight.w500,
+        return Form(
+          key: _formKey,
+          child: Directionality(
+            textDirection: TextDirection.rtl,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    'لطفا موارد مورد نیاز را کامل کنید و دکمه ثبت را بزنید...',
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: ColorManager.onPrimaryContainer,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  height: 25,
-                ),
-                TextFormField(
-                  controller: goodNameController,
-                  autofocus: true,
-                  keyboardType: TextInputType.name,
-                  decoration: const InputDecoration(
-                    label: Text('نام کالا'),
-                    hintText: 'به فارسی تایپ کنید...',
-                    border: OutlineInputBorder(),
+                  const SizedBox(
+                    height: 25,
                   ),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'نام کالا را وارد نکردید!';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                Directionality(
-                  textDirection: TextDirection.ltr,
-                  child: TextFormField(
-                    controller: goodLatinNameController,
+                  TextFormField(
+                    controller: goodNameController,
+                    autofocus: true,
                     keyboardType: TextInputType.name,
-                    decoration: const InputDecoration(
-                      label: Text('Goods Name'),
-                      hintText: 'Type in English...',
-                      border: OutlineInputBorder(),
+                    decoration: InputDecoration(
+                      errorStyle: TextStyle(
+                        color: ColorManager.error.withOpacity(.7),
+                        fontWeight: FontWeight.bold,
+                        shadows: [
+                          Shadow(
+                            offset: const Offset(0, 0),
+                            color: ColorManager.onError,
+                            blurRadius: 30,
+                          )
+                        ],
+                      ),
+                      label: const Text('نام کالا'),
+                      hintText: 'فارسی شو بنویس...',
+                      border: const OutlineInputBorder(),
                     ),
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return 'نام کالا را وارد نکردید!';
+                        return 'کالای بی نام نداریما! اسمشو بگو...';
                       }
                       return null;
                     },
                   ),
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                TextFormField(
-                  controller: numberInBoxController,
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    label: Text('تعداد در هر جعبه'),
-                    border: OutlineInputBorder(),
+                  const SizedBox(
+                    height: 8,
                   ),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'تعداد در هر جعبه را وارد نکردید!';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                TextFormField(
-                  controller: barcodeController,
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    label: Text('بارکد کالا (اختیاری)'),
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                TextFormField(
-                  controller: accountingCodeController,
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    label: Text('کد سیستم حسابداری (اختیاری)'),
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-                const SizedBox(
-                  height: 3,
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+                  Directionality(
+                    textDirection: TextDirection.ltr,
+                    child: TextFormField(
+                      controller: goodLatinNameController,
+                      keyboardType: TextInputType.name,
+                      decoration: InputDecoration(
+                        errorStyle: TextStyle(
+                          color: ColorManager.error.withOpacity(.7),
+                          fontWeight: FontWeight.bold,
+                          shadows: [
+                            Shadow(
+                              offset: const Offset(0, 0),
+                              color: ColorManager.onError,
+                              blurRadius: 30,
+                            )
+                          ],
+                        ),
+                        label: const Text('Goods Name'),
+                        hintText: 'Type in English...',
+                        border: const OutlineInputBorder(),
+                      ),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Try it in English dude! I know you can...';
+                        }
+                        return null;
+                      },
                     ),
-                    elevation: 0,
-                    backgroundColor: ColorManager.secondary,
                   ),
-                  onPressed: () {
-                    showBrandsDialog(context, goodState, width)
-                        .then((returnValue) {
-                      log('value is $returnValue');
-                      if (returnValue != null) {
-                        brandNameController.text = returnValue[1];
-                        final List<BrandsModel> cashedBrands =
-                            goodState.brandsList;
-                        final BrandsModel chosenBrand = cashedBrands.firstWhere(
-                            (element) =>
-                                element.brandName == brandNameController.text);
-                        brandIdController.text = chosenBrand.brandId.toString();
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  TextFormField(
+                    controller: numberInBoxController,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      errorStyle: TextStyle(
+                        color: ColorManager.error.withOpacity(.7),
+                        fontWeight: FontWeight.bold,
+                        shadows: [
+                          Shadow(
+                            offset: const Offset(0, 0),
+                            color: ColorManager.onError,
+                            blurRadius: 30,
+                          )
+                        ],
+                      ),
+                      label: const Text('تعداد در هر جعبه'),
+                      border: const OutlineInputBorder(),
+                    ),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'نکنه نمیدونی تو هر جعبه چندتاس؟';
                       }
-                    });
-                  },
-                  child: brandNameController.text.isEmpty
-                      ? Text(
-                          'هنوز برند انتخاب نشده',
-                          style: TextStyle(
-                            color: ColorManager.onSecondary,
-                          ),
-                        )
-                      : Text(
-                          brandNameController.text,
-                          style: TextStyle(
-                            color: ColorManager.onSecondary,
+                      return null;
+                    },
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  TextFormField(
+                    controller: barcodeController,
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(
+                      label: Text('بارکد کالا (اختیاری)'),
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  TextFormField(
+                    controller: accountingCodeController,
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(
+                      label: Text('کد سیستم حسابداری (اختیاری)'),
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  Container(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: TextFormField(
+                            controller: brandNameController,
+                            readOnly: true,
+                            decoration: InputDecoration(
+                              errorStyle: TextStyle(
+                                color: ColorManager.error.withOpacity(.7),
+                                fontWeight: FontWeight.bold,
+                                shadows: [
+                                  Shadow(
+                                    offset: const Offset(0, 0),
+                                    color: ColorManager.onError,
+                                    blurRadius: 30,
+                                  )
+                                ],
+                              ),
+                              hintText: 'هنوز برند انتخاب نکردی...',
+                              border: const OutlineInputBorder(),
+                            ),
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'اصل کار همین برندشه، با دقت انتخاب کن...';
+                              }
+                              return null;
+                            },
                           ),
                         ),
-                ),
-                const SizedBox(height: 25),
-                Row(
-                  children: [
-                    Expanded(
-                      child: ElevatedButton(
-                        onPressed: goodNameController.text.isNotEmpty &&
-                                goodLatinNameController.text.isNotEmpty &&
-                                brandNameController.text.isNotEmpty &&
-                                numberInBoxController.text.isNotEmpty &&
-                                brandIdController.text.isNotEmpty
-                            ? () {
-                                context.read<AppBloc>().add(
-                                      AddGood(
-                                        good: GoodsModel(
-                                          goodName: goodNameController.text,
-                                          goodLatinName:
-                                              goodLatinNameController.text,
-                                          brandId:
-                                              int.parse(brandIdController.text),
-                                          numInBox: int.parse(
-                                              numberInBoxController.text),
-                                          barcode: int.tryParse(
-                                              barcodeController!.text),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        SelectingBrand(
+                          goodState: goodState,
+                          brandNameController: brandNameController,
+                          brandIdController: brandIdController,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 25),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              if (goodNameController.value.text.isNotEmpty &&
+                                  goodLatinNameController
+                                      .value.text.isNotEmpty &&
+                                  brandNameController.value.text.isNotEmpty &&
+                                  numberInBoxController.value.text.isNotEmpty &&
+                                  brandIdController.value.text.isNotEmpty) {
+                                final snackBar = SnackBar(
+                                  dismissDirection: DismissDirection.up,
+                                  content: widget.oldGood != null
+                                      ? const Text(
+                                          'به خوبی ویرایشش کردی',
+                                          textAlign: TextAlign.center,
+                                        )
+                                      : const Text(
+                                          'یکی دیگه به کالاها اضافه شد',
+                                          textAlign: TextAlign.center,
                                         ),
-                                      ),
-                                    );
+                                  duration: const Duration(
+                                    seconds: 2,
+                                  ),
+                                );
+                                widget.oldGood != null
+                                    ? [
+                                        log(widget.oldGood!.goodId.toString()),
+                                        context.read<AppBloc>().add(
+                                              EditGood(
+                                                oldGoodId:
+                                                    widget.oldGood!.goodId!,
+                                                editedGood: GoodsModel(
+                                                  goodName:
+                                                      goodNameController.text,
+                                                  goodLatinName:
+                                                      goodLatinNameController
+                                                          .text,
+                                                  brandId: int.parse(
+                                                      brandIdController.text),
+                                                  numInBox: int.parse(
+                                                      numberInBoxController
+                                                          .text),
+                                                  barcode: int.tryParse(
+                                                      barcodeController.text),
+                                                  accountingCode: int.tryParse(
+                                                      accountingCodeController
+                                                          .text),
+                                                ),
+                                              ),
+                                            ),
+                                      ]
+                                    : context.read<AppBloc>().add(
+                                          AddGood(
+                                            good: GoodsModel(
+                                              goodName: goodNameController.text,
+                                              goodLatinName:
+                                                  goodLatinNameController.text,
+                                              brandId: int.parse(
+                                                  brandIdController.text),
+                                              numInBox: int.parse(
+                                                  numberInBoxController.text),
+                                              barcode: int.tryParse(
+                                                  barcodeController.text),
+                                              accountingCode: int.tryParse(
+                                                  accountingCodeController
+                                                      .text),
+                                            ),
+                                          ),
+                                        );
                                 Navigator.of(context).pop();
                                 goodNameController.clear();
                                 goodLatinNameController.clear();
                                 numberInBoxController.clear();
                                 brandNameController.clear();
                                 brandIdController.clear();
-                                barcodeController!.clear();
+                                barcodeController.clear();
+                                accountingCodeController.clear();
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
                               }
-                            : null,
-                        child: const Text('ثبت'),
+                            }
+                          },
+                          child: const Text('ثبت'),
+                        ),
                       ),
-                    ),
-                    const SizedBox(width: 5),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text('انصراف'),
-                    ),
-                  ],
-                ),
-              ],
+                      const SizedBox(width: 5),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text('انصراف'),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         );
       }
       return const Text('data');
     });
-  }
-
-  Future<dynamic> showBrandsDialog(
-      BuildContext context, DisplayAppState brandsState, double width) {
-    return showDialog(
-      context: context,
-      builder: (context) {
-        return Directionality(
-          textDirection: TextDirection.rtl,
-          child: SimpleDialog(
-            title: brandsState.brandsList.isNotEmpty
-                ? const Text('برند خود را انتخاب کنید',
-                    textAlign: TextAlign.center)
-                : null,
-            children: [
-              ShowDialogScreen(
-                width: width,
-                brandsList: brandsState.brandsList,
-              ),
-              const Padding(
-                padding: EdgeInsets.fromLTRB(8, 5, 8, 0),
-                child: ShowDialogButton(),
-              )
-            ],
-          ),
-        );
-      },
-    );
   }
 }
