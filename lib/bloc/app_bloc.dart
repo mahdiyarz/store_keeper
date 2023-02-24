@@ -336,7 +336,18 @@ class AppBloc extends Bloc<AppEvent, AppState> {
           incomingList: _incomingList,
           goodsList: _goodsList
             ..remove(oldGood)
-            ..insert(oldGoodIndex, editedGood),
+            ..insert(
+              oldGoodIndex,
+              GoodsModel(
+                goodId: goodId,
+                goodName: editedGood.goodName,
+                goodLatinName: editedGood.goodLatinName,
+                brandId: editedGood.brandId,
+                numInBox: editedGood.numInBox,
+                accountingCode: editedGood.accountingCode,
+                barcode: editedGood.barcode,
+              ),
+            ),
           countGoodsList: _countGoodsList,
           lakingList: _lakingList,
           failureMessage: _failureMessage,
