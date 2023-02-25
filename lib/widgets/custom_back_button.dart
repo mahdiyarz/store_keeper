@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 import '../presentation/resources/import_resources.dart';
 
-class BackButton extends StatelessWidget {
+class CustomBackButton extends StatelessWidget {
   final String pageRoute;
-  const BackButton({
+  const CustomBackButton({
     required this.pageRoute,
     Key? key,
   }) : super(key: key);
