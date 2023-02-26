@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:store_keeper/presentation/incoming_goods_management/tab_incoming_goods_management_screen.dart';
 import 'package:store_keeper/presentation/resources/assets_manager.dart';
 
 import '../goods/goods_management_screen.dart';
@@ -9,6 +10,7 @@ class Routes {
   static const String incomingListsRoute = '/incoming-list';
   static const String homeRoute = '/home';
   static const String brandsRoute = '/brands-management';
+  static const String tabIncomingGoodsRoute = '/tab-incoming-goods';
   static const String goodsRoute = '/goods-management';
   static const String incomingGoodsManagementRoute =
       '/incoming-goods-management';
@@ -20,22 +22,28 @@ class RouteGenerator {
       case Routes.homeRoute:
         return MaterialPageRoute(builder: (context) => const Home());
       case Routes.incomingListsRoute:
-        return MaterialPageRoute(builder: (context) => IncomingListScreen());
+        return MaterialPageRoute(
+            builder: (context) => const IncomingListScreen());
       case Routes.brandsRoute:
         return MaterialPageRoute(
             builder: (context) => const BrandsManagementScreen());
       case Routes.goodsRoute:
         return MaterialPageRoute(
-          builder: (context) => GoodsManagementScreen(),
+          builder: (context) => const GoodsManagementScreen(),
         );
-      case Routes.incomingGoodsManagementRoute:
-        final args = routeSettings.arguments as IncomingGoodsManagementScreen;
+      case Routes.tabIncomingGoodsRoute:
+        final args =
+            routeSettings.arguments as TabIncomingGoodsManagementScreen;
         return MaterialPageRoute(
-          builder: (context) => IncomingGoodsManagementScreen(
+          builder: (context) => TabIncomingGoodsManagementScreen(
             title: args.title,
             boxNumber: args.boxNumber,
             dateTime: args.dateTime,
           ),
+        );
+      case Routes.incomingGoodsManagementRoute:
+        return MaterialPageRoute(
+          builder: (context) => const IncomingGoodsManagementScreen(),
         );
 
       default:

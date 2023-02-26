@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:persian/persian.dart';
-import 'package:store_keeper/presentation/import_presentation.dart';
+import 'package:store_keeper/presentation/incoming_goods_management/tab_incoming_goods_management_screen.dart';
+import 'package:store_keeper/presentation/incoming_list/create_or_update_incoming_list_screen.dart';
 
 import '../models/import_models.dart';
 import '../presentation/resources/import_resources.dart';
@@ -15,6 +16,27 @@ class IncomingListListView extends StatelessWidget {
     required this.brandsList,
     required this.incomingList,
   }) : super(key: key);
+
+  void _showModalBottomSheet({
+    required BuildContext context,
+    required IncomingListModel oldIncomingList,
+  }) {
+    showModalBottomSheet(
+      isDismissible: false,
+      isScrollControlled: true,
+      context: context,
+      builder: (context) => SingleChildScrollView(
+        child: Container(
+          padding:
+              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          child: CreateOrUpdateIncomingListScreen(
+            oldIncomingList: oldIncomingList,
+            brandsList: brandsList,
+          ),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,15 +56,17 @@ class IncomingListListView extends StatelessWidget {
           decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(
-                color: ColorManager.shadow,
-                blurRadius: 99,
+                color: ColorManager.shadow.withOpacity(.5),
+                blurRadius: 55,
+                offset: const Offset(3, 15),
+                spreadRadius: 3,
               ),
             ],
           ),
           child: PhysicalModel(
-            color: ColorManager.white,
-            elevation: 5,
-            shadowColor: const Color(0xff040039).withOpacity(.2),
+            color: ColorManager.primaryContainer,
+            elevation: 2,
+            shadowColor: ColorManager.shadow,
             borderRadius: const BorderRadius.only(
               bottomLeft: Radius.circular(8),
               bottomRight: Radius.circular(20),
@@ -52,24 +76,19 @@ class IncomingListListView extends StatelessWidget {
             child: InkWell(
               onTap: () {
                 Navigator.of(context).pushReplacementNamed(
-                  Routes.incomingGoodsManagementRoute,
-                  arguments: IncomingGoodsManagementScreen(
+                  Routes.tabIncomingGoodsRoute,
+                  arguments: TabIncomingGoodsManagementScreen(
                     title: incomingItemsBrand.brandName,
                     boxNumber: incomingList[index].numOfBoxes,
                     dateTime: incomingList[index].incomingListDate,
                   ),
                 );
-                // Navigator.of(context).pushNamed(
-                //   '/arrival-goods-manage',
-                //   arguments: IncomingGoodsManagementScreen(
-                //     title: arrivalGoodsBrand.brandName,
-                //     boxNumber: value
-                //         .arrivalGoodsItems[index]
-                //         .numOfBoxes,
-                //     dateTime: value.arrivalGoodsItems[index]
-                //         .arrivalGoodsDate,
-                //   ),
-                // );
+              },
+              onDoubleTap: () {
+                _showModalBottomSheet(
+                  context: context,
+                  oldIncomingList: incomingList[index],
+                );
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -81,17 +100,14 @@ class IncomingListListView extends StatelessWidget {
                     height: width * .15,
                     width: width * .15,
                     decoration: BoxDecoration(
-                      color: Theme.of(context)
-                          .colorScheme
-                          .secondary
-                          .withOpacity(.3),
-                      borderRadius: BorderRadius.circular(20),
+                      color: ColorManager.secondary,
+                      borderRadius: BorderRadius.circular(18),
                     ),
                     child: FittedBox(
                       child: Text(
                         incomingItemsBrand.brandName,
-                        style: const TextStyle(
-                          color: Colors.black54,
+                        style: TextStyle(
+                          color: ColorManager.onSecondary,
                         ),
                       ),
                     ),
@@ -106,14 +122,19 @@ class IncomingListListView extends StatelessWidget {
                           FittedBox(
                             child: Text(
                               'ورود ${incomingList[index].numOfBoxes.toString().withPersianNumbers()} جعبه به انبار',
-                              style: const TextStyle(fontSize: 16),
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: ColorManager.onPrimaryContainer,
+                              ),
                             ),
                           ),
                           const SizedBox(height: 5),
                           FittedBox(
                             child: Text(
                               'در تاریخ ${incomingList[index].incomingListDate.toPersian().toString()}',
-                              style: const TextStyle(color: Colors.black45),
+                              style: TextStyle(
+                                  color: ColorManager.onPrimaryContainer
+                                      .withOpacity(.7)),
                             ),
                           ),
                         ],
