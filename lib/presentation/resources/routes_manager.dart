@@ -39,6 +39,9 @@ class RouteGenerator {
             title: args.title,
             boxNumber: args.boxNumber,
             dateTime: args.dateTime,
+            incomingGoodId: args.incomingGoodId,
+            brandsList: args.brandsList,
+            goodsList: args.goodsList,
           ),
         );
       case Routes.incomingGoodsManagementRoute:

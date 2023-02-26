@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:persian/persian.dart';
 import 'package:store_keeper/presentation/goods/create_or_update_good_screen.dart';
+import 'package:store_keeper/presentation/incoming_goods_management/create_or_update_incoming_goods_screen.dart';
 
 import '../models/import_models.dart';
 import '../presentation/resources/import_resources.dart';
@@ -41,7 +42,8 @@ class GoodsListView extends StatelessWidget {
 
   void _showAddIncomeGoodBottomSheet({
     required BuildContext context,
-    required GoodsModel oldGood,
+    required GoodsModel addingIncomeGood,
+    required BrandsModel brand,
   }) {
     showModalBottomSheet(
       isDismissible: false,
@@ -51,9 +53,9 @@ class GoodsListView extends StatelessWidget {
         child: Container(
           padding:
               EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-          child: CreateOrUpdateGoodScreen(
-            oldGood: oldGood,
-            brandsList: brandsList,
+          child: CreateOrUpdateIncomingGoodsScreen(
+            brandName: brand,
+            goodName: addingIncomeGood,
           ),
         ),
       ),
@@ -333,7 +335,8 @@ class GoodsListView extends StatelessWidget {
                     )
                   : _showAddIncomeGoodBottomSheet(
                       context: context,
-                      oldGood: goodsList[index],
+                      addingIncomeGood: goodsList[index],
+                      brand: brandsList[index],
                     ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

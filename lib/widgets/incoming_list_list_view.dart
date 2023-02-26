@@ -8,12 +8,14 @@ import '../presentation/resources/import_resources.dart';
 
 class IncomingListListView extends StatelessWidget {
   final List<BrandsModel> brandsList;
+  final List<GoodsModel> goodsList;
   final List<IncomingListModel> incomingList;
   final double width;
   const IncomingListListView({
     Key? key,
     required this.width,
     required this.brandsList,
+    required this.goodsList,
     required this.incomingList,
   }) : super(key: key);
 
@@ -81,6 +83,9 @@ class IncomingListListView extends StatelessWidget {
                     title: incomingItemsBrand.brandName,
                     boxNumber: incomingList[index].numOfBoxes,
                     dateTime: incomingList[index].incomingListDate,
+                    incomingGoodId: incomingList[index].incomingListId!,
+                    brandsList: brandsList,
+                    goodsList: goodsList,
                   ),
                 );
               },
