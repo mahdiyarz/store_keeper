@@ -1,49 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:persian/persian.dart';
+import 'package:store_keeper/presentation/incoming_goods_management/create_or_update_incoming_goods_screen.dart';
 
-import '../../widgets/screens_style.dart';
-import '../resources/routes_manager.dart';
+import '../../models/import_models.dart';
 
 class IncomingGoodsManagementScreen extends StatelessWidget {
-  final String title;
-  final int boxNumber;
-  final DateTime dateTime;
-
   const IncomingGoodsManagementScreen({
     Key? key,
-    required this.title,
-    required this.boxNumber,
-    required this.dateTime,
   }) : super(key: key);
+
+  void _showModalBottomSheet(
+      BuildContext context, GoodsModel goodName, BrandsModel brandName) {
+    showModalBottomSheet(
+      isDismissible: false,
+      isScrollControlled: true,
+      context: context,
+      builder: (context) => SingleChildScrollView(
+        child: Container(
+          padding:
+              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          child: CreateOrUpdateIncomingGoodsScreen(
+            brandName: brandName,
+            goodName: goodName,
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
 
-    return ScreensStyle(
-      title: title,
-      description:
-          'ورود ${boxNumber.toString().withPersianNumbers()} کارتن در تاریخ ${dateTime.toPersian()}',
-      body: Container(),
-      actionIcon: CircleAvatar(
-        backgroundColor: Colors.black12,
-        child: IconButton(
-            onPressed: () {
-              Navigator.of(context)
-                  .pushReplacementNamed(Routes.incomingGoodsManagementRoute);
-            },
-            icon: const Icon(
-              Icons.arrow_forward,
-              color: Colors.white,
-            )),
-      ),
-      bodyButton: ElevatedButton.icon(
-        onPressed: () {},
-        icon: const Icon(Icons.post_add_rounded),
-        label: const Text('ثبت کالا'),
-        style: ElevatedButton.styleFrom(
-          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        ),
-      ),
+    return const Center(
+      child: Text('dsfsd'),
     );
   }
 }
