@@ -141,6 +141,7 @@ class _GoodsManagementScreenState extends State<GoodsManagementScreen> {
                           width: screenWidth,
                           brandsList: appState.brandsList,
                           goodsList: appState.goodsList,
+                          isAdding: false,
                         ),
                       )
                     : Column(

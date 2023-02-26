@@ -8,15 +8,38 @@ import '../presentation/resources/import_resources.dart';
 class GoodsListView extends StatelessWidget {
   final List<BrandsModel> brandsList;
   final List<GoodsModel> goodsList;
+  final bool isAdding;
   final double width;
   const GoodsListView({
     Key? key,
     required this.width,
     required this.brandsList,
     required this.goodsList,
+    required this.isAdding,
   }) : super(key: key);
 
   void _showModalBottomSheet({
+    required BuildContext context,
+    required GoodsModel oldGood,
+  }) {
+    showModalBottomSheet(
+      isDismissible: false,
+      isScrollControlled: true,
+      context: context,
+      builder: (context) => SingleChildScrollView(
+        child: Container(
+          padding:
+              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          child: CreateOrUpdateGoodScreen(
+            oldGood: oldGood,
+            brandsList: brandsList,
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showAddIncomeGoodBottomSheet({
     required BuildContext context,
     required GoodsModel oldGood,
   }) {
@@ -301,12 +324,17 @@ class GoodsListView extends StatelessWidget {
                 context: context,
                 oldGood: goodsList[index],
               ),
-              onTap: () => _showGoodsDialog(
-                context,
-                width,
-                goodsList[index],
-                thisGoodBrand,
-              ),
+              onTap: () => isAdding == false
+                  ? _showGoodsDialog(
+                      context,
+                      width,
+                      goodsList[index],
+                      thisGoodBrand,
+                    )
+                  : _showAddIncomeGoodBottomSheet(
+                      context: context,
+                      oldGood: goodsList[index],
+                    ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
