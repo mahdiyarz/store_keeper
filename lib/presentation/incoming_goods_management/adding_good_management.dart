@@ -41,9 +41,10 @@ class _AddingGoodManagementState extends State<AddingGoodManagement> {
         ? Column(
             children: [
               Container(
-                margin: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 3,
+                margin: const EdgeInsets.only(
+                  right: 15,
+                  left: 15,
+                  top: 15,
                 ),
                 padding: const EdgeInsets.symmetric(
                   horizontal: 3,
@@ -58,12 +59,14 @@ class _AddingGoodManagementState extends State<AddingGoodManagement> {
                   autofocus: true,
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(
                         color: ColorManager.primaryContainer,
                         width: 0,
                       ),
                     ),
                     focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(
                         color: ColorManager.primaryContainer,
                         width: 0,
@@ -90,15 +93,22 @@ class _AddingGoodManagementState extends State<AddingGoodManagement> {
                 ),
               ),
               const SizedBox(
-                height: 8,
+                height: 1,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: GoodsListView(
-                  width: width,
-                  brandsList: widget.brandsList,
-                  goodsList: filteredGoods,
-                  isAdding: true,
+                child: Visibility(
+                  visible: filteredGoods.isNotEmpty,
+                  replacement: Padding(
+                    padding: EdgeInsets.only(top: width * .08),
+                    child: const Text('کالایی که دنبالشی پیدا نشد!'),
+                  ),
+                  child: GoodsListView(
+                    width: width,
+                    brandsList: widget.brandsList,
+                    goodsList: filteredGoods,
+                    isAdding: true,
+                  ),
                 ),
               ),
             ],
