@@ -60,90 +60,98 @@ class _TabIncomingGoodsManagementScreenState
       title: widget.title,
       description:
           'ورود ${widget.boxNumber.toString().withPersianNumbers()} کارتن در تاریخ ${widget.dateTime.toPersian()}',
-      body: tabPages[_selectedIndex]['pageRoute'] as Widget,
-      actionIcon: const CustomBackButton(pageRoute: Routes.incomingListsRoute),
-      bodyButton: Container(
-        height: width * .155,
-        decoration: BoxDecoration(
-          color: ColorManager.secondary,
-          boxShadow: [
-            BoxShadow(
-                color: Colors.black.withOpacity(.15),
-                blurRadius: 30,
-                offset: const Offset(0, 10)),
-          ],
-          borderRadius: BorderRadius.circular(35),
-        ),
-        child: GridView.builder(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-          ),
-          itemCount: 2,
-          itemBuilder: (context, index) => InkWell(
-            onTap: () {
-              setState(() {
-                _selectedIndex = index;
-                HapticFeedback.lightImpact();
-              });
-            },
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: width * .015),
-              child: Stack(
-                children: [
-                  Positioned(
-                    top: width * .01,
-                    child: SizedBox(
-                      width: width * .45,
-                      child: Center(
-                        child: AnimatedContainer(
-                          duration: const Duration(seconds: 1),
-                          curve: Curves.fastLinearToSlowEaseIn,
-                          height: index == _selectedIndex ? width * .135 : 0,
-                          width: index == _selectedIndex ? width * .45 : 0,
-                          decoration: BoxDecoration(
-                            color: index == _selectedIndex
-                                ? ColorManager.primary
-                                : Colors.transparent,
-                            borderRadius: BorderRadius.circular(50),
+      body: Column(
+        children: [
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: width * .04),
+            height: width * .155,
+            decoration: BoxDecoration(
+              color: ColorManager.secondary,
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black.withOpacity(.15),
+                    blurRadius: 30,
+                    offset: const Offset(0, 10)),
+              ],
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+              ),
+              itemCount: 2,
+              itemBuilder: (context, index) => InkWell(
+                onTap: () {
+                  setState(() {
+                    _selectedIndex = index;
+                    HapticFeedback.lightImpact();
+                  });
+                },
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: width * .015),
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        top: width * .01,
+                        child: SizedBox(
+                          width: width * .43,
+                          child: Center(
+                            child: AnimatedContainer(
+                              duration: const Duration(seconds: 1),
+                              curve: Curves.fastLinearToSlowEaseIn,
+                              height:
+                                  index == _selectedIndex ? width * .135 : 0,
+                              width: index == _selectedIndex ? width * .45 : 0,
+                              decoration: BoxDecoration(
+                                color: index == _selectedIndex
+                                    ? ColorManager.primary
+                                    : Colors.transparent,
+                                borderRadius: BorderRadius.circular(13),
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ),
-                  Positioned(
-                    top: width * .01,
-                    child: Container(
-                      width: width * .45,
-                      alignment: Alignment.center,
-                      child: Column(
-                        children: [
-                          Icon(
-                            tabPages[index]['icon'],
-                            size: width * .076,
-                            color: index == _selectedIndex
-                                ? ColorManager.onPrimary
-                                : ColorManager.onSecondary.withOpacity(.6),
+                      Positioned(
+                        top: width * .01,
+                        child: Container(
+                          width: width * .45,
+                          alignment: Alignment.center,
+                          child: Column(
+                            children: [
+                              Icon(
+                                tabPages[index]['icon'],
+                                size: width * .076,
+                                color: index == _selectedIndex
+                                    ? ColorManager.onPrimary
+                                    : ColorManager.onSecondary.withOpacity(.6),
+                              ),
+                              Text(
+                                tabPages[index]['title'],
+                                style: TextStyle(
+                                  color: index == _selectedIndex
+                                      ? ColorManager.onPrimary
+                                      : ColorManager.onSecondary
+                                          .withOpacity(.6),
+                                ),
+                              ),
+                            ],
                           ),
-                          Text(
-                            tabPages[index]['title'],
-                            style: TextStyle(
-                              color: index == _selectedIndex
-                                  ? ColorManager.onPrimary
-                                  : ColorManager.onSecondary.withOpacity(.6),
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
           ),
-        ),
+          tabPages[_selectedIndex]['pageRoute'] as Widget,
+        ],
       ),
+      actionIcon: const CustomBackButton(pageRoute: Routes.incomingListsRoute),
+      bodyButton: const SizedBox(),
     );
   }
 }
