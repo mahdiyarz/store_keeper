@@ -12,8 +12,6 @@ class Routes {
   static const String brandsRoute = '/brands-management';
   static const String tabIncomingGoodsRoute = '/tab-incoming-goods';
   static const String goodsRoute = '/goods-management';
-  static const String incomingGoodsManagementRoute =
-      '/incoming-goods-management';
 }
 
 class RouteGenerator {
@@ -43,10 +41,6 @@ class RouteGenerator {
             brandsList: args.brandsList,
             goodsList: args.goodsList,
           ),
-        );
-      case Routes.incomingGoodsManagementRoute:
-        return MaterialPageRoute(
-          builder: (context) => const IncomingGoodsManagementScreen(),
         );
 
       default:

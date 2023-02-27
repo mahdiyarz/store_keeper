@@ -41,7 +41,9 @@ class _TabIncomingGoodsManagementScreenState
     double width = MediaQuery.of(context).size.width;
     final List<Map<String, dynamic>> tabPages = [
       {
-        'pageRoute': const IncomingGoodsManagementScreen(),
+        'pageRoute': IncomingGoodsManagementScreen(
+          incomingListId: widget.incomingGoodId,
+        ),
         'title': 'مدیریت کالاهای ورودی',
         'icon': Icons.manage_history_rounded,
       },
