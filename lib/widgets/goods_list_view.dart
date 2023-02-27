@@ -336,7 +336,7 @@ class GoodsListView extends StatelessWidget {
                   : _showAddIncomeGoodBottomSheet(
                       context: context,
                       addingIncomeGood: goodsList[index],
-                      brand: brandsList[index],
+                      brand: thisGoodBrand,
                     ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
