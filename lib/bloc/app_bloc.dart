@@ -30,6 +30,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     on<AddGood>(_onAddGood);
     on<DeleteGood>(_onDeleteGood);
     on<EditGood>(_onEditGood);
+    on<AddCountGood>(_onAddCountGood);
   }
 
   void _onFetchEvent(FetchEvent event, Emitter<AppState> emit) async {
@@ -219,10 +220,15 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       await DBHelper.instance.insertIncomingList(incomingListItem);
     }
 
+    final List<IncomingListModel> lastUpdatedIncomingList =
+        await DBHelper.instance.fetchIncomingListData();
+
     emit(
       DisplayAppState(
         brandsList: _brandsList,
-        incomingList: _incomingList..insert(0, incomingListItem),
+        incomingList: _incomingList
+          ..clear()
+          ..addAll(lastUpdatedIncomingList),
         goodsList: _goodsList,
         countGoodsList: _countGoodsList,
         lakingList: _lakingList,
@@ -444,5 +450,40 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         ),
       );
     }
+  }
+
+  void _onAddCountGood(AddCountGood event, Emitter<AppState> emit) async {
+    log('run add count');
+    final CountGoodsModel countedGood = event.countedGood;
+
+    if (countedGood.goodsId.toString().isNotEmpty) {
+      await DBHelper.instance.insertCountGoods(
+        CountGoodsModel(
+          numOfBox: countedGood.numOfBox,
+          numOfSeed: countedGood.numOfSeed,
+          price: countedGood.price,
+          goodsId: countedGood.goodsId,
+          incomingListId: countedGood.incomingListId,
+          lakingId: countedGood.lakingId,
+        ),
+      );
+    }
+
+    final List<CountGoodsModel> lastUpdatedCountGoods =
+        await DBHelper.instance.fetchCountGoodsData();
+
+    emit(
+      DisplayAppState(
+        brandsList: _brandsList,
+        incomingList: _incomingList,
+        goodsList: _goodsList,
+        countGoodsList: _countGoodsList
+          ..clear()
+          ..addAll(lastUpdatedCountGoods),
+        lakingList: _lakingList,
+        failureMessage: _failureMessage,
+        successMessage: _successMessage,
+      ),
+    );
   }
 }

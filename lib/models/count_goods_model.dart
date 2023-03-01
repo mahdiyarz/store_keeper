@@ -23,7 +23,7 @@ class CountGoodsFields {
 }
 
 class CountGoodsModel extends Equatable {
-  final int countGoodsId;
+  final int? countGoodsId;
   final int? numOfBox;
   final int? numOfSeed;
   final int? price;
@@ -32,7 +32,7 @@ class CountGoodsModel extends Equatable {
   final int? lakingId;
 
   const CountGoodsModel({
-    required this.countGoodsId,
+    this.countGoodsId,
     required this.numOfBox,
     required this.numOfSeed,
     required this.price,
@@ -71,13 +71,13 @@ class CountGoodsModel extends Equatable {
       );
 
   static CountGoodsModel fromJson(Map<String, Object?> json) => CountGoodsModel(
-        countGoodsId: json[CountGoodsFields.countGoodsId] as int,
-        numOfBox: json[CountGoodsFields.numOfBox] as int,
-        numOfSeed: json[CountGoodsFields.numOfSeed] as int,
-        price: json[CountGoodsFields.price] as int,
+        countGoodsId: json[CountGoodsFields.countGoodsId] as int?,
+        numOfBox: json[CountGoodsFields.numOfBox] as int?,
+        numOfSeed: json[CountGoodsFields.numOfSeed] as int?,
+        price: json[CountGoodsFields.price] as int?,
         goodsId: json[CountGoodsFields.goodsId] as int,
-        incomingListId: json[CountGoodsFields.incomingListId] as int,
-        lakingId: json[CountGoodsFields.lakingId] as int,
+        incomingListId: json[CountGoodsFields.incomingListId] as int?,
+        lakingId: json[CountGoodsFields.lakingId] as int?,
       );
 
   @override
