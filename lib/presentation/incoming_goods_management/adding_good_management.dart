@@ -44,7 +44,6 @@ class _AddingGoodManagementState extends State<AddingGoodManagement> {
                 margin: const EdgeInsets.only(
                   right: 15,
                   left: 15,
-                  top: 15,
                 ),
                 padding: const EdgeInsets.symmetric(
                   horizontal: 3,

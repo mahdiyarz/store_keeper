@@ -91,63 +91,58 @@ class _TabIncomingGoodsManagementScreenState
                 },
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: width * .015),
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        top: width * .01,
-                        child: SizedBox(
-                          width: width * .43,
-                          child: Center(
-                            child: AnimatedContainer(
-                              duration: const Duration(seconds: 1),
-                              curve: Curves.fastLinearToSlowEaseIn,
-                              height:
-                                  index == _selectedIndex ? width * .135 : 0,
-                              width: index == _selectedIndex ? width * .45 : 0,
-                              decoration: BoxDecoration(
-                                color: index == _selectedIndex
-                                    ? ColorManager.primary
-                                    : Colors.transparent,
-                                borderRadius: BorderRadius.circular(13),
-                              ),
-                            ),
+                child: Stack(
+                  children: [
+                    Positioned(
+                      top: 0,
+                      child: Center(
+                        child: AnimatedContainer(
+                          duration: const Duration(seconds: 1),
+                          curve: Curves.fastLinearToSlowEaseIn,
+                          height: index == _selectedIndex ? width * .156 : 0,
+                          width: index == _selectedIndex ? width * .46 : 0,
+                          decoration: BoxDecoration(
+                            color: index == _selectedIndex
+                                ? ColorManager.primary
+                                : Colors.transparent,
+                            borderRadius: BorderRadius.circular(13),
                           ),
                         ),
                       ),
-                      Positioned(
-                        top: width * .01,
-                        child: Container(
-                          width: width * .45,
-                          alignment: Alignment.center,
-                          child: Column(
-                            children: [
-                              Icon(
-                                tabPages[index]['icon'],
-                                size: width * .076,
+                    ),
+                    Positioned(
+                      top: width * .01,
+                      child: Container(
+                        width: width * .45,
+                        alignment: Alignment.center,
+                        child: Column(
+                          children: [
+                            Icon(
+                              tabPages[index]['icon'],
+                              size: width * .076,
+                              color: index == _selectedIndex
+                                  ? ColorManager.onPrimary
+                                  : ColorManager.onSecondary.withOpacity(.6),
+                            ),
+                            Text(
+                              tabPages[index]['title'],
+                              style: TextStyle(
                                 color: index == _selectedIndex
                                     ? ColorManager.onPrimary
                                     : ColorManager.onSecondary.withOpacity(.6),
                               ),
-                              Text(
-                                tabPages[index]['title'],
-                                style: TextStyle(
-                                  color: index == _selectedIndex
-                                      ? ColorManager.onPrimary
-                                      : ColorManager.onSecondary
-                                          .withOpacity(.6),
-                                ),
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
+          ),
+          const SizedBox(
+            height: 15,
           ),
           tabPages[_selectedIndex]['pageRoute'] as Widget,
         ],
