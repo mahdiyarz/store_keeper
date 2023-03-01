@@ -9,6 +9,7 @@ import '../presentation/resources/import_resources.dart';
 class GoodsListView extends StatelessWidget {
   final List<BrandsModel> brandsList;
   final List<GoodsModel> goodsList;
+  final int? incomingListId;
   final bool isAdding;
   final double width;
   const GoodsListView({
@@ -17,6 +18,7 @@ class GoodsListView extends StatelessWidget {
     required this.brandsList,
     required this.goodsList,
     required this.isAdding,
+    this.incomingListId,
   }) : super(key: key);
 
   void _showModalBottomSheet({
@@ -44,6 +46,7 @@ class GoodsListView extends StatelessWidget {
     required BuildContext context,
     required GoodsModel addingIncomeGood,
     required BrandsModel brand,
+    required int incomingListId,
   }) {
     showModalBottomSheet(
       isDismissible: false,
@@ -56,6 +59,7 @@ class GoodsListView extends StatelessWidget {
           child: CreateOrUpdateIncomingGoodsScreen(
             brandName: brand,
             goodName: addingIncomeGood,
+            incomingListId: incomingListId,
           ),
         ),
       ),
@@ -337,6 +341,7 @@ class GoodsListView extends StatelessWidget {
                       context: context,
                       addingIncomeGood: goodsList[index],
                       brand: thisGoodBrand,
+                      incomingListId: incomingListId!,
                     ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

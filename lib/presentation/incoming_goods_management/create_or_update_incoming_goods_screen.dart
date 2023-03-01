@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 
 import 'package:store_keeper/bloc/bloc_exports.dart';
@@ -12,9 +10,11 @@ import '../../widgets/show_dialog_screen.dart';
 class CreateOrUpdateIncomingGoodsScreen extends StatefulWidget {
   final BrandsModel brandName;
   final GoodsModel goodName;
+  final int incomingListId;
   const CreateOrUpdateIncomingGoodsScreen({
     required this.brandName,
     required this.goodName,
+    required this.incomingListId,
     Key? key,
   }) : super(key: key);
 
@@ -28,11 +28,7 @@ class _CreateOrUpdateIncomingGoodsScreenState
   TextEditingController boxNumberController = TextEditingController();
   TextEditingController seedNumberController = TextEditingController();
   TextEditingController priceController = TextEditingController();
-  TextEditingController goodIdController = TextEditingController();
-  TextEditingController goodNameController = TextEditingController();
   TextEditingController incomingIdController = TextEditingController();
-  TextEditingController brandNameController = TextEditingController();
-  TextEditingController brandIdController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -65,7 +61,7 @@ class _CreateOrUpdateIncomingGoodsScreenState
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    'مشخصات کالای وارد شده رو وارد کنید...',
+                    '${widget.goodName.goodName} ${widget.brandName.brandName}',
                     style: TextStyle(
                       fontSize: 15,
                       color: ColorManager.onPrimaryContainer,
@@ -74,111 +70,6 @@ class _CreateOrUpdateIncomingGoodsScreenState
                   ),
                   const SizedBox(
                     height: 25,
-                  ),
-                  TextFormField(
-                    controller: goodNameController,
-                    autofocus: true,
-                    decoration: InputDecoration(
-                      suffixIcon: Icon(
-                        Icons.search,
-                        color: ColorManager.primary,
-                      ),
-                      errorStyle: TextStyle(
-                        color: ColorManager.error.withOpacity(.7),
-                        fontWeight: FontWeight.bold,
-                        shadows: [
-                          Shadow(
-                            offset: const Offset(0, 0),
-                            color: ColorManager.onError,
-                            blurRadius: 30,
-                          )
-                        ],
-                      ),
-                      hintText: 'سرچ کن...',
-                      border: const OutlineInputBorder(),
-                    ),
-                    // onChanged: (value) => searchSpecificGood(value),
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'اصل کاری همینه، با دقت انتخاب کن...';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 3,
-                      horizontal: 5,
-                    ),
-                    width: width,
-                    height: width * .7,
-                    decoration: BoxDecoration(
-                        color: ColorManager.primary,
-                        borderRadius: BorderRadius.circular(8)),
-                    child:
-                        // filteredGoods.isNotEmpty
-                        //     ? GridView.builder(
-                        //         gridDelegate:
-                        //             const SliverGridDelegateWithFixedCrossAxisCount(
-                        //           crossAxisCount: 2,
-                        //           childAspectRatio: 2.5,
-                        //           crossAxisSpacing: 5,
-                        //           mainAxisSpacing: 5,
-                        //         ),
-                        //         controller: ScrollController(),
-                        //         physics: const ScrollPhysics(),
-                        //         itemCount: filteredGoods.length,
-                        //         itemBuilder: (context, index) {
-                        //           log(filteredGoods.length.toString());
-                        //           return Container(
-                        //             decoration: BoxDecoration(
-                        //               color: ColorManager.primaryContainer,
-                        //               borderRadius: const BorderRadius.all(
-                        //                   Radius.circular(8)),
-                        //               boxShadow: [
-                        //                 BoxShadow(
-                        //                   color: ColorManager.shadow,
-                        //                   blurRadius: 2,
-                        //                   offset: const Offset(0, 0),
-                        //                   spreadRadius: 0,
-                        //                 ),
-                        //               ],
-                        //             ),
-                        //             child: Center(
-                        //               child: ListTile(
-                        //                 title: FittedBox(
-                        //                     fit: BoxFit.scaleDown,
-                        //                     child: Text(
-                        //                       filteredGoods[index].goodName,
-                        //                       style: Theme.of(context)
-                        //                           .textTheme
-                        //                           .bodyText1,
-                        //                     )),
-                        //                 subtitle: FittedBox(
-                        //                   fit: BoxFit.scaleDown,
-                        //                   child: Text(
-                        //                     filteredGoods[index].goodLatinName,
-                        //                     style: Theme.of(context)
-                        //                         .textTheme
-                        //                         .subtitle2,
-                        //                   ),
-                        //                 ),
-                        //                 onTap: () {},
-                        //               ),
-                        //             ),
-                        //           );
-                        //         },
-                        //       )
-                        //     :
-                        const Center(
-                      child: Text('کالایی با این مشخصات ثبت نشده'),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 8,
                   ),
                   TextFormField(
                     controller: boxNumberController,
@@ -197,13 +88,8 @@ class _CreateOrUpdateIncomingGoodsScreenState
                       ),
                       label: const Text('چند کارتن؟'),
                       border: const OutlineInputBorder(),
+                      hintText: 'تعداد کارتن های کامل',
                     ),
-                    // validator: (value) {
-                    //   if (value!.isEmpty) {
-                    //     return 'تعداد جعبه های ورودی اجباریه!';
-                    //   }
-                    //   return null;
-                    // },
                   ),
                   const SizedBox(
                     height: 8,
@@ -224,14 +110,9 @@ class _CreateOrUpdateIncomingGoodsScreenState
                         ],
                       ),
                       label: const Text('چند عدد؟'),
+                      hintText: 'تعداد بدون کارتن',
                       border: const OutlineInputBorder(),
                     ),
-                    // validator: (value) {
-                    //   if (value!.isEmpty) {
-                    //     return 'تعداد جعبه های ورودی اجباریه!';
-                    //   }
-                    //   return null;
-                    // },
                   ),
                   const SizedBox(
                     height: 8,
@@ -255,14 +136,9 @@ class _CreateOrUpdateIncomingGoodsScreenState
                         ],
                       ),
                       label: const Text('قیمتش چقدره؟'),
+                      hintText: 'به ریال...',
                       border: const OutlineInputBorder(),
                     ),
-                    // validator: (value) {
-                    //   if (value!.isEmpty) {
-                    //     return 'تعداد جعبه های ورودی اجباریه!';
-                    //   }
-                    //   return null;
-                    // },
                   ),
                   const SizedBox(
                     height: 8,
@@ -273,66 +149,98 @@ class _CreateOrUpdateIncomingGoodsScreenState
                       Expanded(
                         child: ElevatedButton(
                           onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              if (brandNameController.text.isNotEmpty &&
-                                  boxNumberController.text.isNotEmpty &&
-                                  brandIdController.text.isNotEmpty) {
-                                const snackBar = SnackBar(
-                                  dismissDirection: DismissDirection.up,
-                                  content:
-                                      // widget.oldIncomingList != null
-                                      //     ? const Text(
-                                      //         'به خوبی ویرایشش کردی',
-                                      //         textAlign: TextAlign.center,
-                                      //       )
-                                      //     :
-                                      Text(
-                                    'یکی دیگه به لیست اضافه شد',
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  duration: Duration(
-                                    seconds: 2,
-                                  ),
-                                );
-                                // widget.oldIncomingList != null
-                                //     ? context.read<AppBloc>().add(
-                                //           EditIncomingList(
-                                //             oldIncomingListId: widget
-                                //                 .oldIncomingList!
-                                //                 .incomingListId!,
-                                //             newIncomingListItem:
-                                //                 IncomingListModel(
-                                //                     brandId: int.parse(
-                                //                         brandIdController.text),
-                                //                     numOfBoxes:
-                                //                         int.parse(
-                                //                             boxNumberController
-                                //                                 .text),
-                                //                     incomingListDate: widget
-                                //                         .oldIncomingList!
-                                //                         .incomingListDate),
-                                //           ),
-                                //         )
-                                //     :
-                                context.read<AppBloc>().add(
-                                      AddIncomingList(
-                                        addIncomingListItem: IncomingListModel(
-                                          brandId: int.parse(
-                                            brandIdController.text,
-                                          ),
-                                          numOfBoxes: int.parse(
-                                            boxNumberController.text,
-                                          ),
-                                          incomingListDate: DateTime.now(),
-                                        ),
+                            if (boxNumberController.text.isEmpty &&
+                                seedNumberController.text.isEmpty &&
+                                priceController.text.isEmpty) {
+                              return;
+                            } else {
+                              final int goodsId = widget.goodName.goodId!;
+                              context.read<AppBloc>().add(
+                                    AddCountGood(
+                                      countedGood: CountGoodsModel(
+                                        numOfBox:
+                                            boxNumberController.text.isEmpty
+                                                ? 0
+                                                : int.tryParse(
+                                                    boxNumberController.text),
+                                        numOfSeed:
+                                            seedNumberController.text.isEmpty
+                                                ? 0
+                                                : int.tryParse(
+                                                    seedNumberController.text),
+                                        price: priceController.text.isEmpty
+                                            ? 0
+                                            : int.tryParse(
+                                                priceController.text),
+                                        goodsId: goodsId,
+                                        incomingListId: widget.incomingListId,
+                                        lakingId: null,
                                       ),
-                                    );
-                                Navigator.of(context).pop();
-                                clearTextControllers();
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
-                              }
+                                    ),
+                                  );
+                              Navigator.of(context).pop();
+                              clearTextControllers();
                             }
+                            // if (_formKey.currentState!.validate()) {
+                            //   if (brandNameController.text.isNotEmpty &&
+                            //       boxNumberController.text.isNotEmpty &&
+                            //       brandIdController.text.isNotEmpty) {
+                            //     const snackBar = SnackBar(
+                            //       dismissDirection: DismissDirection.up,
+                            //       content:
+                            //           // widget.oldIncomingList != null
+                            //           //     ? const Text(
+                            //           //         'به خوبی ویرایشش کردی',
+                            //           //         textAlign: TextAlign.center,
+                            //           //       )
+                            //           //     :
+                            //           Text(
+                            //         'یکی دیگه به لیست اضافه شد',
+                            //         textAlign: TextAlign.center,
+                            //       ),
+                            //       duration: Duration(
+                            //         seconds: 2,
+                            //       ),
+                            //     );
+                            //     // widget.oldIncomingList != null
+                            //     //     ? context.read<AppBloc>().add(
+                            //     //           EditIncomingList(
+                            //     //             oldIncomingListId: widget
+                            //     //                 .oldIncomingList!
+                            //     //                 .incomingListId!,
+                            //     //             newIncomingListItem:
+                            //     //                 IncomingListModel(
+                            //     //                     brandId: int.parse(
+                            //     //                         brandIdController.text),
+                            //     //                     numOfBoxes:
+                            //     //                         int.parse(
+                            //     //                             boxNumberController
+                            //     //                                 .text),
+                            //     //                     incomingListDate: widget
+                            //     //                         .oldIncomingList!
+                            //     //                         .incomingListDate),
+                            //     //           ),
+                            //     //         )
+                            //     //     :
+                            //     context.read<AppBloc>().add(
+                            //           AddIncomingList(
+                            //             addIncomingListItem: IncomingListModel(
+                            //               brandId: int.parse(
+                            //                 brandIdController.text,
+                            //               ),
+                            //               numOfBoxes: int.parse(
+                            //                 boxNumberController.text,
+                            //               ),
+                            //               incomingListDate: DateTime.now(),
+                            //             ),
+                            //           ),
+                            //         );
+                            //     Navigator.of(context).pop();
+                            //     clearTextControllers();
+                            //     ScaffoldMessenger.of(context)
+                            //         .showSnackBar(snackBar);
+                            //   }
+                            // }
                           },
                           child: const Text('ثبت'),
                         ),
@@ -416,7 +324,7 @@ class _CreateOrUpdateIncomingGoodsScreenState
 
   void clearTextControllers() {
     boxNumberController.clear();
-    brandNameController.clear();
-    brandIdController.clear();
+    seedNumberController.clear();
+    priceController.clear();
   }
 }

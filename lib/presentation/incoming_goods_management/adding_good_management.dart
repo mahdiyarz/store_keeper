@@ -108,6 +108,7 @@ class _AddingGoodManagementState extends State<AddingGoodManagement> {
                     brandsList: widget.brandsList,
                     goodsList: filteredGoods,
                     isAdding: true,
+                    incomingListId: widget.incomingGoodId,
                   ),
                 ),
               ),

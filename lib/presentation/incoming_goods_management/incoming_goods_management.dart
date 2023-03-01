@@ -26,6 +26,7 @@ class IncomingGoodsManagementScreen extends StatelessWidget {
           child: CreateOrUpdateIncomingGoodsScreen(
             brandName: brandName,
             goodName: goodName,
+            incomingListId: incomingListId,
           ),
         ),
       ),
