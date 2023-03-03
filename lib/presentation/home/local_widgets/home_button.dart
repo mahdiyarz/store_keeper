@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../presentation/resources/import_resources.dart';
+import '../../resources/import_resources.dart';
 
 class HomeButton extends StatelessWidget {
   const HomeButton({
@@ -52,6 +52,7 @@ class HomeButton extends StatelessWidget {
               fit: BoxFit.scaleDown,
               child: Text(
                 title,
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   color: ColorManager.onPrimary,
                   fontSize: FontSize.s12,

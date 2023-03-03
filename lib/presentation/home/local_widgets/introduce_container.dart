@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../presentation/resources/import_resources.dart';
+import '../../resources/import_resources.dart';
 
 class IntroduceContainer extends StatelessWidget {
   const IntroduceContainer({
