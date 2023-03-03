@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'local_widgets/control_panel.dart';
-import '../../widgets/custom_drawer.dart';
+import 'local_widgets/custom_drawer.dart';
 import 'local_widgets/introduce_container.dart';
 import '../resources/import_resources.dart';
 
