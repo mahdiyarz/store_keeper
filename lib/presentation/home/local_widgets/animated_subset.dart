@@ -81,12 +81,12 @@ class AnimatedSubset extends StatelessWidget {
               HomeButton(
                 title: titleButton3,
                 icon: iconButton3,
-                routeName: '',
+                routeName: routeButton3,
               ),
               HomeButton(
                 title: titleButton4,
                 icon: iconButton4,
-                routeName: '',
+                routeName: routeButton4,
               ),
             ],
           ),
