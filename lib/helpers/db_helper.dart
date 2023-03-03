@@ -2,6 +2,7 @@ import 'package:sqflite/sqflite.dart' as sqflite;
 import 'package:path/path.dart' as pathPackage;
 
 import '../models/import_models.dart';
+import '../models/persons_model.dart';
 
 class DBHelper {
   static final DBHelper instance = DBHelper._init();
@@ -296,6 +297,59 @@ class DBHelper {
       lakingTable,
       where: '${LakingFields.lakingId} = ?',
       whereArgs: [lakingModel.lakingId],
+    );
+  }
+
+  //* Persons CRUD queries
+  Future<PersonsModel> insertPersons(PersonsModel personsModel) async {
+    final db = await instance.database;
+    final result = await db.insert(personsTable, personsModel.toJson());
+
+    return personsModel.copyWith(personId: result);
+  }
+
+  Future<List<PersonsModel>> fetchPersonsData() async {
+    final db = await instance.database;
+    const orderBy = '${PersonsFields.personName} ASC';
+    final fetchResult = await db.query(personsTable, orderBy: orderBy);
+
+    return fetchResult.map((e) => PersonsModel.fromJson(e)).toList();
+  }
+
+  Future<PersonsModel> fetchSinglePersonData(int personId) async {
+    final db = await instance.database;
+
+    final fetchResult = await db.query(
+      personsTable,
+      columns: PersonsFields.values,
+      where: '${PersonsFields.personId} = ?',
+      whereArgs: [personId],
+    );
+
+    if (fetchResult.isNotEmpty) {
+      return PersonsModel.fromJson(fetchResult.first);
+    } else {
+      throw Exception('ID $personId not found');
+    }
+  }
+
+  Future<int> updatePersons(PersonsModel personsModel) async {
+    final db = await instance.database;
+
+    return db.update(
+      personsTable,
+      personsModel.toJson(),
+      where: '${PersonsFields.personId} = ?',
+      whereArgs: [personsModel.personId],
+    );
+  }
+
+  Future<int> deletePersons(PersonsModel personsModel) async {
+    final db = await instance.database;
+    return db.delete(
+      personsTable,
+      where: '${PersonsFields.personId} = ?',
+      whereArgs: [personsModel.personId],
     );
   }
 }
