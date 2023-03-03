@@ -157,7 +157,7 @@ class _ControlPanelState extends State<ControlPanel>
                   routeButton2: Routes.goodsRoute,
                   titleButton3: 'اشخاص',
                   iconButton3: Icons.person_search_rounded,
-                  routeButton3: '',
+                  routeButton3: Routes.personsRoute,
                   titleButton4: 'انبارها',
                   iconButton4: Icons.warehouse_rounded,
                   routeButton4: '',

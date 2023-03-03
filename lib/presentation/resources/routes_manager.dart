@@ -3,6 +3,7 @@ import 'package:store_keeper/presentation/incoming_goods_management/tab_incoming
 import 'package:store_keeper/presentation/resources/assets_manager.dart';
 
 import '../goods/goods_management_screen.dart';
+import '../persons/persons_management_screen.dart';
 import '../resources/strings_manager.dart';
 import '../import_presentation.dart';
 
@@ -12,6 +13,7 @@ class Routes {
   static const String brandsRoute = '/brands-management';
   static const String tabIncomingGoodsRoute = '/tab-incoming-goods';
   static const String goodsRoute = '/goods-management';
+  static const String personsRoute = '/persons-management';
 }
 
 class RouteGenerator {
@@ -28,6 +30,10 @@ class RouteGenerator {
       case Routes.goodsRoute:
         return MaterialPageRoute(
           builder: (context) => const GoodsManagementScreen(),
+        );
+      case Routes.personsRoute:
+        return MaterialPageRoute(
+          builder: (context) => const PersonsManagementScreen(),
         );
       case Routes.tabIncomingGoodsRoute:
         final args =
