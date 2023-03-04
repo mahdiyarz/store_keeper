@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:store_keeper/models/persons_model.dart';
 import 'package:store_keeper/presentation/resources/color_manager.dart';
 
+import '../../bloc/bloc_exports.dart';
+
 class CreateOrUpdatePersonScreen extends StatelessWidget {
   final PersonsModel? oldPerson;
   const CreateOrUpdatePersonScreen({
@@ -12,7 +14,6 @@ class CreateOrUpdatePersonScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final nameKey = GlobalKey<FormState>();
-    final latinNameKey = GlobalKey<FormState>();
     TextEditingController nameController = TextEditingController();
     TextEditingController descriptionController = TextEditingController();
 
@@ -97,6 +98,9 @@ class CreateOrUpdatePersonScreen extends StatelessWidget {
                             personDescription: descriptionController.text,
                           );
                           Navigator.of(context).pop();
+                          context
+                              .read<AppBloc>()
+                              .add(AddPerson(person: person));
                           // oldPerson != null
                           //     ? context.read<AppBloc>().add(EditBrand(
                           //           oldBrand: oldBrand!,
