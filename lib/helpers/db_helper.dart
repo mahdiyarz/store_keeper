@@ -28,7 +28,7 @@ class DBHelper {
   Future<void> _createDB(sqflite.Database db, int version) async {
     const idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
     const textType = 'TEXT NOT NULL';
-    // const textTypeNull = 'TEXT';
+    const textTypeNull = 'TEXT';
     const intType = 'INTEGER NOT NULL';
     const intTypeNull = 'INTEGER';
     // const boolType = 'BOOLEAN NOT NULL';
@@ -80,6 +80,14 @@ class DBHelper {
         ${LakingFields.lakingId} $idType,
         ${LakingFields.lakingDate}  $textType,      
         ${LakingFields.lakingNum} $intType
+      )
+     ''');
+
+    await db.execute('''
+      CREATE TABLE $personsTable(
+        ${PersonsFields.personId} $idType,
+        ${PersonsFields.personName}  $textType,      
+        ${PersonsFields.personDescription} $textTypeNull
       )
      ''');
   }
