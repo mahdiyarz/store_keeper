@@ -5,9 +5,9 @@ import 'package:store_keeper/presentation/resources/import_resources.dart';
 import 'package:store_keeper/widgets/screens_style.dart';
 
 import '../../widgets/CircleButton.dart';
-import '../../widgets/brands_grid_view.dart';
 import '../../widgets/show_modal_bottom_button.dart';
 import 'create_or_update_person_screen.dart';
+import 'local_widgets/persons_grid_view.dart';
 
 class PersonsManagementScreen extends StatelessWidget {
   const PersonsManagementScreen({
@@ -16,7 +16,7 @@ class PersonsManagementScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
+    final double screenWidth = MediaQuery.of(context).size.width;
 
     return ScreensStyle(
       title: 'مدیریت اشخاص',
@@ -39,15 +39,14 @@ class PersonsManagementScreen extends StatelessWidget {
             return appState.personsList.isNotEmpty
                 ? Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: BrandsGridView(
-                      screenWidth: screenWidth,
-                      brandsList: appState.brandsList,
+                    child: PersonsGridView(
+                      personsList: appState.personsList,
                     ),
                   )
                 : Column(
                     children: [
-                      Image.asset(ImageAssets.brandsScreen),
-                      const Text('هنوز هیچی ثبت نشده!'),
+                      Image.asset(ImageAssets.personScreen),
+                      const Text('شخص حقوقی ثبت کنم یا حقیقی؟'),
                     ],
                   );
           }
