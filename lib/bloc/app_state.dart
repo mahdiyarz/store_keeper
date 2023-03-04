@@ -21,6 +21,7 @@ class DisplayAppState extends AppState {
   final List<BrandsModel> brandsList;
   final List<IncomingListModel> incomingList;
   final List<GoodsModel> goodsList;
+  final List<PersonsModel> personsList;
   final List<CountGoodsModel> countGoodsList;
   final List<LakingModel> lakingList;
   final String failureMessage;
@@ -30,6 +31,7 @@ class DisplayAppState extends AppState {
     required this.brandsList,
     required this.incomingList,
     required this.goodsList,
+    required this.personsList,
     required this.countGoodsList,
     required this.lakingList,
     required this.failureMessage,
@@ -41,6 +43,7 @@ class DisplayAppState extends AppState {
         brandsList,
         incomingList,
         goodsList,
+        personsList,
         countGoodsList,
         lakingList,
         failureMessage,

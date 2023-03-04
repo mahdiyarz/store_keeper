@@ -60,6 +60,50 @@ class EditBrand extends AppEvent {
       ];
 }
 
+//* Persons CRUD
+
+@immutable
+class AddPerson extends AppEvent {
+  final PersonsModel person;
+  const AddPerson({
+    required this.person,
+  });
+
+  @override
+  List<Object> get props => [
+        person,
+      ];
+}
+
+@immutable
+class DeletePerson extends AppEvent {
+  final PersonsModel person;
+  const DeletePerson({
+    required this.person,
+  });
+
+  @override
+  List<Object> get props => [
+        person,
+      ];
+}
+
+@immutable
+class EditPerson extends AppEvent {
+  final PersonsModel oldPerson;
+  final PersonsModel newPerson;
+  const EditPerson({
+    required this.oldPerson,
+    required this.newPerson,
+  });
+
+  @override
+  List<Object> get props => [
+        oldPerson,
+        newPerson,
+      ];
+}
+
 //* Incoming List CRUD
 
 @immutable
