@@ -45,7 +45,7 @@ class WarehousesManagementScreen extends StatelessWidget {
                   )
                 : Column(
                     children: [
-                      Image.asset(ImageAssets.personScreen),
+                      Image.asset(ImageAssets.warehouseScreen),
                       const Text('چند تا انبار نیاز دارم؟'),
                     ],
                   );

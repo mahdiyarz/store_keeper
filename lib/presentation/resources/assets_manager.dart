@@ -9,4 +9,5 @@ class ImageAssets {
   static const String goodsScreen = '$imagePath/empty_goods.png';
   static const String brandsScreen = '$imagePath/mystery_brand.png';
   static const String personScreen = '$imagePath/no_person.png';
+  static const String warehouseScreen = '$imagePath/warehouse_management.png';
 }
