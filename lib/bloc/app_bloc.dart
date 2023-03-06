@@ -34,6 +34,45 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     on<EditGood>(_onEditGood);
     on<AddCountGood>(_onAddCountGood);
     on<AddPerson>(_onAddPerson);
+    on<EditPerson>(_onEditPerson);
+    on<DeletePerson>(_onDeletePerson);
+  }
+
+  void _onDeletePerson(DeletePerson event, Emitter<AppState> emit) async {
+    log('run delete person');
+  }
+
+  void _onEditPerson(EditPerson event, Emitter<AppState> emit) async {
+    log('run edit person');
+
+    final PersonsModel oldPerson = event.oldPerson;
+    final PersonsModel editedPerson = event.newPerson;
+
+    final int oldPersonIndex = _personsList.indexOf(oldPerson);
+
+    if (editedPerson.personName.isNotEmpty) {
+      await DBHelper.instance.updatePersons(
+        PersonsModel(
+          personId: oldPerson.personId,
+          personName: editedPerson.personName,
+          personDescription: editedPerson.personDescription,
+        ),
+      );
+    }
+
+    emit(
+      DisplayAppState(
+          brandsList: _brandsList,
+          incomingList: _incomingList,
+          goodsList: _goodsList,
+          personsList: _personsList
+            ..remove(oldPerson)
+            ..insert(oldPersonIndex, editedPerson),
+          countGoodsList: _countGoodsList,
+          lakingList: _lakingList,
+          failureMessage: _failureMessage,
+          successMessage: _successMessage),
+    );
   }
 
   void _onAddPerson(AddPerson event, Emitter<AppState> emit) async {

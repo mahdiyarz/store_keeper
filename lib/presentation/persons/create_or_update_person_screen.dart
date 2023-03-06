@@ -98,17 +98,21 @@ class CreateOrUpdatePersonScreen extends StatelessWidget {
                             personDescription: descriptionController.text,
                           );
                           Navigator.of(context).pop();
-                          context
-                              .read<AppBloc>()
-                              .add(AddPerson(person: person));
-                          // oldPerson != null
-                          //     ? context.read<AppBloc>().add(EditBrand(
-                          //           oldBrand: oldBrand!,
-                          //           newBrand: brand,
-                          //         ))
-                          //     : context
-                          //         .read<AppBloc>()
-                          //         .add(AddBrand(brand: brand));
+
+                          oldPerson != null
+                              ? context.read<AppBloc>().add(
+                                    EditPerson(
+                                      oldPerson: oldPerson!,
+                                      newPerson: PersonsModel(
+                                          personId: oldPerson!.personId,
+                                          personName: nameController.text,
+                                          personDescription:
+                                              descriptionController.text),
+                                    ),
+                                  )
+                              : context
+                                  .read<AppBloc>()
+                                  .add(AddPerson(person: person));
                           nameController.clear();
                           descriptionController.clear();
                         } else if (nameController.value.text.isEmpty) {
@@ -127,24 +131,19 @@ class CreateOrUpdatePersonScreen extends StatelessWidget {
                       Navigator.of(context).pop();
                     },
                     child: const Text('انصراف')),
-                // if (oldBrand != null) const SizedBox(width: 5),
-                // if (oldBrand != null)
-                //   ElevatedButton(
-                //       onPressed: () {
-                //         context.read<AppBloc>().add(
-                //               DeleteBrand(
-                //                 brand: oldBrand!,
-                //               ),
-                //             );
-                //         Navigator.of(context).pop();
-                //         nameController.clear();
-                //         latinNameController.clear();
-                //       },
-                //       style: ElevatedButton.styleFrom(
-                //         backgroundColor: ColorManager.error,
-                //         foregroundColor: ColorManager.onError,
-                //       ),
-                //       child: const Text('حذف')),
+                if (oldPerson != null) const SizedBox(width: 5),
+                if (oldPerson != null)
+                  ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        nameController.clear();
+                        descriptionController.clear();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: ColorManager.error,
+                        foregroundColor: ColorManager.onError,
+                      ),
+                      child: const Text('حذف')),
               ],
             )
           ],
