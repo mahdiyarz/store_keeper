@@ -160,7 +160,7 @@ class _ControlPanelState extends State<ControlPanel>
                   routeButton3: Routes.personsRoute,
                   titleButton4: 'انبارها',
                   iconButton4: Icons.warehouse_rounded,
-                  routeButton4: '',
+                  routeButton4: Routes.warehouseRoute,
                 )
               : const SizedBox(),
           _isToggleButton2 != null && _isToggleButton2 == true

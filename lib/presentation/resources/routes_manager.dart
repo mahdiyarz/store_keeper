@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:store_keeper/presentation/incoming_goods_management/tab_incoming_goods_management_screen.dart';
 import 'package:store_keeper/presentation/resources/assets_manager.dart';
+import 'package:store_keeper/presentation/warehouse/warehouses_management_screen.dart';
 
 import '../goods/goods_management_screen.dart';
 import '../persons/persons_management_screen.dart';
@@ -14,6 +15,7 @@ class Routes {
   static const String tabIncomingGoodsRoute = '/tab-incoming-goods';
   static const String goodsRoute = '/goods-management';
   static const String personsRoute = '/persons-management';
+  static const String warehouseRoute = '/warehouse-management';
 }
 
 class RouteGenerator {
@@ -34,6 +36,10 @@ class RouteGenerator {
       case Routes.personsRoute:
         return MaterialPageRoute(
           builder: (context) => const PersonsManagementScreen(),
+        );
+      case Routes.warehouseRoute:
+        return MaterialPageRoute(
+          builder: (context) => const WarehousesManagementScreen(),
         );
       case Routes.tabIncomingGoodsRoute:
         final args =
