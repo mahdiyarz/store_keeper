@@ -104,6 +104,50 @@ class EditPerson extends AppEvent {
       ];
 }
 
+//* Warehouse CRUD
+
+@immutable
+class AddWarehouse extends AppEvent {
+  final WarehousesModel warehouse;
+  const AddWarehouse({
+    required this.warehouse,
+  });
+
+  @override
+  List<Object> get props => [
+        warehouse,
+      ];
+}
+
+@immutable
+class DeleteWarehouse extends AppEvent {
+  final WarehousesModel warehouse;
+  const DeleteWarehouse({
+    required this.warehouse,
+  });
+
+  @override
+  List<Object> get props => [
+        warehouse,
+      ];
+}
+
+@immutable
+class EditWarehouse extends AppEvent {
+  final WarehousesModel oldWarehouse;
+  final WarehousesModel newWarehouse;
+  const EditWarehouse({
+    required this.oldWarehouse,
+    required this.newWarehouse,
+  });
+
+  @override
+  List<Object> get props => [
+        oldWarehouse,
+        newWarehouse,
+      ];
+}
+
 //* Incoming List CRUD
 
 @immutable

@@ -19,11 +19,12 @@ class AppStateInitial extends AppState {
 @immutable
 class DisplayAppState extends AppState {
   final List<BrandsModel> brandsList;
-  final List<IncomingListModel> incomingList;
   final List<GoodsModel> goodsList;
   final List<PersonsModel> personsList;
+  final List<WarehousesModel> warehousesList;
   final List<CountGoodsModel> countGoodsList;
   final List<LakingModel> lakingList;
+  final List<IncomingListModel> incomingList;
   final String failureMessage;
   final String successMessage;
 
@@ -32,6 +33,7 @@ class DisplayAppState extends AppState {
     required this.incomingList,
     required this.goodsList,
     required this.personsList,
+    required this.warehousesList,
     required this.countGoodsList,
     required this.lakingList,
     required this.failureMessage,
@@ -44,6 +46,7 @@ class DisplayAppState extends AppState {
         incomingList,
         goodsList,
         personsList,
+        warehousesList,
         countGoodsList,
         lakingList,
         failureMessage,

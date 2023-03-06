@@ -8,6 +8,8 @@ import 'package:store_keeper/models/import_models.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:store_keeper/models/persons_model.dart';
 
+import '../models/warehouses_model.dart';
+
 part 'app_event.dart';
 part 'app_state.dart';
 
@@ -18,6 +20,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   final List<CountGoodsModel> _countGoodsList = [];
   final List<LakingModel> _lakingList = [];
   final List<PersonsModel> _personsList = [];
+  final List<WarehousesModel> _warehousesList = [];
   late String _failureMessage;
   late String _successMessage;
 
@@ -70,6 +73,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
             ..insert(oldPersonIndex, editedPerson),
           countGoodsList: _countGoodsList,
           lakingList: _lakingList,
+          warehousesList: _warehousesList,
           failureMessage: _failureMessage,
           successMessage: _successMessage),
     );
@@ -101,6 +105,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
           ..addAll(lastUpdatedPersons),
         countGoodsList: _countGoodsList,
         lakingList: _lakingList,
+        warehousesList: _warehousesList,
         failureMessage: _failureMessage,
         successMessage: _successMessage,
       ),
@@ -136,6 +141,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         personsList: _personsList,
         countGoodsList: _countGoodsList,
         lakingList: _lakingList,
+        warehousesList: _warehousesList,
         failureMessage: _failureMessage,
         successMessage: _successMessage,
       ),
@@ -172,6 +178,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         personsList: _personsList,
         countGoodsList: _countGoodsList,
         lakingList: _lakingList,
+        warehousesList: _warehousesList,
         failureMessage: _failureMessage,
         successMessage: _successMessage,
       ),
@@ -206,6 +213,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
           personsList: _personsList,
           countGoodsList: _countGoodsList,
           lakingList: _lakingList,
+          warehousesList: _warehousesList,
           failureMessage: _failureMessage,
           successMessage: _successMessage,
         ),
@@ -248,6 +256,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
               personsList: _personsList,
               countGoodsList: _countGoodsList,
               lakingList: _lakingList,
+              warehousesList: _warehousesList,
               failureMessage: _failureMessage,
               successMessage: _successMessage,
             ),
@@ -262,6 +271,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
               personsList: _personsList,
               countGoodsList: _countGoodsList,
               lakingList: _lakingList,
+              warehousesList: _warehousesList,
               failureMessage: _failureMessage,
               successMessage: _successMessage,
             ),
@@ -280,6 +290,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
           personsList: _personsList,
           countGoodsList: _countGoodsList,
           lakingList: _lakingList,
+          warehousesList: _warehousesList,
           failureMessage: _failureMessage,
           successMessage: _successMessage,
         ),
@@ -313,6 +324,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         personsList: _personsList,
         countGoodsList: _countGoodsList,
         lakingList: _lakingList,
+        warehousesList: _warehousesList,
         failureMessage: _failureMessage,
         successMessage: _successMessage,
       ),
@@ -363,6 +375,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         personsList: _personsList,
         countGoodsList: _countGoodsList,
         lakingList: _lakingList,
+        warehousesList: _warehousesList,
         failureMessage: _failureMessage,
         successMessage: _successMessage,
       ),
@@ -388,6 +401,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
             personsList: _personsList,
             countGoodsList: _countGoodsList,
             lakingList: _lakingList,
+            warehousesList: _warehousesList,
             failureMessage: _failureMessage,
             successMessage: _successMessage),
       );
@@ -442,6 +456,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
           personsList: _personsList,
           countGoodsList: _countGoodsList,
           lakingList: _lakingList,
+          warehousesList: _warehousesList,
           failureMessage: _failureMessage,
           successMessage: _successMessage,
         ),
@@ -489,6 +504,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
           personsList: _personsList,
           countGoodsList: _countGoodsList,
           lakingList: _lakingList,
+          warehousesList: _warehousesList,
           failureMessage: _failureMessage,
           successMessage: _successMessage,
         ),
@@ -518,6 +534,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
             ..removeWhere((element) =>
                 element.incomingListId == deletedIncomeItem.incomingListId),
           lakingList: _lakingList,
+          warehousesList: _warehousesList,
           failureMessage: _failureMessage,
           successMessage: _successMessage,
         ),
@@ -532,6 +549,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
           personsList: _personsList,
           countGoodsList: _countGoodsList,
           lakingList: _lakingList,
+          warehousesList: _warehousesList,
           failureMessage: _failureMessage,
           successMessage: _successMessage,
         ),
@@ -569,6 +587,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
           ..clear()
           ..addAll(lastUpdatedCountGoods),
         lakingList: _lakingList,
+        warehousesList: _warehousesList,
         failureMessage: _failureMessage,
         successMessage: _successMessage,
       ),
