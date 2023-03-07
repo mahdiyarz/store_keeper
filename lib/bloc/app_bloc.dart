@@ -39,6 +39,70 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     on<AddPerson>(_onAddPerson);
     on<EditPerson>(_onEditPerson);
     on<DeletePerson>(_onDeletePerson);
+    on<AddWarehouse>(_onAddWarehouse);
+    on<EditWarehouse>(_onEditWarehouse);
+  }
+  void _onEditWarehouse(EditWarehouse event, Emitter<AppState> emit) async {
+    log('run edit wh');
+
+    final WarehousesModel oldWarehouse = event.oldWarehouse;
+    final WarehousesModel editedWarehouse = event.newWarehouse;
+
+    final int oldWarehouseIndex = _warehousesList.indexOf(oldWarehouse);
+
+    if (editedWarehouse.warehouseName.isNotEmpty) {
+      await DBHelper.instance.updateWarehouse(
+        WarehousesModel(
+          warehouseId: oldWarehouse.warehouseId,
+          warehouseName: editedWarehouse.warehouseName,
+        ),
+      );
+    }
+
+    emit(
+      DisplayAppState(
+        brandsList: _brandsList,
+        incomingList: _incomingList,
+        goodsList: _goodsList,
+        personsList: _personsList,
+        warehousesList: _warehousesList
+          ..remove(oldWarehouse)
+          ..insert(oldWarehouseIndex, editedWarehouse),
+        countGoodsList: _countGoodsList,
+        lakingList: _lakingList,
+        failureMessage: _failureMessage,
+        successMessage: _successMessage,
+      ),
+    );
+  }
+
+  void _onAddWarehouse(AddWarehouse event, Emitter<AppState> emit) async {
+    log('run add warehouse');
+
+    final WarehousesModel warehouse = event.warehouse;
+
+    if (warehouse.warehouseName.isNotEmpty) {
+      await DBHelper.instance.insertWarehouse(warehouse);
+    }
+
+    final List<WarehousesModel> lastUpdatedWarehouses =
+        await DBHelper.instance.fetchWarehousesData();
+
+    emit(
+      DisplayAppState(
+        brandsList: _brandsList,
+        incomingList: _incomingList,
+        goodsList: _goodsList,
+        personsList: _personsList,
+        warehousesList: _warehousesList
+          ..clear()
+          ..addAll(lastUpdatedWarehouses),
+        countGoodsList: _countGoodsList,
+        lakingList: _lakingList,
+        failureMessage: _failureMessage,
+        successMessage: _successMessage,
+      ),
+    );
   }
 
   void _onDeletePerson(DeletePerson event, Emitter<AppState> emit) async {
