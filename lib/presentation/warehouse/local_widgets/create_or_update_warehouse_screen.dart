@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:store_keeper/bloc/bloc_exports.dart';
 import 'package:store_keeper/models/warehouses_model.dart';
 import 'package:store_keeper/presentation/resources/color_manager.dart';
 
@@ -79,21 +80,21 @@ class CreateOrUpdateWarehouseScreen extends StatelessWidget {
                           );
                           Navigator.of(context).pop();
 
-                          // oldWarehouse != null
-                          //     ?
-                          //     // context.read<AppBloc>().add(
-                          //     //       EditPerson(
-                          //     //         oldPerson: oldPerson!,
-                          //     //         newPerson: PersonsModel(
-                          //     //             personId: oldPerson!.personId,
-                          //     //             personName: nameController.text,
-                          //     //             personDescription:
-                          //     //                 descriptionController.text),
-                          //     //       ),
-                          //     //     )
-                          //     : context
-                          //         .read<AppBloc>()
-                          //         .add(AddPerson(person: person));
+                          oldWarehouse != null
+                              ? context.read<AppBloc>().add(
+                                    EditWarehouse(
+                                      oldWarehouse: oldWarehouse!,
+                                      newWarehouse: WarehousesModel(
+                                        warehouseId: oldWarehouse!.warehouseId,
+                                        warehouseName: nameController.text,
+                                      ),
+                                    ),
+                                  )
+                              : context.read<AppBloc>().add(
+                                    AddWarehouse(
+                                      warehouse: warehouse,
+                                    ),
+                                  );
                           nameController.clear();
                         } else if (nameController.value.text.isEmpty) {
                           // TODO: implement validation
