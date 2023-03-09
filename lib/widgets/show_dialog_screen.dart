@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 
-import 'package:store_keeper/models/brands_model.dart';
-
-import '../presentation/brands/create_or_update_brand_screen.dart';
+import 'package:store_keeper/models/persons_model.dart';
+import 'package:store_keeper/presentation/persons/create_or_update_person_screen.dart';
 
 class ShowDialogScreen extends StatelessWidget {
   final double width;
-  final List<BrandsModel> brandsList;
+  final List<PersonsModel> personsList;
   const ShowDialogScreen({
     Key? key,
     required this.width,
-    required this.brandsList,
+    required this.personsList,
   }) : super(key: key);
 
-  void _showModalBottomSheet(BuildContext context, {BrandsModel? brandsModel}) {
+  void _showModalBottomSheet(BuildContext context,
+      {PersonsModel? personsModel}) {
     showModalBottomSheet(
       isDismissible: false,
       isScrollControlled: true,
@@ -22,8 +22,8 @@ class ShowDialogScreen extends StatelessWidget {
         child: Container(
           padding:
               EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-          child: CreateOrUpdateBrandScreen(
-            oldBrand: brandsModel,
+          child: CreateOrUpdatePersonScreen(
+            oldPerson: personsModel,
           ),
         ),
       ),
@@ -36,7 +36,7 @@ class ShowDialogScreen extends StatelessWidget {
       width: width * .5,
       height: width * .8,
       padding: const EdgeInsets.symmetric(horizontal: 8),
-      child: brandsList.isEmpty
+      child: personsList.isEmpty
           ? const Center(
               child: Text(
                 'هنوز هیچ برندی ثبت نشده است!',
@@ -52,7 +52,7 @@ class ShowDialogScreen extends StatelessWidget {
                 crossAxisSpacing: 8,
                 mainAxisSpacing: 8,
               ),
-              itemCount: brandsList.length,
+              itemCount: personsList.length,
               itemBuilder: (context, index) => Container(
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
@@ -64,24 +64,24 @@ class ShowDialogScreen extends StatelessWidget {
                   child: ListTile(
                     title: FittedBox(
                       fit: BoxFit.scaleDown,
-                      child: Text(brandsList[index].brandName,
+                      child: Text(personsList[index].personName,
                           style: const TextStyle(color: Colors.black54),
                           textAlign: TextAlign.center),
                     ),
-                    subtitle: FittedBox(
-                      fit: BoxFit.scaleDown,
-                      child: Text(brandsList[index].brandLatinName,
-                          style: const TextStyle(color: Colors.black54),
-                          textAlign: TextAlign.center),
-                    ),
+                    // subtitle: FittedBox(
+                    //   fit: BoxFit.scaleDown,
+                    //   child: Text(personsList[index].brandLatinName,
+                    //       style: const TextStyle(color: Colors.black54),
+                    //       textAlign: TextAlign.center),
+                    // ),
                     onLongPress: () {
                       Navigator.of(context).pop();
                       _showModalBottomSheet(context,
-                          brandsModel: brandsList[index]);
+                          personsModel: personsList[index]);
                     },
                     onTap: () => Navigator.pop(context, [
-                      brandsList[index].brandId,
-                      brandsList[index].brandName,
+                      personsList[index].personId,
+                      personsList[index].personName,
                     ]),
                   ),
                 ),

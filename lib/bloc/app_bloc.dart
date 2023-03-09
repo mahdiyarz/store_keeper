@@ -292,16 +292,18 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
     final BrandsModel deletedBrand = event.brand;
 
-    final bool isExistBrandOnIncomingList = _incomingList.isNotEmpty
-        ? _incomingList
-            .any((element) => element.brandId == deletedBrand.brandId)
-        : false; //! false means we can delete this brand and it is not exist on incoming list
+    // final bool isExistBrandOnIncomingList = _incomingList.isNotEmpty
+    //     ? _incomingList
+    //         .any((element) => element.brandId == deletedBrand.brandId)
+    //     : false; //! false means we can delete this brand and it is not exist on incoming list
 
     final bool isExistBrandOnGoods = _goodsList.isNotEmpty
         ? _goodsList.any((element) => element.brandId == deletedBrand.brandId)
         : false; //! false means we can delete this brand and it is not exist on goods list
 
-    if (isExistBrandOnIncomingList == false && isExistBrandOnGoods == false) {
+    if (
+        // isExistBrandOnIncomingList == false &&
+        isExistBrandOnGoods == false) {
       try {
         final response = await DBHelper.instance.deleteBrands(
           BrandsModel(
@@ -371,7 +373,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     final IncomingListModel incomingListItem = event.addIncomingListItem;
 
     if (incomingListItem.numOfBoxes.toString().isNotEmpty &&
-        incomingListItem.brandId.toString().isNotEmpty) {
+        incomingListItem.personId.toString().isNotEmpty) {
       await DBHelper.instance.insertIncomingList(incomingListItem);
     }
 
@@ -539,12 +541,12 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     final int oldIncomeIndex = _incomingList.indexOf(oldIncomingList);
 
     if (editedIncomingList.numOfBoxes.toString().isNotEmpty &&
-        editedIncomingList.brandId.toString().isNotEmpty &&
+        editedIncomingList.personId.toString().isNotEmpty &&
         editedIncomingList.incomingListDate.toString().isNotEmpty) {
       await DBHelper.instance.updateIncomingList(
         IncomingListModel(
           incomingListId: incomeId,
-          brandId: editedIncomingList.brandId,
+          personId: editedIncomingList.personId,
           numOfBoxes: editedIncomingList.numOfBoxes,
           incomingListDate: editedIncomingList.incomingListDate,
         ),
@@ -559,7 +561,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
               oldIncomeIndex,
               IncomingListModel(
                 incomingListId: incomeId,
-                brandId: editedIncomingList.brandId,
+                personId: editedIncomingList.personId,
                 numOfBoxes: editedIncomingList.numOfBoxes,
                 incomingListDate: editedIncomingList.incomingListDate,
               ),

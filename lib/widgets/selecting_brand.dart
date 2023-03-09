@@ -6,19 +6,19 @@ import 'package:store_keeper/widgets/show_dialog_button.dart';
 import 'package:store_keeper/widgets/show_dialog_screen.dart';
 
 import '../bloc/bloc_exports.dart';
-import '../models/import_models.dart';
+import '../models/persons_model.dart';
 import '../presentation/resources/import_resources.dart';
 
-class SelectingBrand extends StatelessWidget {
+class SelectingPerson extends StatelessWidget {
   final DisplayAppState goodState;
-  final TextEditingController brandNameController;
-  final TextEditingController brandIdController;
+  final TextEditingController personNameController;
+  final TextEditingController personIdController;
 
-  const SelectingBrand({
+  const SelectingPerson({
     Key? key,
     required this.goodState,
-    required this.brandNameController,
-    required this.brandIdController,
+    required this.personNameController,
+    required this.personIdController,
   }) : super(key: key);
 
   @override
@@ -38,16 +38,16 @@ class SelectingBrand extends StatelessWidget {
           log('value is $returnValue');
 
           if (returnValue != null) {
-            brandNameController.text = returnValue[1];
-            final List<BrandsModel> cashedBrands = goodState.brandsList;
-            final BrandsModel chosenBrand = cashedBrands.firstWhere(
-                (element) => element.brandName == brandNameController.text);
-            brandIdController.text = chosenBrand.brandId.toString();
+            personNameController.text = returnValue[1];
+            final List<PersonsModel> cashedPersons = goodState.personsList;
+            final PersonsModel chosenPerson = cashedPersons.firstWhere(
+                (element) => element.personName == personNameController.text);
+            personIdController.text = chosenPerson.personId.toString();
           }
         });
       },
       child: Text(
-        'کدوم برند؟',
+        'از کجا اومده؟',
         style: TextStyle(
           color: ColorManager.onPrimaryContainer,
         ),
@@ -56,23 +56,23 @@ class SelectingBrand extends StatelessWidget {
   }
 
   Future<dynamic> showBrandsDialog(
-      BuildContext context, DisplayAppState brandsState, double width) {
+      BuildContext context, DisplayAppState appState, double width) {
     return showDialog(
       context: context,
       builder: (context) {
         return Directionality(
           textDirection: TextDirection.rtl,
           child: SimpleDialog(
-            title: brandsState.brandsList.isNotEmpty
+            title: appState.personsList.isNotEmpty
                 ? const Text(
-                    'وقت انتخاب برندشه',
+                    'بگو از کجا اومده',
                     textAlign: TextAlign.center,
                   )
                 : null,
             children: [
               ShowDialogScreen(
                 width: width,
-                brandsList: brandsState.brandsList,
+                personsList: appState.personsList,
               ),
               const Padding(
                 padding: EdgeInsets.fromLTRB(8, 5, 8, 0),

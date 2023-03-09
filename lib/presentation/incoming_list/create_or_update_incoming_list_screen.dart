@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:store_keeper/bloc/bloc_exports.dart';
+import 'package:store_keeper/models/persons_model.dart';
 import 'package:store_keeper/presentation/resources/color_manager.dart';
 
 import '../../models/import_models.dart';
@@ -10,16 +11,16 @@ import '../../widgets/show_dialog_screen.dart';
 
 class CreateOrUpdateIncomingListScreen extends StatelessWidget {
   final IncomingListModel? oldIncomingList;
-  final List<BrandsModel>? brandsList;
+  final List<PersonsModel>? personsList;
   CreateOrUpdateIncomingListScreen({
     required this.oldIncomingList,
-    required this.brandsList,
+    required this.personsList,
     Key? key,
   }) : super(key: key);
 
   TextEditingController boxNumberController = TextEditingController();
-  TextEditingController brandNameController = TextEditingController();
-  TextEditingController brandIdController = TextEditingController();
+  TextEditingController personNameController = TextEditingController();
+  TextEditingController personIdController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -28,11 +29,12 @@ class CreateOrUpdateIncomingListScreen extends StatelessWidget {
 
     if (oldIncomingList != null) {
       boxNumberController.text = oldIncomingList!.numOfBoxes.toString();
-      final String brandName = brandsList!
-          .firstWhere((element) => element.brandId == oldIncomingList!.brandId)
-          .brandName;
-      brandNameController.text = brandName;
-      brandIdController.text = oldIncomingList!.brandId.toString();
+      final String personName = personsList!
+          .firstWhere(
+              (element) => element.personId == oldIncomingList!.personId)
+          .personName;
+      personNameController.text = personName;
+      personIdController.text = oldIncomingList!.personId.toString();
     }
 
     return BlocBuilder<AppBloc, AppState>(builder: (context, brandsState) {
@@ -94,7 +96,7 @@ class CreateOrUpdateIncomingListScreen extends StatelessWidget {
                     children: [
                       Expanded(
                         child: TextFormField(
-                          controller: brandNameController,
+                          controller: personNameController,
                           readOnly: true,
                           decoration: InputDecoration(
                             errorStyle: TextStyle(
@@ -108,12 +110,12 @@ class CreateOrUpdateIncomingListScreen extends StatelessWidget {
                                 )
                               ],
                             ),
-                            hintText: 'هنوز برند انتخاب نکردی...',
+                            hintText: 'هنوز نگفتی از کجا اومده...',
                             border: const OutlineInputBorder(),
                           ),
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'اصل کار همین برندشه، با دقت انتخاب کن...';
+                              return 'اصل کار همینه، با دقت انتخاب کن...';
                             }
                             return null;
                           },
@@ -122,10 +124,10 @@ class CreateOrUpdateIncomingListScreen extends StatelessWidget {
                       const SizedBox(
                         width: 5,
                       ),
-                      SelectingBrand(
+                      SelectingPerson(
                         goodState: brandsState,
-                        brandNameController: brandNameController,
-                        brandIdController: brandIdController,
+                        personNameController: personNameController,
+                        personIdController: personIdController,
                       ),
                     ],
                   ),
@@ -136,9 +138,9 @@ class CreateOrUpdateIncomingListScreen extends StatelessWidget {
                         child: ElevatedButton(
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
-                              if (brandNameController.text.isNotEmpty &&
+                              if (personNameController.text.isNotEmpty &&
                                   boxNumberController.text.isNotEmpty &&
-                                  brandIdController.text.isNotEmpty) {
+                                  personIdController.text.isNotEmpty) {
                                 final snackBar = SnackBar(
                                   dismissDirection: DismissDirection.up,
                                   content: oldIncomingList != null
@@ -161,8 +163,9 @@ class CreateOrUpdateIncomingListScreen extends StatelessWidget {
                                                 .incomingListId!,
                                             newIncomingListItem:
                                                 IncomingListModel(
-                                                    brandId: int.parse(
-                                                        brandIdController.text),
+                                                    personId: int.parse(
+                                                        personIdController
+                                                            .text),
                                                     numOfBoxes:
                                                         int.parse(
                                                             boxNumberController
@@ -176,8 +179,8 @@ class CreateOrUpdateIncomingListScreen extends StatelessWidget {
                                           AddIncomingList(
                                             addIncomingListItem:
                                                 IncomingListModel(
-                                              brandId: int.parse(
-                                                brandIdController.text,
+                                              personId: int.parse(
+                                                personIdController.text,
                                               ),
                                               numOfBoxes: int.parse(
                                                 boxNumberController.text,
@@ -244,21 +247,21 @@ class CreateOrUpdateIncomingListScreen extends StatelessWidget {
   }
 
   Future<dynamic> showBrandsDialog(
-      BuildContext context, DisplayAppState brandsState, double width) {
+      BuildContext context, DisplayAppState appState, double width) {
     return showDialog(
       context: context,
       builder: (context) {
         return Directionality(
           textDirection: TextDirection.rtl,
           child: SimpleDialog(
-            title: brandsState.brandsList.isNotEmpty
+            title: appState.brandsList.isNotEmpty
                 ? const Text('برند خود را انتخاب کنید',
                     textAlign: TextAlign.center)
                 : null,
             children: [
               ShowDialogScreen(
                 width: width,
-                brandsList: brandsState.brandsList,
+                personsList: appState.personsList,
               ),
               const Padding(
                 padding: EdgeInsets.fromLTRB(8, 5, 8, 0),
@@ -273,7 +276,7 @@ class CreateOrUpdateIncomingListScreen extends StatelessWidget {
 
   void clearTextControllers() {
     boxNumberController.clear();
-    brandNameController.clear();
-    brandIdController.clear();
+    personNameController.clear();
+    personIdController.clear();
   }
 }

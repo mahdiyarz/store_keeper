@@ -222,7 +222,7 @@ class _CreateOrUpdateGoodScreenState extends State<CreateOrUpdateGoodScreen> {
                       const SizedBox(
                         width: 5,
                       ),
-                      SelectingBrand(
+                      SelectingPerson(
                         goodState: goodState,
                         brandNameController: brandNameController,
                         brandIdController: brandIdController,

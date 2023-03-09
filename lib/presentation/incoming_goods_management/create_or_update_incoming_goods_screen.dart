@@ -295,21 +295,21 @@ class _CreateOrUpdateIncomingGoodsScreenState
   }
 
   Future<dynamic> showBrandsDialog(
-      BuildContext context, DisplayAppState brandsState, double width) {
+      BuildContext context, DisplayAppState appState, double width) {
     return showDialog(
       context: context,
       builder: (context) {
         return Directionality(
           textDirection: TextDirection.rtl,
           child: SimpleDialog(
-            title: brandsState.brandsList.isNotEmpty
+            title: appState.brandsList.isNotEmpty
                 ? const Text('برند خود را انتخاب کنید',
                     textAlign: TextAlign.center)
                 : null,
             children: [
               ShowDialogScreen(
                 width: width,
-                brandsList: brandsState.brandsList,
+                personsList: appState.personsList,
               ),
               const Padding(
                 padding: EdgeInsets.fromLTRB(8, 5, 8, 0),

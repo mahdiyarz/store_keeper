@@ -36,7 +36,7 @@ class _IncomingListScreenState extends State<IncomingListScreen> {
               buttonTitle: 'ثبت ورود به انبار',
               buttonIcon: Icons.playlist_add_circle_rounded,
               showModalChildWidget: CreateOrUpdateIncomingListScreen(
-                brandsList: null,
+                personsList: null,
                 oldIncomingList: null,
               ),
             ),

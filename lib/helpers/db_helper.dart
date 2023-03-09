@@ -38,7 +38,7 @@ class DBHelper {
     await db.execute('''
       CREATE TABLE $incomingListTable(
         ${IncomingListFields.incomingListId} $idType,
-        ${IncomingListFields.brandId} $intType,
+        ${IncomingListFields.personId} $intType,
         ${IncomingListFields.numOfBoxes} $intType,
         ${IncomingListFields.incomingListDate}  $textType      
       )
