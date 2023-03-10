@@ -50,8 +50,6 @@ class RouteGenerator {
             boxNumber: args.boxNumber,
             dateTime: args.dateTime,
             incomingGoodId: args.incomingGoodId,
-            brandsList: args.brandsList,
-            goodsList: args.goodsList,
           ),
         );
 
