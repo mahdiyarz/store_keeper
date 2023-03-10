@@ -139,7 +139,6 @@ class _IncomingListScreenState extends State<IncomingListScreen> {
                           width: width,
                           personsList: appState.personsList,
                           incomingList: appState.incomingList,
-                          goodsList: appState.goodsList,
                         ),
                       )
                     : Column(

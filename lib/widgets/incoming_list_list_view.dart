@@ -9,14 +9,12 @@ import '../presentation/resources/import_resources.dart';
 
 class IncomingListListView extends StatelessWidget {
   final List<PersonsModel> personsList;
-  final List<GoodsModel> goodsList;
   final List<IncomingListModel> incomingList;
   final double width;
   const IncomingListListView({
     Key? key,
     required this.width,
     required this.personsList,
-    required this.goodsList,
     required this.incomingList,
   }) : super(key: key);
 
