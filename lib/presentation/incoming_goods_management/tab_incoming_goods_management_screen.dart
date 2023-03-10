@@ -69,88 +69,7 @@ class _TabIncomingGoodsManagementScreenState
             ];
             return Column(
               children: [
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: width * .04),
-                  height: width * .155,
-                  decoration: BoxDecoration(
-                    color: ColorManager.secondary,
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.black.withOpacity(.15),
-                          blurRadius: 30,
-                          offset: const Offset(0, 10)),
-                    ],
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: GridView.builder(
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                    ),
-                    itemCount: 2,
-                    itemBuilder: (context, index) => InkWell(
-                      onTap: () {
-                        setState(() {
-                          _selectedIndex = index;
-                          HapticFeedback.lightImpact();
-                        });
-                      },
-                      splashColor: Colors.transparent,
-                      highlightColor: Colors.transparent,
-                      child: Stack(
-                        children: [
-                          Positioned(
-                            top: 0,
-                            child: Center(
-                              child: AnimatedContainer(
-                                duration: const Duration(seconds: 1),
-                                curve: Curves.fastLinearToSlowEaseIn,
-                                height:
-                                    index == _selectedIndex ? width * .156 : 0,
-                                width:
-                                    index == _selectedIndex ? width * .46 : 0,
-                                decoration: BoxDecoration(
-                                  color: index == _selectedIndex
-                                      ? ColorManager.primary
-                                      : Colors.transparent,
-                                  borderRadius: BorderRadius.circular(13),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            top: width * .01,
-                            child: Container(
-                              width: width * .45,
-                              alignment: Alignment.center,
-                              child: Column(
-                                children: [
-                                  Icon(
-                                    tabPages[index]['icon'],
-                                    size: width * .076,
-                                    color: index == _selectedIndex
-                                        ? ColorManager.onPrimary
-                                        : ColorManager.onSecondary
-                                            .withOpacity(.6),
-                                  ),
-                                  Text(
-                                    tabPages[index]['title'],
-                                    style: TextStyle(
-                                      color: index == _selectedIndex
-                                          ? ColorManager.onPrimary
-                                          : ColorManager.onSecondary
-                                              .withOpacity(.6),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
+                customBottomNavigationBar(width, tabPages),
                 const SizedBox(
                   height: 15,
                 ),
@@ -166,6 +85,95 @@ class _TabIncomingGoodsManagementScreenState
       ),
       actionIcon: const CustomBackButton(pageRoute: Routes.incomingListsRoute),
       bodyButton: const SizedBox(),
+    );
+  }
+
+  Container customBottomNavigationBar(
+      double width, List<Map<String, dynamic>> tabPages) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: width * .05),
+      height: width * .155,
+      alignment: Alignment.topCenter,
+      decoration: BoxDecoration(
+        color: ColorManager.secondary,
+        boxShadow: [
+          BoxShadow(
+              color: ColorManager.shadow.withOpacity(.5),
+              blurRadius: 30,
+              offset: const Offset(0, 10)),
+        ],
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: GridView.builder(
+        scrollDirection: Axis.vertical,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          // childAspectRatio: 2.8,
+          mainAxisExtent: width * .156,
+        ),
+        itemCount: 2,
+        padding: const EdgeInsets.all(0),
+        shrinkWrap: false,
+        itemBuilder: (context, index) => InkWell(
+          onTap: () {
+            setState(() {
+              _selectedIndex = index;
+              HapticFeedback.lightImpact();
+            });
+          },
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          child: Center(
+            child: Stack(
+              children: [
+                SizedBox(
+                  width: width * .45,
+                  child: Center(
+                    child: AnimatedContainer(
+                      duration: const Duration(seconds: 1),
+                      curve: Curves.fastLinearToSlowEaseIn,
+                      height: index == _selectedIndex ? width * .156 : 0,
+                      width: index == _selectedIndex ? width * .46 : 0,
+                      decoration: BoxDecoration(
+                        color: index == _selectedIndex
+                            ? ColorManager.primary
+                            : Colors.transparent,
+                        borderRadius: BorderRadius.circular(13),
+                      ),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: width * .01,
+                  child: Container(
+                    width: width * .45,
+                    alignment: Alignment.center,
+                    child: Column(
+                      children: [
+                        Icon(
+                          tabPages[index]['icon'],
+                          size: width * .076,
+                          color: index == _selectedIndex
+                              ? ColorManager.onPrimary
+                              : ColorManager.onSecondary.withOpacity(.6),
+                        ),
+                        Text(
+                          tabPages[index]['title'],
+                          style: TextStyle(
+                            color: index == _selectedIndex
+                                ? ColorManager.onPrimary
+                                : ColorManager.onSecondary.withOpacity(.6),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

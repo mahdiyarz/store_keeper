@@ -41,10 +41,7 @@ class _AddingGoodManagementState extends State<AddingGoodManagement> {
         ? Column(
             children: [
               Container(
-                margin: const EdgeInsets.only(
-                  right: 15,
-                  left: 15,
-                ),
+                margin: EdgeInsets.symmetric(horizontal: width * .05),
                 padding: const EdgeInsets.symmetric(
                   horizontal: 3,
                   vertical: 3,
