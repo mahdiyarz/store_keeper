@@ -7,20 +7,20 @@ import 'package:store_keeper/presentation/incoming_list/create_or_update_incomin
 import '../models/import_models.dart';
 import '../presentation/resources/import_resources.dart';
 
-class IncomingListListView extends StatelessWidget {
+class IncomingsListView extends StatelessWidget {
   final List<PersonsModel> personsList;
-  final List<IncomingListModel> incomingList;
+  final List<IncomingsModel> incomings;
   final double width;
-  const IncomingListListView({
+  const IncomingsListView({
     Key? key,
     required this.width,
     required this.personsList,
-    required this.incomingList,
+    required this.incomings,
   }) : super(key: key);
 
   void _showModalBottomSheet({
     required BuildContext context,
-    required IncomingListModel oldIncomingList,
+    required IncomingsModel oldIncomingList,
   }) {
     showModalBottomSheet(
       isDismissible: false,
@@ -48,7 +48,7 @@ class IncomingListListView extends StatelessWidget {
       itemBuilder: (context, index) {
         final incomingItemsBrand = personsList.firstWhere((element) =>
             element.personId ==
-            incomingList[index]
+            incomings[index]
                 .personId); //*This method find the brand of each incoming item
 
         return Container(
@@ -80,16 +80,16 @@ class IncomingListListView extends StatelessWidget {
                   Routes.tabIncomingGoodsRoute,
                   arguments: TabIncomingGoodsManagementScreen(
                     title: incomingItemsBrand.personName,
-                    boxNumber: incomingList[index].numOfBoxes,
-                    dateTime: incomingList[index].incomingListDate,
-                    incomingGoodId: incomingList[index].incomingListId!,
+                    boxNumber: incomings[index].boxes,
+                    dateTime: incomings[index].incomingDate,
+                    incomingGoodId: incomings[index].incomingId!,
                   ),
                 );
               },
               onDoubleTap: () {
                 _showModalBottomSheet(
                   context: context,
-                  oldIncomingList: incomingList[index],
+                  oldIncomingList: incomings[index],
                 );
               },
               child: Row(
@@ -123,7 +123,7 @@ class IncomingListListView extends StatelessWidget {
                         children: [
                           FittedBox(
                             child: Text(
-                              'ورود ${incomingList[index].numOfBoxes.toString().withPersianNumbers()} جعبه به انبار',
+                              'ورود ${incomings[index].boxes.toString().withPersianNumbers()} جعبه به انبار',
                               style: TextStyle(
                                 fontSize: 16,
                                 color: ColorManager.onPrimaryContainer,
@@ -133,7 +133,7 @@ class IncomingListListView extends StatelessWidget {
                           const SizedBox(height: 5),
                           FittedBox(
                             child: Text(
-                              'در تاریخ ${incomingList[index].incomingListDate.toPersian().toString()}',
+                              'در تاریخ ${incomings[index].incomingDate.toPersian().toString()}',
                               style: TextStyle(
                                   color: ColorManager.onPrimaryContainer
                                       .withOpacity(.7)),
@@ -149,7 +149,7 @@ class IncomingListListView extends StatelessWidget {
           ),
         );
       },
-      itemCount: incomingList.length,
+      itemCount: incomings.length,
     );
   }
 }

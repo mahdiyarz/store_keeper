@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:store_keeper/bloc/bloc_exports.dart';
 
 import '../../widgets/CircleButton.dart';
-import '../../widgets/incoming_list_list_view.dart';
+import '../../widgets/incomings_list_view.dart';
 import '../../widgets/screens_style.dart';
 import '../../widgets/show_modal_bottom_button.dart';
 import '../resources/import_resources.dart';
 import 'create_or_update_incoming_list_screen.dart';
 
-class IncomingListScreen extends StatefulWidget {
-  const IncomingListScreen({Key? key}) : super(key: key);
+class IncomingsScreen extends StatefulWidget {
+  const IncomingsScreen({Key? key}) : super(key: key);
 
   @override
-  State<IncomingListScreen> createState() => _IncomingListScreenState();
+  State<IncomingsScreen> createState() => _IncomingsScreenState();
 }
 
-class _IncomingListScreenState extends State<IncomingListScreen> {
+class _IncomingsScreenState extends State<IncomingsScreen> {
   bool isInfoButtonToggle = false;
 
   @override
@@ -135,10 +135,10 @@ class _IncomingListScreenState extends State<IncomingListScreen> {
                 return appState.incomingList.isNotEmpty
                     ? Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: IncomingListListView(
+                        child: IncomingsListView(
                           width: width,
                           personsList: appState.personsList,
-                          incomingList: appState.incomingList,
+                          incomings: appState.incomingList,
                         ),
                       )
                     : Column(

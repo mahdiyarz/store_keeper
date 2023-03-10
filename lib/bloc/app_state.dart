@@ -24,7 +24,7 @@ class DisplayAppState extends AppState {
   final List<WarehousesModel> warehousesList;
   final List<CountGoodsModel> countGoodsList;
   final List<LakingModel> lakingList;
-  final List<IncomingListModel> incomingList;
+  final List<IncomingsModel> incomingList;
   final String failureMessage;
   final String successMessage;
 

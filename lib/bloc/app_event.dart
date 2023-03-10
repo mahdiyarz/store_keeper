@@ -152,7 +152,7 @@ class EditWarehouse extends AppEvent {
 
 @immutable
 class AddIncomingList extends AppEvent {
-  final IncomingListModel addIncomingListItem;
+  final IncomingsModel addIncomingListItem;
   const AddIncomingList({required this.addIncomingListItem});
 
   @override
@@ -161,7 +161,7 @@ class AddIncomingList extends AppEvent {
 
 @immutable
 class DeleteIncomingList extends AppEvent {
-  final IncomingListModel deleteIncomingListItem;
+  final IncomingsModel deleteIncomingListItem;
   const DeleteIncomingList({required this.deleteIncomingListItem});
 
   @override
@@ -171,7 +171,7 @@ class DeleteIncomingList extends AppEvent {
 @immutable
 class EditIncomingList extends AppEvent {
   final int oldIncomingListId;
-  final IncomingListModel newIncomingListItem;
+  final IncomingsModel newIncomingListItem;
   const EditIncomingList({
     required this.oldIncomingListId,
     required this.newIncomingListItem,

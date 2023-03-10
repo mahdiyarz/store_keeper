@@ -15,7 +15,7 @@ part 'app_state.dart';
 
 class AppBloc extends Bloc<AppEvent, AppState> {
   final List<BrandsModel> _brandsList = [];
-  final List<IncomingListModel> _incomingList = [];
+  final List<IncomingsModel> _incomingList = [];
   final List<GoodsModel> _goodsList = [];
   final List<CountGoodsModel> _countGoodsList = [];
   final List<LakingModel> _lakingList = [];
@@ -376,14 +376,14 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   void _onAddIncomingList(AddIncomingList event, Emitter<AppState> emit) async {
     log('run ADD Incoming List');
 
-    final IncomingListModel incomingListItem = event.addIncomingListItem;
+    final IncomingsModel incomingListItem = event.addIncomingListItem;
 
-    if (incomingListItem.numOfBoxes.toString().isNotEmpty &&
+    if (incomingListItem.boxes.toString().isNotEmpty &&
         incomingListItem.personId.toString().isNotEmpty) {
       await DBHelper.instance.insertIncomingList(incomingListItem);
     }
 
-    final List<IncomingListModel> lastUpdatedIncomingList =
+    final List<IncomingsModel> lastUpdatedIncomingList =
         await DBHelper.instance.fetchIncomingListData();
 
     emit(
@@ -539,22 +539,22 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   void _onEditIncomingList(
       EditIncomingList event, Emitter<AppState> emit) async {
     final int incomeId = event.oldIncomingListId;
-    final IncomingListModel oldIncomingList = _incomingList
-        .firstWhere((element) => element.incomingListId == incomeId);
+    final IncomingsModel oldIncomingList =
+        _incomingList.firstWhere((element) => element.incomingId == incomeId);
 
-    final IncomingListModel editedIncomingList = event.newIncomingListItem;
+    final IncomingsModel editedIncomingList = event.newIncomingListItem;
 
     final int oldIncomeIndex = _incomingList.indexOf(oldIncomingList);
 
-    if (editedIncomingList.numOfBoxes.toString().isNotEmpty &&
+    if (editedIncomingList.boxes.toString().isNotEmpty &&
         editedIncomingList.personId.toString().isNotEmpty &&
-        editedIncomingList.incomingListDate.toString().isNotEmpty) {
+        editedIncomingList.incomingDate.toString().isNotEmpty) {
       await DBHelper.instance.updateIncomingList(
-        IncomingListModel(
-          incomingListId: incomeId,
+        IncomingsModel(
+          incomingId: incomeId,
           personId: editedIncomingList.personId,
-          numOfBoxes: editedIncomingList.numOfBoxes,
-          incomingListDate: editedIncomingList.incomingListDate,
+          boxes: editedIncomingList.boxes,
+          incomingDate: editedIncomingList.incomingDate,
         ),
       );
 
@@ -565,11 +565,11 @@ class AppBloc extends Bloc<AppEvent, AppState> {
             ..remove(oldIncomingList)
             ..insert(
               oldIncomeIndex,
-              IncomingListModel(
-                incomingListId: incomeId,
+              IncomingsModel(
+                incomingId: incomeId,
                 personId: editedIncomingList.personId,
-                numOfBoxes: editedIncomingList.numOfBoxes,
-                incomingListDate: editedIncomingList.incomingListDate,
+                boxes: editedIncomingList.boxes,
+                incomingDate: editedIncomingList.incomingDate,
               ),
             ),
           goodsList: _goodsList,
@@ -586,11 +586,11 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
   void _onDeleteIncomingList(
       DeleteIncomingList event, Emitter<AppState> emit) async {
-    final IncomingListModel deletedIncomeItem = event.deleteIncomingListItem;
+    final IncomingsModel deletedIncomeItem = event.deleteIncomingListItem;
 
     final bool isExistIncomingListOnCountGoods = _countGoodsList.isNotEmpty
-        ? _countGoodsList.any((element) =>
-            element.incomingListId == deletedIncomeItem.incomingListId)
+        ? _countGoodsList.any(
+            (element) => element.incomingListId == deletedIncomeItem.incomingId)
         : false; //! false means it is not exist on count goods list
 
     if (isExistIncomingListOnCountGoods == true) {
@@ -604,7 +604,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
           personsList: _personsList,
           countGoodsList: _countGoodsList
             ..removeWhere((element) =>
-                element.incomingListId == deletedIncomeItem.incomingListId),
+                element.incomingListId == deletedIncomeItem.incomingId),
           lakingList: _lakingList,
           warehousesList: _warehousesList,
           failureMessage: _failureMessage,

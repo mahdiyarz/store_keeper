@@ -24,8 +24,7 @@ class RouteGenerator {
       case Routes.homeRoute:
         return MaterialPageRoute(builder: (context) => const Home());
       case Routes.incomingListsRoute:
-        return MaterialPageRoute(
-            builder: (context) => const IncomingListScreen());
+        return MaterialPageRoute(builder: (context) => const IncomingsScreen());
       case Routes.brandsRoute:
         return MaterialPageRoute(
             builder: (context) => const BrandsManagementScreen());

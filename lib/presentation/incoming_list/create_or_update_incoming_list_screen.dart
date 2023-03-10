@@ -8,7 +8,7 @@ import '../../models/import_models.dart';
 import '../../widgets/selecting_person.dart';
 
 class CreateOrUpdateIncomingListScreen extends StatelessWidget {
-  final IncomingListModel? oldIncomingList;
+  final IncomingsModel? oldIncomingList;
   final List<PersonsModel>? personsList;
   CreateOrUpdateIncomingListScreen({
     required this.oldIncomingList,
@@ -26,7 +26,7 @@ class CreateOrUpdateIncomingListScreen extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
 
     if (oldIncomingList != null) {
-      boxNumberController.text = oldIncomingList!.numOfBoxes.toString();
+      boxNumberController.text = oldIncomingList!.boxes.toString();
       final String personName = personsList!
           .firstWhere(
               (element) => element.personId == oldIncomingList!.personId)
@@ -157,33 +157,27 @@ class CreateOrUpdateIncomingListScreen extends StatelessWidget {
                                 oldIncomingList != null
                                     ? context.read<AppBloc>().add(
                                           EditIncomingList(
-                                            oldIncomingListId: oldIncomingList!
-                                                .incomingListId!,
-                                            newIncomingListItem:
-                                                IncomingListModel(
-                                                    personId: int.parse(
-                                                        personIdController
-                                                            .text),
-                                                    numOfBoxes:
-                                                        int.parse(
-                                                            boxNumberController
-                                                                .text),
-                                                    incomingListDate:
-                                                        oldIncomingList!
-                                                            .incomingListDate),
+                                            oldIncomingListId:
+                                                oldIncomingList!.incomingId!,
+                                            newIncomingListItem: IncomingsModel(
+                                                personId: int.parse(
+                                                    personIdController.text),
+                                                boxes: int.parse(
+                                                    boxNumberController.text),
+                                                incomingDate: oldIncomingList!
+                                                    .incomingDate),
                                           ),
                                         )
                                     : context.read<AppBloc>().add(
                                           AddIncomingList(
-                                            addIncomingListItem:
-                                                IncomingListModel(
+                                            addIncomingListItem: IncomingsModel(
                                               personId: int.parse(
                                                 personIdController.text,
                                               ),
-                                              numOfBoxes: int.parse(
+                                              boxes: int.parse(
                                                 boxNumberController.text,
                                               ),
-                                              incomingListDate: DateTime.now(),
+                                              incomingDate: DateTime.now(),
                                             ),
                                           ),
                                         );
