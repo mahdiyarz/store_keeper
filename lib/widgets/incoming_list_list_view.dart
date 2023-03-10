@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:persian/persian.dart';
+import 'package:store_keeper/models/persons_model.dart';
 import 'package:store_keeper/presentation/incoming_goods_management/tab_incoming_goods_management_screen.dart';
 import 'package:store_keeper/presentation/incoming_list/create_or_update_incoming_list_screen.dart';
 
@@ -7,14 +8,14 @@ import '../models/import_models.dart';
 import '../presentation/resources/import_resources.dart';
 
 class IncomingListListView extends StatelessWidget {
-  final List<BrandsModel> brandsList;
+  final List<PersonsModel> personsList;
   final List<GoodsModel> goodsList;
   final List<IncomingListModel> incomingList;
   final double width;
   const IncomingListListView({
     Key? key,
     required this.width,
-    required this.brandsList,
+    required this.personsList,
     required this.goodsList,
     required this.incomingList,
   }) : super(key: key);
@@ -33,7 +34,7 @@ class IncomingListListView extends StatelessWidget {
               EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
           child: CreateOrUpdateIncomingListScreen(
             oldIncomingList: oldIncomingList,
-            brandsList: brandsList,
+            personsList: personsList,
           ),
         ),
       ),
@@ -47,10 +48,10 @@ class IncomingListListView extends StatelessWidget {
           const NeverScrollableScrollPhysics(), //! to disable GridView's scrolling
       shrinkWrap: true, //! You won't see infinite size error
       itemBuilder: (context, index) {
-        final incomingItemsBrand = brandsList.firstWhere((element) =>
-            element.brandId ==
+        final incomingItemsBrand = personsList.firstWhere((element) =>
+            element.personId ==
             incomingList[index]
-                .brandId); //*This method find the brand of each incoming item
+                .personId); //*This method find the brand of each incoming item
 
         return Container(
           padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 5),
@@ -80,12 +81,10 @@ class IncomingListListView extends StatelessWidget {
                 Navigator.of(context).pushReplacementNamed(
                   Routes.tabIncomingGoodsRoute,
                   arguments: TabIncomingGoodsManagementScreen(
-                    title: incomingItemsBrand.brandName,
+                    title: incomingItemsBrand.personName,
                     boxNumber: incomingList[index].numOfBoxes,
                     dateTime: incomingList[index].incomingListDate,
                     incomingGoodId: incomingList[index].incomingListId!,
-                    brandsList: brandsList,
-                    goodsList: goodsList,
                   ),
                 );
               },
@@ -110,7 +109,7 @@ class IncomingListListView extends StatelessWidget {
                     ),
                     child: FittedBox(
                       child: Text(
-                        incomingItemsBrand.brandName,
+                        incomingItemsBrand.personName,
                         style: TextStyle(
                           color: ColorManager.onSecondary,
                         ),

@@ -5,9 +5,7 @@ import 'package:store_keeper/models/persons_model.dart';
 import 'package:store_keeper/presentation/resources/color_manager.dart';
 
 import '../../models/import_models.dart';
-import '../../widgets/selecting_brand.dart';
-import '../../widgets/show_dialog_button.dart';
-import '../../widgets/show_dialog_screen.dart';
+import '../../widgets/selecting_person.dart';
 
 class CreateOrUpdateIncomingListScreen extends StatelessWidget {
   final IncomingListModel? oldIncomingList;
@@ -37,11 +35,11 @@ class CreateOrUpdateIncomingListScreen extends StatelessWidget {
       personIdController.text = oldIncomingList!.personId.toString();
     }
 
-    return BlocBuilder<AppBloc, AppState>(builder: (context, brandsState) {
-      if (brandsState is AppStateInitial) {
+    return BlocBuilder<AppBloc, AppState>(builder: (context, appState) {
+      if (appState is AppStateInitial) {
         context.read<AppBloc>().add(const FetchEvent());
       }
-      if (brandsState is DisplayAppState) {
+      if (appState is DisplayAppState) {
         return Form(
           key: _formKey,
           child: Directionality(
@@ -52,7 +50,7 @@ class CreateOrUpdateIncomingListScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    'لطفا تعداد جعبه های ورودی و برند محصولات را وارد کنید و دکمه ثبت را بزنید...',
+                    'لطفا تعداد جعبه های ورودی و فرستنده محصولات را وارد کنید و دکمه ثبت را بزنید...',
                     style: TextStyle(
                       fontSize: 15,
                       color: ColorManager.onPrimaryContainer,
@@ -110,7 +108,7 @@ class CreateOrUpdateIncomingListScreen extends StatelessWidget {
                                 )
                               ],
                             ),
-                            hintText: 'هنوز نگفتی از کجا اومده...',
+                            hintText: 'شخص فرستنده کالا رو مشخص کن...',
                             border: const OutlineInputBorder(),
                           ),
                           validator: (value) {
@@ -125,7 +123,7 @@ class CreateOrUpdateIncomingListScreen extends StatelessWidget {
                         width: 5,
                       ),
                       SelectingPerson(
-                        goodState: brandsState,
+                        goodState: appState,
                         personNameController: personNameController,
                         personIdController: personIdController,
                       ),
@@ -246,33 +244,35 @@ class CreateOrUpdateIncomingListScreen extends StatelessWidget {
     });
   }
 
-  Future<dynamic> showBrandsDialog(
-      BuildContext context, DisplayAppState appState, double width) {
-    return showDialog(
-      context: context,
-      builder: (context) {
-        return Directionality(
-          textDirection: TextDirection.rtl,
-          child: SimpleDialog(
-            title: appState.brandsList.isNotEmpty
-                ? const Text('برند خود را انتخاب کنید',
-                    textAlign: TextAlign.center)
-                : null,
-            children: [
-              ShowDialogScreen(
-                width: width,
-                personsList: appState.personsList,
-              ),
-              const Padding(
-                padding: EdgeInsets.fromLTRB(8, 5, 8, 0),
-                child: ShowDialogButton(),
-              )
-            ],
-          ),
-        );
-      },
-    );
-  }
+  // Future<dynamic> showBrandsDialog(
+  //     BuildContext context, DisplayAppState appState, double width) {
+  //   return showDialog(
+  //     context: context,
+  //     builder: (context) {
+  //       return Directionality(
+  //         textDirection: TextDirection.rtl,
+  //         child: SimpleDialog(
+  //           title: appState.brandsList.isNotEmpty
+  //               ? const Text('برند خود را انتخاب کنید',
+  //                   textAlign: TextAlign.center)
+  //               : null,
+  //           children: [
+  //             ShowDialogScreen(
+  //               width: width,
+  //               personsList: appState.personsList,
+  //               brandsList: null,
+  //               isAddingNewPerson: true,
+  //             ),
+  //             const Padding(
+  //               padding: EdgeInsets.fromLTRB(8, 5, 8, 0),
+  //               child: ShowDialogButton(),
+  //             )
+  //           ],
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 
   void clearTextControllers() {
     boxNumberController.clear();

@@ -1,24 +1,24 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:store_keeper/models/brands_model.dart';
 
 import 'package:store_keeper/widgets/show_dialog_button.dart';
 import 'package:store_keeper/widgets/show_dialog_screen.dart';
 
 import '../bloc/bloc_exports.dart';
+import '../models/persons_model.dart';
 import '../presentation/resources/import_resources.dart';
 
-class SelectingBrand extends StatelessWidget {
+class SelectingPerson extends StatelessWidget {
   final DisplayAppState goodState;
-  final TextEditingController brandNameController;
-  final TextEditingController brandIdController;
+  final TextEditingController personNameController;
+  final TextEditingController personIdController;
 
-  const SelectingBrand({
+  const SelectingPerson({
     Key? key,
     required this.goodState,
-    required this.brandNameController,
-    required this.brandIdController,
+    required this.personNameController,
+    required this.personIdController,
   }) : super(key: key);
 
   @override
@@ -34,20 +34,20 @@ class SelectingBrand extends StatelessWidget {
         backgroundColor: ColorManager.primaryContainer,
       ),
       onPressed: () {
-        showBrandsDialog(context, goodState, width).then((returnValue) {
+        showPersonsDialog(context, goodState, width).then((returnValue) {
           log('value is $returnValue');
 
           if (returnValue != null) {
-            brandNameController.text = returnValue[1];
-            final List<BrandsModel> cashedBrands = goodState.brandsList;
-            final BrandsModel chosenBrand = cashedBrands.firstWhere(
-                (element) => element.brandName == brandNameController.text);
-            brandIdController.text = chosenBrand.brandId.toString();
+            personNameController.text = returnValue[1];
+            final List<PersonsModel> cashedPersons = goodState.personsList;
+            final PersonsModel chosenPerson = cashedPersons.firstWhere(
+                (element) => element.personName == personNameController.text);
+            personIdController.text = chosenPerson.personId.toString();
           }
         });
       },
       child: Text(
-        'برندش چیه؟',
+        'کی فرستاده؟',
         style: TextStyle(
           color: ColorManager.onPrimaryContainer,
         ),
@@ -55,7 +55,7 @@ class SelectingBrand extends StatelessWidget {
     );
   }
 
-  Future<dynamic> showBrandsDialog(
+  Future<dynamic> showPersonsDialog(
       BuildContext context, DisplayAppState appState, double width) {
     return showDialog(
       context: context,
@@ -63,23 +63,23 @@ class SelectingBrand extends StatelessWidget {
         return Directionality(
           textDirection: TextDirection.rtl,
           child: SimpleDialog(
-            title: appState.brandsList.isNotEmpty
+            title: appState.personsList.isNotEmpty
                 ? const Text(
-                    'برندش رو انتخاب کن',
+                    'بگو از کجا اومده',
                     textAlign: TextAlign.center,
                   )
                 : null,
             children: [
               ShowDialogScreen(
                 width: width,
-                personsList: null,
-                brandsList: appState.brandsList,
-                isAddingNewPerson: false,
+                personsList: appState.personsList,
+                brandsList: null,
+                isAddingNewPerson: true,
               ),
               const Padding(
                 padding: EdgeInsets.fromLTRB(8, 5, 8, 0),
                 child: ShowDialogButton(
-                  isAddingNewPerson: false,
+                  isAddingNewPerson: true,
                 ),
               )
             ],

@@ -302,18 +302,22 @@ class _CreateOrUpdateIncomingGoodsScreenState
         return Directionality(
           textDirection: TextDirection.rtl,
           child: SimpleDialog(
-            title: appState.brandsList.isNotEmpty
-                ? const Text('برند خود را انتخاب کنید',
+            title: appState.personsList.isNotEmpty
+                ? const Text('شخص فرستنده رو انتخاب کنید',
                     textAlign: TextAlign.center)
                 : null,
             children: [
               ShowDialogScreen(
                 width: width,
                 personsList: appState.personsList,
+                brandsList: null,
+                isAddingNewPerson: true,
               ),
               const Padding(
                 padding: EdgeInsets.fromLTRB(8, 5, 8, 0),
-                child: ShowDialogButton(),
+                child: ShowDialogButton(
+                  isAddingNewPerson: true,
+                ),
               )
             ],
           ),

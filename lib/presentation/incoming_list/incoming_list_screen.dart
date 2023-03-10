@@ -137,7 +137,7 @@ class _IncomingListScreenState extends State<IncomingListScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: IncomingListListView(
                           width: width,
-                          brandsList: appState.brandsList,
+                          personsList: appState.personsList,
                           incomingList: appState.incomingList,
                           goodsList: appState.goodsList,
                         ),
