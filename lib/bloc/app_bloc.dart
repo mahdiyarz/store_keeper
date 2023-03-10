@@ -196,6 +196,12 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     _lakingList
       ..clear()
       ..addAll(await DBHelper.instance.fetchLakingData());
+    _personsList
+      ..clear()
+      ..addAll(await DBHelper.instance.fetchPersonsData());
+    _warehousesList
+      ..clear()
+      ..addAll(await DBHelper.instance.fetchWarehousesData());
 
     emit(
       DisplayAppState(
