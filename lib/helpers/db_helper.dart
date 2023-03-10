@@ -2,8 +2,6 @@ import 'package:sqflite/sqflite.dart' as sqflite;
 import 'package:path/path.dart' as pathPackage;
 
 import '../models/import_models.dart';
-import '../models/persons_model.dart';
-import '../models/warehouses_model.dart';
 
 class DBHelper {
   static final DBHelper instance = DBHelper._init();
@@ -98,6 +96,19 @@ class DBHelper {
         ${WarehousesFields.warehouseName} $textType
       )
     ''');
+
+    await db.execute('''
+      CREATE TABLE $countedIncomingsTable(
+        ${CountedIncomingsFields.id} $idType,
+        ${CountedIncomingsFields.incomingsId} $intType,
+        ${CountedIncomingsFields.goodId} $intType,
+        ${CountedIncomingsFields.warehouseId} $intType,
+        ${CountedIncomingsFields.withBoxes} $intTypeNull,
+        ${CountedIncomingsFields.withoutBox} $intType,
+        ${CountedIncomingsFields.price} $intTypeNull,
+        ${CountedIncomingsFields.totalCounted} $intType
+      )
+    ''');
   }
 
   Future closeDB() async {
@@ -158,6 +169,64 @@ class DBHelper {
       incomingListTable,
       where: '${IncomingsFields.incomingId} = ?',
       whereArgs: [incomingListModel.incomingId],
+    );
+  }
+
+  //* Counted Incomings Logics
+
+  Future<CountedIncomingsModel> insertCountedIncoming(
+      CountedIncomingsModel countedIncomingsModel) async {
+    final db = await instance.database;
+    final id =
+        await db.insert(countedIncomingsTable, countedIncomingsModel.toJson());
+
+    return countedIncomingsModel.copy(id: id);
+  }
+
+  Future<List<CountedIncomingsModel>> fetchCountedIncomingsData() async {
+    final db = await instance.database;
+    const orderBy = '${CountedIncomingsFields.totalCounted} ASC';
+    final fetchResult = await db.query(countedIncomingsTable, orderBy: orderBy);
+
+    return fetchResult.map((e) => CountedIncomingsModel.fromJson(e)).toList();
+  }
+
+  // Future<CountedIncomingsModel> fetchSingleIncomingGoodData(int incomingId) async {
+  //   final db = await instance.database;
+
+  //   final fetchResult = await db.query(
+  //     countedIncomingsTable,
+  //     columns: CountedIncomingsFields.values,
+  //     where: '${CountedIncomingsFields.incomingId} = ?',
+  //     whereArgs: [incomingId],
+  //   );
+
+  //   if (fetchResult.isNotEmpty) {
+  //     return CountedIncomingsModel.fromJson(fetchResult.first);
+  //   } else {
+  //     throw Exception('ID $incomingId not found');
+  //   }
+  // }
+
+  Future<int> updateCountedIncoming(
+      CountedIncomingsModel countedIncomingsModel) async {
+    final db = await instance.database;
+
+    return db.update(
+      countedIncomingsTable,
+      countedIncomingsModel.toJson(),
+      where: '${CountedIncomingsFields.id} = ?',
+      whereArgs: [countedIncomingsModel.id],
+    );
+  }
+
+  Future<int> deleteCountedIncoming(
+      CountedIncomingsModel countedIncomingsModel) async {
+    final db = await instance.database;
+    return db.delete(
+      countedIncomingsTable,
+      where: '${CountedIncomingsFields.id} = ?',
+      whereArgs: [countedIncomingsModel.id],
     );
   }
 
