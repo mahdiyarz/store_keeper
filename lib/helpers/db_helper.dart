@@ -43,6 +43,14 @@ class DBHelper {
      ''');
 
     await db.execute('''
+      CREATE TABLE $outputsTable(
+        ${OutputsFields.id} $idType,
+        ${OutputsFields.personId} $intType,
+        ${OutputsFields.date}  $textType      
+      )
+     ''');
+
+    await db.execute('''
       CREATE TABLE $brandsTable(
         ${BrandsFields.brandId} $idType,
         ${BrandsFields.brandName}  $textType,        
@@ -260,6 +268,43 @@ class DBHelper {
       countedIncomingsTable,
       where: '${CountedIncomingsFields.id} = ?',
       whereArgs: [countedIncomingsModel.id],
+    );
+  }
+
+  //* Outputs CRUD queries
+
+  Future<OutputsModel> insertOutput(OutputsModel outputsModel) async {
+    final db = await instance.database;
+    final id = await db.insert(outputsTable, outputsModel.toMap());
+
+    return outputsModel.copyWith(id: id);
+  }
+
+  Future<List<OutputsModel>> fetchOutputsData() async {
+    final db = await instance.database;
+    const orderBy = '${OutputsFields.date} ASC';
+    final fetchResult = await db.query(outputsTable, orderBy: orderBy);
+
+    return fetchResult.map((e) => OutputsModel.fromMap(e)).toList();
+  }
+
+  Future<int> updateOutput(OutputsModel outputsModel) async {
+    final db = await instance.database;
+
+    return db.update(
+      outputsTable,
+      outputsModel.toMap(),
+      where: '${OutputsFields.id} = ?',
+      whereArgs: [outputsModel.id],
+    );
+  }
+
+  Future<int> deleteOutput(OutputsModel outputsModel) async {
+    final db = await instance.database;
+    return db.delete(
+      outputsTable,
+      where: '${OutputsFields.id} = ?',
+      whereArgs: [outputsModel.id],
     );
   }
 
