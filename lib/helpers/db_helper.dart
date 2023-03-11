@@ -1,6 +1,5 @@
 import 'package:sqflite/sqflite.dart' as sqflite;
 import 'package:path/path.dart' as pathPackage;
-import 'package:store_keeper/models/transfers_model.dart';
 
 import '../models/import_models.dart';
 
@@ -104,6 +103,19 @@ class DBHelper {
         ${TransfersField.personId} $intType,
         ${TransfersField.boxes} $intType,
         ${TransfersField.date} $textType
+      )
+    ''');
+
+    await db.execute('''
+      CREATE TABLE $countedOutputsTable(
+        ${CountedOutputsFields.id} $idType,
+        ${CountedOutputsFields.outputId} $intType,
+        ${CountedOutputsFields.goodId} $intType,
+        ${CountedOutputsFields.warehouseId} $intType,
+        ${CountedOutputsFields.withBoxes} $intTypeNull,
+        ${CountedOutputsFields.withoutBox} $intType,
+        ${CountedOutputsFields.price} $intTypeNull,
+        ${CountedOutputsFields.totalCounted} $intType
       )
     ''');
 
@@ -237,6 +249,47 @@ class DBHelper {
       countedIncomingsTable,
       where: '${CountedIncomingsFields.id} = ?',
       whereArgs: [countedIncomingsModel.id],
+    );
+  }
+
+  //* Counted Outputs CRUD queries
+
+  Future<CountedOutputsModel> insertCountedOutput(
+      CountedOutputsModel countedOutputsModel) async {
+    final db = await instance.database;
+    final id =
+        await db.insert(countedOutputsTable, countedOutputsModel.toMap());
+
+    return countedOutputsModel.copyWith(id: id);
+  }
+
+  Future<List<CountedOutputsModel>> fetchCountedOutputsData() async {
+    final db = await instance.database;
+    const orderBy = '${CountedOutputsFields.totalCounted} ASC';
+    final fetchResult = await db.query(countedOutputsTable, orderBy: orderBy);
+
+    return fetchResult.map((e) => CountedOutputsModel.fromMap(e)).toList();
+  }
+
+  Future<int> updateCountedOutput(
+      CountedOutputsModel countedOutputsModel) async {
+    final db = await instance.database;
+
+    return db.update(
+      countedOutputsTable,
+      countedOutputsModel.toMap(),
+      where: '${CountedOutputsFields.id} = ?',
+      whereArgs: [countedOutputsModel.id],
+    );
+  }
+
+  Future<int> deleteCountedOutput(
+      CountedOutputsModel countedOutputsModel) async {
+    final db = await instance.database;
+    return db.delete(
+      countedOutputsTable,
+      where: '${CountedOutputsFields.id} = ?',
+      whereArgs: [countedOutputsModel.id],
     );
   }
 
