@@ -1,5 +1,6 @@
 import 'package:sqflite/sqflite.dart' as sqflite;
 import 'package:path/path.dart' as pathPackage;
+import 'package:store_keeper/models/transfers_model.dart';
 
 import '../models/import_models.dart';
 
@@ -34,7 +35,7 @@ class DBHelper {
     // const boolTypeNull = 'BOOLEAN';
 
     await db.execute('''
-      CREATE TABLE $incomingListTable(
+      CREATE TABLE $incomingsTable(
         ${IncomingsFields.incomingId} $idType,
         ${IncomingsFields.personId} $intType,
         ${IncomingsFields.boxes} $intType,
@@ -98,6 +99,15 @@ class DBHelper {
     ''');
 
     await db.execute('''
+      CREATE TABLE $transfersTable(
+        ${TransfersField.id} $idType,
+        ${TransfersField.personId} $intType,
+        ${TransfersField.boxes} $intType,
+        ${TransfersField.date} $textType
+      )
+    ''');
+
+    await db.execute('''
       CREATE TABLE $countedIncomingsTable(
         ${CountedIncomingsFields.id} $idType,
         ${CountedIncomingsFields.incomingsId} $intType,
@@ -122,7 +132,7 @@ class DBHelper {
   Future<IncomingsModel> insertIncomingList(
       IncomingsModel incomingListModel) async {
     final db = await instance.database;
-    final id = await db.insert(incomingListTable, incomingListModel.toJson());
+    final id = await db.insert(incomingsTable, incomingListModel.toJson());
 
     return incomingListModel.copy(incomingId: id);
   }
@@ -130,7 +140,7 @@ class DBHelper {
   Future<List<IncomingsModel>> fetchIncomingListData() async {
     final db = await instance.database;
     const orderBy = '${IncomingsFields.incomingDate} ASC';
-    final fetchResult = await db.query(incomingListTable, orderBy: orderBy);
+    final fetchResult = await db.query(incomingsTable, orderBy: orderBy);
 
     return fetchResult.map((e) => IncomingsModel.fromJson(e)).toList();
   }
@@ -139,7 +149,7 @@ class DBHelper {
     final db = await instance.database;
 
     final fetchResult = await db.query(
-      incomingListTable,
+      incomingsTable,
       columns: IncomingsFields.values,
       where: '${IncomingsFields.incomingId} = ?',
       whereArgs: [incomingId],
@@ -156,7 +166,7 @@ class DBHelper {
     final db = await instance.database;
 
     return db.update(
-      incomingListTable,
+      incomingsTable,
       incomingListModel.toJson(),
       where: '${IncomingsFields.incomingId} = ?',
       whereArgs: [incomingListModel.incomingId],
@@ -166,7 +176,7 @@ class DBHelper {
   Future<int> deleteIncomingList(IncomingsModel incomingListModel) async {
     final db = await instance.database;
     return db.delete(
-      incomingListTable,
+      incomingsTable,
       where: '${IncomingsFields.incomingId} = ?',
       whereArgs: [incomingListModel.incomingId],
     );
@@ -281,6 +291,43 @@ class DBHelper {
       brandsTable,
       where: '${BrandsFields.brandId} = ?',
       whereArgs: [brandsModel.brandId],
+    );
+  }
+
+  //* Transfers CRUD scrips
+
+  Future<TransfersModel> insertTransfer(TransfersModel transfersModel) async {
+    final db = await instance.database;
+    final result = await db.insert(transfersTable, transfersModel.toJson());
+
+    return transfersModel.copyWith(id: result);
+  }
+
+  Future<List<TransfersModel>> fetchTransfersData() async {
+    final db = await instance.database;
+    const orderBy = '${TransfersField.date} ASC';
+    final fetchResult = await db.query(transfersTable, orderBy: orderBy);
+
+    return fetchResult.map((e) => TransfersModel.fromJson(e)).toList();
+  }
+
+  Future<int> updateTransfer(TransfersModel transfersModel) async {
+    final db = await instance.database;
+
+    return db.update(
+      transfersTable,
+      transfersModel.toJson(),
+      where: '${TransfersField.id} = ?',
+      whereArgs: [transfersModel.id],
+    );
+  }
+
+  Future<int> deleteTransfer(TransfersModel transfersModel) async {
+    final db = await instance.database;
+    return db.delete(
+      transfersTable,
+      where: '${TransfersField.id} = ?',
+      whereArgs: [transfersModel.id],
     );
   }
 

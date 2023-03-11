@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-const String incomingListTable = 'incomings';
+const String incomingsTable = 'incomings';
 
 class IncomingsFields {
   static const List<String> values = [
