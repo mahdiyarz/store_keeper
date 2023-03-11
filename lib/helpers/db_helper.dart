@@ -120,6 +120,17 @@ class DBHelper {
     ''');
 
     await db.execute('''
+      CREATE TABLE $countedTransfersTable(
+        ${CountedTransfersFields.id} $idType,
+        ${CountedTransfersFields.transferId} $intType,
+        ${CountedTransfersFields.goodId} $intType,
+        ${CountedTransfersFields.withBoxes} $intTypeNull,
+        ${CountedTransfersFields.withoutBox} $intType,
+        ${CountedTransfersFields.totalCounted} $intType
+      )
+    ''');
+
+    await db.execute('''
       CREATE TABLE $countedIncomingsTable(
         ${CountedIncomingsFields.id} $idType,
         ${CountedIncomingsFields.incomingsId} $intType,
@@ -290,6 +301,47 @@ class DBHelper {
       countedOutputsTable,
       where: '${CountedOutputsFields.id} = ?',
       whereArgs: [countedOutputsModel.id],
+    );
+  }
+
+  //* Counted Transfers CRUD queries
+
+  Future<CountedTransfersModel> insertCountedTransfer(
+      CountedTransfersModel countedTransfersModel) async {
+    final db = await instance.database;
+    final id =
+        await db.insert(countedTransfersTable, countedTransfersModel.toMap());
+
+    return countedTransfersModel.copyWith(id: id);
+  }
+
+  Future<List<CountedTransfersModel>> fetchCountedTransfersData() async {
+    final db = await instance.database;
+    const orderBy = '${CountedTransfersFields.totalCounted} ASC';
+    final fetchResult = await db.query(countedTransfersTable, orderBy: orderBy);
+
+    return fetchResult.map((e) => CountedTransfersModel.fromMap(e)).toList();
+  }
+
+  Future<int> updateCountedTransfer(
+      CountedTransfersModel countedTransfersModel) async {
+    final db = await instance.database;
+
+    return db.update(
+      countedTransfersTable,
+      countedTransfersModel.toMap(),
+      where: '${CountedTransfersFields.id} = ?',
+      whereArgs: [countedTransfersModel.id],
+    );
+  }
+
+  Future<int> deleteCountedTransfer(
+      CountedTransfersModel countedTransfersModel) async {
+    final db = await instance.database;
+    return db.delete(
+      countedTransfersTable,
+      where: '${CountedTransfersFields.id} = ?',
+      whereArgs: [countedTransfersModel.id],
     );
   }
 

@@ -6,5 +6,6 @@ export 'laking_model.dart';
 export 'counted_incomings_model.dart';
 export 'persons_model.dart';
 export 'warehouses_model.dart';
-export 'counted_transfers_model.dart';
+export 'counted_output_model.dart';
 export 'transfers_model.dart';
+export 'counted_transfers_model.dart';
