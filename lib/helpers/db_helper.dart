@@ -67,6 +67,15 @@ class DBHelper {
      ''');
 
     await db.execute('''
+      CREATE TABLE $stockEachWarehouseTable(
+        ${StockEachWarehouseFields.id} $idType,
+        ${StockEachWarehouseFields.goodId} $intType,
+        ${StockEachWarehouseFields.warehouseId}  $intType,      
+        ${StockEachWarehouseFields.totalStock}  $intType      
+      )
+     ''');
+
+    await db.execute('''
       CREATE TABLE $countGoodsTable(
         ${CountGoodsFields.countGoodsId} $idType,
         ${CountGoodsFields.numOfBox} $intTypeNull,
@@ -333,6 +342,48 @@ class DBHelper {
       stockTable,
       where: '${StockFields.id} = ?',
       whereArgs: [stockModel.id],
+    );
+  }
+
+  //* Stock each warehouse CRUD queries
+
+  Future<StockEachWarehouseModel> insertStockEachWarehouse(
+      StockEachWarehouseModel stockEachWarehouseModel) async {
+    final db = await instance.database;
+    final id = await db.insert(
+        stockEachWarehouseTable, stockEachWarehouseModel.toMap());
+
+    return stockEachWarehouseModel.copyWith(id: id);
+  }
+
+  Future<List<StockEachWarehouseModel>> fetchStocksEachWarehouseData() async {
+    final db = await instance.database;
+    const orderBy = '${StockEachWarehouseFields.id} ASC';
+    final fetchResult =
+        await db.query(stockEachWarehouseTable, orderBy: orderBy);
+
+    return fetchResult.map((e) => StockEachWarehouseModel.fromMap(e)).toList();
+  }
+
+  Future<int> updateStockEachWarehouse(
+      StockEachWarehouseModel stockEachWarehouseModel) async {
+    final db = await instance.database;
+
+    return db.update(
+      stockEachWarehouseTable,
+      stockEachWarehouseModel.toMap(),
+      where: '${StockEachWarehouseFields.id} = ?',
+      whereArgs: [stockEachWarehouseModel.id],
+    );
+  }
+
+  Future<int> deleteStockEachWarehouse(
+      StockEachWarehouseModel stockEachWarehouseModel) async {
+    final db = await instance.database;
+    return db.delete(
+      stockEachWarehouseTable,
+      where: '${StockEachWarehouseFields.id} = ?',
+      whereArgs: [stockEachWarehouseModel.id],
     );
   }
 
