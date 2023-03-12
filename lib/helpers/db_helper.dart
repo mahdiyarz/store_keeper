@@ -122,6 +122,18 @@ class DBHelper {
         ${WarehouseHandlingFields.date} $textType
       )
     ''');
+
+    await db.execute('''
+      CREATE TABLE $countedWarehouseHandlingTable(
+        ${CountedWarehouseHandlingFields.id} $idType,
+        ${CountedWarehouseHandlingFields.warehouseHandlingId} $intType,
+        ${CountedWarehouseHandlingFields.goodId} $intType,
+        ${CountedWarehouseHandlingFields.withBoxes} $intTypeNull,
+        ${CountedWarehouseHandlingFields.withoutBox} $intType,
+        ${CountedWarehouseHandlingFields.totalCounted} $intType
+      )
+    ''');
+
     await db.execute('''
       CREATE TABLE $countedOutputsTable(
         ${CountedOutputsFields.id} $idType,
@@ -316,6 +328,51 @@ class DBHelper {
       warehousesTable,
       where: '${WarehouseHandlingFields.id} = ?',
       whereArgs: [warehouseHandlingModel.id],
+    );
+  }
+
+  //* Counted warehouse handling CRUD queries
+
+  Future<CountedWarehouseHandlingModel> insertCountedWarehouseHandling(
+      CountedWarehouseHandlingModel countedWarehouseHandlingModel) async {
+    final db = await instance.database;
+    final id = await db.insert(
+        countedWarehouseHandlingTable, countedWarehouseHandlingModel.toMap());
+
+    return countedWarehouseHandlingModel.copyWith(id: id);
+  }
+
+  Future<List<CountedWarehouseHandlingModel>>
+      fetchCountedWarehouseHandlingsData() async {
+    final db = await instance.database;
+    const orderBy = '${CountedWarehouseHandlingFields.totalCounted} ASC';
+    final fetchResult =
+        await db.query(countedWarehouseHandlingTable, orderBy: orderBy);
+
+    return fetchResult
+        .map((e) => CountedWarehouseHandlingModel.fromMap(e))
+        .toList();
+  }
+
+  Future<int> updateCountedWarehouseHandling(
+      CountedWarehouseHandlingModel countedWarehouseHandlingModel) async {
+    final db = await instance.database;
+
+    return db.update(
+      countedWarehouseHandlingTable,
+      countedWarehouseHandlingModel.toMap(),
+      where: '${CountedWarehouseHandlingFields.id} = ?',
+      whereArgs: [countedWarehouseHandlingModel.id],
+    );
+  }
+
+  Future<int> deleteCountedWarehouseHandling(
+      CountedWarehouseHandlingModel countedWarehouseHandlingModel) async {
+    final db = await instance.database;
+    return db.delete(
+      countedWarehouseHandlingTable,
+      where: '${CountedWarehouseHandlingFields.id} = ?',
+      whereArgs: [countedWarehouseHandlingModel.id],
     );
   }
 
