@@ -10,3 +10,4 @@ export 'counted_output_model.dart';
 export 'transfers_model.dart';
 export 'counted_transfers_model.dart';
 export 'outputs_model.dart';
+export 'warehouse_handling_model.dart';
