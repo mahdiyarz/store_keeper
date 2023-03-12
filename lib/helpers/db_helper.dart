@@ -59,6 +59,14 @@ class DBHelper {
      ''');
 
     await db.execute('''
+      CREATE TABLE $stockTable(
+        ${StockFields.id} $idType,
+        ${StockFields.goodId} $intType,
+        ${StockFields.totalStock}  $intType      
+      )
+     ''');
+
+    await db.execute('''
       CREATE TABLE $countGoodsTable(
         ${CountGoodsFields.countGoodsId} $idType,
         ${CountGoodsFields.numOfBox} $intTypeNull,
@@ -288,6 +296,43 @@ class DBHelper {
       countedIncomingsTable,
       where: '${CountedIncomingsFields.id} = ?',
       whereArgs: [countedIncomingsModel.id],
+    );
+  }
+
+  //* Stock CRUD queries
+
+  Future<StockModel> insertStock(StockModel stockModel) async {
+    final db = await instance.database;
+    final id = await db.insert(stockTable, stockModel.toMap());
+
+    return stockModel.copyWith(id: id);
+  }
+
+  Future<List<StockModel>> fetchStocksData() async {
+    final db = await instance.database;
+    const orderBy = '${StockFields.id} ASC';
+    final fetchResult = await db.query(stockTable, orderBy: orderBy);
+
+    return fetchResult.map((e) => StockModel.fromMap(e)).toList();
+  }
+
+  Future<int> updateStock(StockModel stockModel) async {
+    final db = await instance.database;
+
+    return db.update(
+      stockTable,
+      stockModel.toMap(),
+      where: '${StockFields.id} = ?',
+      whereArgs: [stockModel.id],
+    );
+  }
+
+  Future<int> deleteStock(StockModel stockModel) async {
+    final db = await instance.database;
+    return db.delete(
+      stockTable,
+      where: '${StockFields.id} = ?',
+      whereArgs: [stockModel.id],
     );
   }
 
