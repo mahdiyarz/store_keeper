@@ -22,18 +22,24 @@ class DisplayAppState extends AppState {
   final List<GoodsModel> goodsList;
   final List<PersonsModel> personsList;
   final List<WarehousesModel> warehousesList;
+  final List<StockModel> stocksList;
+  final List<StockEachWarehouseModel> stockEachWarehouseList;
   final List<CountGoodsModel> countGoodsList;
   final List<LakingModel> lakingList;
   final List<IncomingsModel> incomingList;
+  final List<CountedIncomingsModel> countedIncomingsList;
   final String failureMessage;
   final String successMessage;
 
   const DisplayAppState({
     required this.brandsList,
     required this.incomingList,
+    required this.countedIncomingsList,
     required this.goodsList,
     required this.personsList,
     required this.warehousesList,
+    required this.stocksList,
+    required this.stockEachWarehouseList,
     required this.countGoodsList,
     required this.lakingList,
     required this.failureMessage,
@@ -44,9 +50,12 @@ class DisplayAppState extends AppState {
   List<Object?> get props => [
         brandsList,
         incomingList,
+        countedIncomingsList,
         goodsList,
         personsList,
         warehousesList,
+        stocksList,
+        stockEachWarehouseList,
         countGoodsList,
         lakingList,
         failureMessage,

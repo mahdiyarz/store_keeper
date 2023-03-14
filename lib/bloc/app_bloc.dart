@@ -6,9 +6,6 @@ import 'package:flutter/foundation.dart' show immutable;
 import 'package:store_keeper/helpers/db_helper.dart';
 import 'package:store_keeper/models/import_models.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:store_keeper/models/persons_model.dart';
-
-import '../models/warehouses_model.dart';
 
 part 'app_event.dart';
 part 'app_state.dart';
@@ -16,11 +13,14 @@ part 'app_state.dart';
 class AppBloc extends Bloc<AppEvent, AppState> {
   final List<BrandsModel> _brandsList = [];
   final List<IncomingsModel> _incomingList = [];
+  final List<CountedIncomingsModel> _countedIncomingsList = [];
   final List<GoodsModel> _goodsList = [];
   final List<CountGoodsModel> _countGoodsList = [];
   final List<LakingModel> _lakingList = [];
   final List<PersonsModel> _personsList = [];
   final List<WarehousesModel> _warehousesList = [];
+  final List<StockModel> _stocksList = [];
+  final List<StockEachWarehouseModel> _stockEachWarehouse = [];
   late String _failureMessage;
   late String _successMessage;
 
@@ -63,6 +63,9 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       DisplayAppState(
         brandsList: _brandsList,
         incomingList: _incomingList,
+        countedIncomingsList: _countedIncomingsList,
+        stockEachWarehouseList: _stockEachWarehouse,
+        stocksList: _stocksList,
         goodsList: _goodsList,
         personsList: _personsList,
         warehousesList: _warehousesList
@@ -92,6 +95,9 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       DisplayAppState(
         brandsList: _brandsList,
         incomingList: _incomingList,
+        countedIncomingsList: _countedIncomingsList,
+        stockEachWarehouseList: _stockEachWarehouse,
+        stocksList: _stocksList,
         goodsList: _goodsList,
         personsList: _personsList,
         warehousesList: _warehousesList
@@ -131,6 +137,9 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       DisplayAppState(
           brandsList: _brandsList,
           incomingList: _incomingList,
+          countedIncomingsList: _countedIncomingsList,
+          stockEachWarehouseList: _stockEachWarehouse,
+          stocksList: _stocksList,
           goodsList: _goodsList,
           personsList: _personsList
             ..remove(oldPerson)
@@ -163,6 +172,9 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       DisplayAppState(
         brandsList: _brandsList,
         incomingList: _incomingList,
+        countedIncomingsList: _countedIncomingsList,
+        stockEachWarehouseList: _stockEachWarehouse,
+        stocksList: _stocksList,
         goodsList: _goodsList,
         personsList: _personsList
           ..clear()
@@ -202,11 +214,23 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     _warehousesList
       ..clear()
       ..addAll(await DBHelper.instance.fetchWarehousesData());
+    _stockEachWarehouse
+      ..clear()
+      ..addAll(await DBHelper.instance.fetchStocksEachWarehouseData());
+    _stocksList
+      ..clear()
+      ..addAll(await DBHelper.instance.fetchStocksData());
+    _countedIncomingsList
+      ..clear()
+      ..addAll(await DBHelper.instance.fetchCountedIncomingsData());
 
     emit(
       DisplayAppState(
         brandsList: _brandsList,
         incomingList: _incomingList,
+        countedIncomingsList: _countedIncomingsList,
+        stockEachWarehouseList: _stockEachWarehouse,
+        stocksList: _stocksList,
         goodsList: _goodsList,
         personsList: _personsList,
         countGoodsList: _countGoodsList,
@@ -244,6 +268,9 @@ class AppBloc extends Bloc<AppEvent, AppState> {
           ..clear()
           ..addAll(lastUpdatedBrands),
         incomingList: _incomingList,
+        countedIncomingsList: _countedIncomingsList,
+        stockEachWarehouseList: _stockEachWarehouse,
+        stocksList: _stocksList,
         goodsList: _goodsList,
         personsList: _personsList,
         countGoodsList: _countGoodsList,
@@ -279,6 +306,9 @@ class AppBloc extends Bloc<AppEvent, AppState> {
             ..remove(oldBrand)
             ..insert(oldBrandIndex, editedBrand),
           incomingList: _incomingList,
+          countedIncomingsList: _countedIncomingsList,
+          stockEachWarehouseList: _stockEachWarehouse,
+          stocksList: _stocksList,
           goodsList: _goodsList,
           personsList: _personsList,
           countGoodsList: _countGoodsList,
@@ -324,6 +354,9 @@ class AppBloc extends Bloc<AppEvent, AppState> {
             DisplayAppState(
               brandsList: _brandsList,
               incomingList: _incomingList,
+              countedIncomingsList: _countedIncomingsList,
+              stockEachWarehouseList: _stockEachWarehouse,
+              stocksList: _stocksList,
               goodsList: _goodsList,
               personsList: _personsList,
               countGoodsList: _countGoodsList,
@@ -339,6 +372,9 @@ class AppBloc extends Bloc<AppEvent, AppState> {
             DisplayAppState(
               brandsList: _brandsList..remove(deletedBrand),
               incomingList: _incomingList,
+              countedIncomingsList: _countedIncomingsList,
+              stockEachWarehouseList: _stockEachWarehouse,
+              stocksList: _stocksList,
               goodsList: _goodsList,
               personsList: _personsList,
               countGoodsList: _countGoodsList,
@@ -358,6 +394,9 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         DisplayAppState(
           brandsList: _brandsList,
           incomingList: _incomingList,
+          countedIncomingsList: _countedIncomingsList,
+          stockEachWarehouseList: _stockEachWarehouse,
+          stocksList: _stocksList,
           goodsList: _goodsList,
           personsList: _personsList,
           countGoodsList: _countGoodsList,
@@ -392,6 +431,9 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         incomingList: _incomingList
           ..clear()
           ..addAll(lastUpdatedIncomingList),
+        countedIncomingsList: _countedIncomingsList,
+        stockEachWarehouseList: _stockEachWarehouse,
+        stocksList: _stocksList,
         goodsList: _goodsList,
         personsList: _personsList,
         countGoodsList: _countGoodsList,
@@ -441,6 +483,9 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       DisplayAppState(
         brandsList: _brandsList,
         incomingList: _incomingList,
+        countedIncomingsList: _countedIncomingsList,
+        stockEachWarehouseList: _stockEachWarehouse,
+        stocksList: _stocksList,
         goodsList: _goodsList
           ..clear()
           ..addAll(lastUpdatedGoods),
@@ -469,6 +514,9 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         DisplayAppState(
             brandsList: _brandsList,
             incomingList: _incomingList,
+            countedIncomingsList: _countedIncomingsList,
+            stockEachWarehouseList: _stockEachWarehouse,
+            stocksList: _stocksList,
             goodsList: _goodsList..remove(deletedGood),
             personsList: _personsList,
             countGoodsList: _countGoodsList,
@@ -511,6 +559,9 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         DisplayAppState(
           brandsList: _brandsList,
           incomingList: _incomingList,
+          countedIncomingsList: _countedIncomingsList,
+          stockEachWarehouseList: _stockEachWarehouse,
+          stocksList: _stocksList,
           goodsList: _goodsList
             ..remove(oldGood)
             ..insert(
@@ -572,6 +623,9 @@ class AppBloc extends Bloc<AppEvent, AppState> {
                 incomingDate: editedIncomingList.incomingDate,
               ),
             ),
+          countedIncomingsList: _countedIncomingsList,
+          stockEachWarehouseList: _stockEachWarehouse,
+          stocksList: _stocksList,
           goodsList: _goodsList,
           personsList: _personsList,
           countGoodsList: _countGoodsList,
@@ -600,6 +654,9 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         DisplayAppState(
           brandsList: _brandsList,
           incomingList: _incomingList..remove(deletedIncomeItem),
+          countedIncomingsList: _countedIncomingsList,
+          stockEachWarehouseList: _stockEachWarehouse,
+          stocksList: _stocksList,
           goodsList: _goodsList,
           personsList: _personsList,
           countGoodsList: _countGoodsList
@@ -617,6 +674,9 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         DisplayAppState(
           brandsList: _brandsList,
           incomingList: _incomingList..remove(deletedIncomeItem),
+          countedIncomingsList: _countedIncomingsList,
+          stockEachWarehouseList: _stockEachWarehouse,
+          stocksList: _stocksList,
           goodsList: _goodsList,
           personsList: _personsList,
           countGoodsList: _countGoodsList,
@@ -653,6 +713,9 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       DisplayAppState(
         brandsList: _brandsList,
         incomingList: _incomingList,
+        countedIncomingsList: _countedIncomingsList,
+        stockEachWarehouseList: _stockEachWarehouse,
+        stocksList: _stocksList,
         goodsList: _goodsList,
         personsList: _personsList,
         countGoodsList: _countGoodsList

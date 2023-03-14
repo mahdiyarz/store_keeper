@@ -60,6 +60,94 @@ class EditBrand extends AppEvent {
       ];
 }
 
+//* Stock CRUD
+
+@immutable
+class AddStock extends AppEvent {
+  final StockModel stock;
+  const AddStock({
+    required this.stock,
+  });
+
+  @override
+  List<Object> get props => [
+        stock,
+      ];
+}
+
+@immutable
+class DeleteStock extends AppEvent {
+  final StockModel stock;
+  const DeleteStock({
+    required this.stock,
+  });
+
+  @override
+  List<Object> get props => [
+        stock,
+      ];
+}
+
+@immutable
+class EditStock extends AppEvent {
+  final StockModel oldStock;
+  final StockModel newStock;
+  const EditStock({
+    required this.oldStock,
+    required this.newStock,
+  });
+
+  @override
+  List<Object> get props => [
+        oldStock,
+        newStock,
+      ];
+}
+
+//* Stock CRUD
+
+@immutable
+class AddStockEachWarehouse extends AppEvent {
+  final StockEachWarehouseModel stock;
+  const AddStockEachWarehouse({
+    required this.stock,
+  });
+
+  @override
+  List<Object> get props => [
+        stock,
+      ];
+}
+
+@immutable
+class DeleteStockEachWarehouse extends AppEvent {
+  final StockEachWarehouseModel stock;
+  const DeleteStockEachWarehouse({
+    required this.stock,
+  });
+
+  @override
+  List<Object> get props => [
+        stock,
+      ];
+}
+
+@immutable
+class EditStockEachWarehouse extends AppEvent {
+  final StockEachWarehouseModel oldStock;
+  final StockEachWarehouseModel newStock;
+  const EditStockEachWarehouse({
+    required this.oldStock,
+    required this.newStock,
+  });
+
+  @override
+  List<Object> get props => [
+        oldStock,
+        newStock,
+      ];
+}
+
 //* Persons CRUD
 
 @immutable
@@ -181,6 +269,42 @@ class EditIncomingList extends AppEvent {
   List<Object> get props => [
         oldIncomingListId,
         newIncomingListItem,
+      ];
+}
+
+//* Counted Incomings CRUD
+
+@immutable
+class AddCountedIncomings extends AppEvent {
+  final CountedIncomingsModel addCountedIncomingItem;
+  const AddCountedIncomings({required this.addCountedIncomingItem});
+
+  @override
+  List<Object> get props => [addCountedIncomingItem];
+}
+
+@immutable
+class DeleteCountedIncomings extends AppEvent {
+  final CountedIncomingsModel deleteCountedIncomingItem;
+  const DeleteCountedIncomings({required this.deleteCountedIncomingItem});
+
+  @override
+  List<Object> get props => [deleteCountedIncomingItem];
+}
+
+@immutable
+class EditCountedIncomings extends AppEvent {
+  final int oldCountedIncomingId;
+  final CountedIncomingsModel newCountedIncomingItem;
+  const EditCountedIncomings({
+    required this.oldCountedIncomingId,
+    required this.newCountedIncomingItem,
+  });
+
+  @override
+  List<Object> get props => [
+        oldCountedIncomingId,
+        newCountedIncomingItem,
       ];
 }
 
