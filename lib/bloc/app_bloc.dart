@@ -32,6 +32,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     on<AddIncomingList>(_onAddIncomingList);
     on<EditIncomingList>(_onEditIncomingList);
     on<DeleteIncomingList>(_onDeleteIncomingList);
+    on<AddCountedIncomings>(_onAddCountedIncomings);
     on<AddGood>(_onAddGood);
     on<DeleteGood>(_onDeleteGood);
     on<EditGood>(_onEditGood);
@@ -42,6 +43,61 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     on<AddWarehouse>(_onAddWarehouse);
     on<EditWarehouse>(_onEditWarehouse);
   }
+
+  void _onAddCountedIncomings(
+      AddCountedIncomings event, Emitter<AppState> emit) async {
+    log('add counted incomings on bloc');
+
+    final CountedIncomingsModel countedIncomeItem =
+        event.addCountedIncomingItem;
+
+    if (countedIncomeItem.incomingsId.toString().isNotEmpty &&
+        countedIncomeItem.warehouseId.toString().isNotEmpty &&
+        countedIncomeItem.goodId.toString().isNotEmpty &&
+        countedIncomeItem.withoutBox.toString().isNotEmpty &&
+        countedIncomeItem.totalCounted.toString().isNotEmpty) {
+      await DBHelper.instance.insertCountedIncoming(countedIncomeItem);
+
+      await DBHelper.instance.insertStock(
+        StockModel(
+          goodId: countedIncomeItem.goodId,
+          totalStock: countedIncomeItem.totalCounted,
+          date: DateTime.now(),
+        ),
+      );
+      await DBHelper.instance.insertStockEachWarehouse(
+        StockEachWarehouseModel(
+          goodId: countedIncomeItem.goodId,
+          warehouseId: countedIncomeItem.warehouseId,
+          totalStock: countedIncomeItem.totalCounted,
+          date: DateTime.now(),
+        ),
+      );
+    }
+
+    final List<CountedIncomingsModel> lastUpdateCountedIncomings =
+        await DBHelper.instance.fetchCountedIncomingsData();
+
+    emit(
+      DisplayAppState(
+        brandsList: _brandsList,
+        incomingList: _incomingList,
+        countedIncomingsList: _countedIncomingsList
+          ..clear()
+          ..addAll(lastUpdateCountedIncomings),
+        stockEachWarehouseList: _stockEachWarehouse,
+        stocksList: _stocksList,
+        goodsList: _goodsList,
+        personsList: _personsList,
+        warehousesList: _warehousesList,
+        countGoodsList: _countGoodsList,
+        lakingList: _lakingList,
+        failureMessage: _failureMessage,
+        successMessage: _successMessage,
+      ),
+    );
+  }
+
   void _onEditWarehouse(EditWarehouse event, Emitter<AppState> emit) async {
     log('run edit wh');
 

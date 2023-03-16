@@ -6,11 +6,13 @@ class StockFields {
   static const String id = 'id';
   static const String goodId = 'goodId';
   static const String totalStock = 'totalStock';
+  static const String date = 'date';
 
   static const List<String> values = [
     id,
     goodId,
     totalStock,
+    date,
   ];
 }
 
@@ -18,10 +20,12 @@ class StockModel extends Equatable {
   final int? id;
   final int goodId;
   final int totalStock;
+  final DateTime date;
   const StockModel({
     this.id,
     required this.goodId,
     required this.totalStock,
+    required this.date,
   });
 
   @override
@@ -29,17 +33,20 @@ class StockModel extends Equatable {
         id,
         goodId,
         totalStock,
+        date,
       ];
 
   StockModel copyWith({
     int? id,
     int? goodId,
     int? totalStock,
+    DateTime? date,
   }) {
     return StockModel(
       id: id ?? this.id,
       goodId: goodId ?? this.goodId,
       totalStock: totalStock ?? this.totalStock,
+      date: date ?? this.date,
     );
   }
 
@@ -48,6 +55,7 @@ class StockModel extends Equatable {
       'id': id,
       'goodId': goodId,
       'totalStock': totalStock,
+      'date': date.toIso8601String(),
     };
   }
 
@@ -56,6 +64,7 @@ class StockModel extends Equatable {
       id: map['id'] != null ? map['id'] as int : null,
       goodId: map['goodId'] as int,
       totalStock: map['totalStock'] as int,
+      date: DateTime.parse(map['date'] as String),
     );
   }
 }
