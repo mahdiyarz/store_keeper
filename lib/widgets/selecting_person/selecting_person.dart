@@ -1,13 +1,13 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:store_keeper/widgets/selecting_person/show_persons_dialog_screen.dart';
 
 import 'package:store_keeper/widgets/show_dialog_button.dart';
-import 'package:store_keeper/widgets/show_dialog_screen.dart';
 
-import '../bloc/bloc_exports.dart';
-import '../models/persons_model.dart';
-import '../presentation/resources/import_resources.dart';
+import '../../bloc/bloc_exports.dart';
+import '../../models/persons_model.dart';
+import '../../presentation/resources/import_resources.dart';
 
 class SelectingPerson extends StatelessWidget {
   final DisplayAppState goodState;
@@ -70,11 +70,8 @@ class SelectingPerson extends StatelessWidget {
                   )
                 : null,
             children: [
-              ShowDialogScreen(
-                width: width,
+              ShowPersonsDialogScreen(
                 personsList: appState.personsList,
-                brandsList: null,
-                isAddingNewPerson: true,
               ),
               const Padding(
                 padding: EdgeInsets.fromLTRB(8, 5, 8, 0),
