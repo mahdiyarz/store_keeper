@@ -2,12 +2,12 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:store_keeper/models/brands_model.dart';
+import 'package:store_keeper/widgets/selecting_brand/show_brands_dialog_screen.dart';
 
 import 'package:store_keeper/widgets/show_dialog_button.dart';
-import 'package:store_keeper/widgets/show_dialog_screen.dart';
 
-import '../bloc/bloc_exports.dart';
-import '../presentation/resources/import_resources.dart';
+import '../../bloc/bloc_exports.dart';
+import '../../presentation/resources/import_resources.dart';
 
 class SelectingBrand extends StatelessWidget {
   final DisplayAppState goodState;
@@ -70,11 +70,8 @@ class SelectingBrand extends StatelessWidget {
                   )
                 : null,
             children: [
-              ShowDialogScreen(
-                width: width,
-                personsList: null,
+              ShowBrandsDialogScreen(
                 brandsList: appState.brandsList,
-                isAddingNewPerson: false,
               ),
               const Padding(
                 padding: EdgeInsets.fromLTRB(8, 5, 8, 0),
