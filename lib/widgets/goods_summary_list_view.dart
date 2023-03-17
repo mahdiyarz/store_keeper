@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:persian/persian.dart';
 import 'package:store_keeper/presentation/goods/create_or_update_good_screen.dart';
-import 'package:store_keeper/presentation/incoming_goods_management/create_or_update_incoming_goods_screen.dart';
 
 import '../models/import_models.dart';
+import '../presentation/incoming_goods_management/create_or_update_incoming_goods_screen.dart';
 import '../presentation/resources/import_resources.dart';
 
-class GoodsListView extends StatelessWidget {
+class GoodsSummaryListView extends StatelessWidget {
   final List<BrandsModel> brandsList;
+  final List<WarehousesModel> warehousesList;
   final List<GoodsModel> goodsList;
   final List<CountGoodsModel>? countedGoodsList;
   final int? incomingListId;
   final bool isAdding;
   final double width;
-  const GoodsListView({
+  const GoodsSummaryListView({
     Key? key,
     required this.width,
     required this.brandsList,
+    required this.warehousesList,
     required this.goodsList,
     required this.isAdding,
     this.incomingListId,
@@ -48,6 +50,7 @@ class GoodsListView extends StatelessWidget {
     required BuildContext context,
     required GoodsModel addingIncomeGood,
     required BrandsModel brand,
+    required WarehousesModel warehouse,
     required int incomingListId,
   }) {
     showModalBottomSheet(
@@ -59,8 +62,9 @@ class GoodsListView extends StatelessWidget {
           padding:
               EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
           child: CreateOrUpdateIncomingGoodsScreen(
-            brandName: brand,
-            goodName: addingIncomeGood,
+            brandItem: brand,
+            goodItem: addingIncomeGood,
+            warehouseItem: warehouse,
             incomingListId: incomingListId,
           ),
         ),
@@ -315,6 +319,12 @@ class GoodsListView extends StatelessWidget {
             element.brandId ==
             goodsList[index]
                 .brandId); //*This method find the brand of each incoming item
+
+        final thisWarehouseGoodIn = warehousesList.firstWhere((element) =>
+            element.warehouseId ==
+            warehousesList[index]
+                .warehouseId); //*This method find the warehouse of each incoming item
+
         return Container(
           padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 5),
           margin: const EdgeInsets.fromLTRB(8, 0, 8, 0),
@@ -354,6 +364,7 @@ class GoodsListView extends StatelessWidget {
                       context: context,
                       addingIncomeGood: goodsList[index],
                       brand: thisGoodBrand,
+                      warehouse: thisWarehouseGoodIn,
                       incomingListId: incomingListId!,
                     ),
               child: Row(
