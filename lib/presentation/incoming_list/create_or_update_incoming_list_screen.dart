@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:store_keeper/bloc/bloc_exports.dart';
-import 'package:store_keeper/models/persons_model.dart';
 import 'package:store_keeper/presentation/resources/color_manager.dart';
 
 import '../../models/import_models.dart';
-import '../../widgets/selecting_person.dart';
+import '../../widgets/selecting_person/selecting_person.dart';
 
 class CreateOrUpdateIncomingListScreen extends StatelessWidget {
   final IncomingsModel? oldIncomingList;
@@ -19,6 +18,7 @@ class CreateOrUpdateIncomingListScreen extends StatelessWidget {
   TextEditingController boxNumberController = TextEditingController();
   TextEditingController personNameController = TextEditingController();
   TextEditingController personIdController = TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
 
   @override

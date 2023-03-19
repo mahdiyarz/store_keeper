@@ -4,7 +4,7 @@ import 'package:store_keeper/bloc/bloc_exports.dart';
 import 'package:store_keeper/presentation/resources/color_manager.dart';
 
 import '../../models/import_models.dart';
-import '../../widgets/selecting_brand.dart';
+import '../../widgets/selecting_brand/selecting_brand.dart';
 
 class CreateOrUpdateGoodScreen extends StatefulWidget {
   final GoodsModel? oldGood;

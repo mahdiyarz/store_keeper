@@ -62,6 +62,7 @@ class _TabIncomingGoodsManagementScreenState
                   incomingGoodId: widget.incomingGoodId,
                   brandsList: state.brandsList,
                   goodsList: state.goodsList,
+                  warehouseList: state.warehousesList,
                 ),
                 'title': 'ثبت کالاهای ورودی',
                 'icon': Icons.add_business_rounded,

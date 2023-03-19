@@ -4,16 +4,17 @@ import 'package:store_keeper/bloc/bloc_exports.dart';
 import 'package:store_keeper/presentation/resources/color_manager.dart';
 
 import '../../models/import_models.dart';
-import '../../widgets/show_dialog_button.dart';
-import '../../widgets/show_dialog_screen.dart';
+import '../../widgets/selecting_warehouse/selecting_warehouse.dart';
 
 class CreateOrUpdateIncomingGoodsScreen extends StatefulWidget {
-  final BrandsModel brandName;
-  final GoodsModel goodName;
+  final BrandsModel brandItem;
+  final GoodsModel goodItem;
+  final WarehousesModel warehouseItem;
   final int incomingListId;
   const CreateOrUpdateIncomingGoodsScreen({
-    required this.brandName,
-    required this.goodName,
+    required this.brandItem,
+    required this.goodItem,
+    required this.warehouseItem,
     required this.incomingListId,
     Key? key,
   }) : super(key: key);
@@ -29,6 +30,8 @@ class _CreateOrUpdateIncomingGoodsScreenState
   TextEditingController seedNumberController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TextEditingController incomingIdController = TextEditingController();
+  TextEditingController warehouseNameController = TextEditingController();
+  TextEditingController warehouseIdController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -38,11 +41,11 @@ class _CreateOrUpdateIncomingGoodsScreenState
 
     // if (widget.oldIncomingList != null) {
     //   boxNumberController.text = widget.oldIncomingList!.numOfBoxes.toString();
-    //   final String brandName = widget.brandsList!
+    //   final String brandItem = widget.brandsList!
     //       .firstWhere(
     //           (element) => element.brandId == widget.oldIncomingList!.brandId)
-    //       .brandName;
-    //   brandNameController.text = brandName;
+    //       .brandItem;
+    //   brandItemController.text = brandItem;
     //   brandIdController.text = widget.oldIncomingList!.brandId.toString();
     // }
 
@@ -61,7 +64,7 @@ class _CreateOrUpdateIncomingGoodsScreenState
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    '${widget.goodName.goodName} ${widget.brandName.brandName}',
+                    '${widget.goodItem.goodName} ${widget.brandItem.brandName}',
                     style: TextStyle(
                       fontSize: 15,
                       color: ColorManager.onPrimaryContainer,
@@ -143,6 +146,47 @@ class _CreateOrUpdateIncomingGoodsScreenState
                   const SizedBox(
                     height: 8,
                   ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          controller: warehouseNameController,
+                          readOnly: true,
+                          decoration: InputDecoration(
+                            errorStyle: TextStyle(
+                              color: ColorManager.error.withOpacity(.7),
+                              fontWeight: FontWeight.bold,
+                              shadows: [
+                                Shadow(
+                                  offset: const Offset(0, 0),
+                                  color: ColorManager.onError,
+                                  blurRadius: 30,
+                                )
+                              ],
+                            ),
+                            hintText:
+                                'انباری که کالا وارد اون میشه رو مشخص کن...',
+                            border: const OutlineInputBorder(),
+                          ),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'مهمه بگی کجا میخوای بذاریشون، با دقت انتخاب کن...';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      SelectingWarehouse(
+                        appState: appState,
+                        warehouseIdController: warehouseIdController,
+                        warehouseNameController: warehouseNameController,
+                      ),
+                    ],
+                  ),
                   const SizedBox(height: 25),
                   Row(
                     children: [
@@ -154,30 +198,32 @@ class _CreateOrUpdateIncomingGoodsScreenState
                                 priceController.text.isEmpty) {
                               return;
                             } else {
-                              final int goodsId = widget.goodName.goodId!;
-                              context.read<AppBloc>().add(
-                                    AddCountGood(
-                                      countedGood: CountGoodsModel(
-                                        numOfBox:
-                                            boxNumberController.text.isEmpty
-                                                ? 0
-                                                : int.tryParse(
-                                                    boxNumberController.text),
-                                        numOfSeed:
-                                            seedNumberController.text.isEmpty
-                                                ? 0
-                                                : int.tryParse(
-                                                    seedNumberController.text),
-                                        price: priceController.text.isEmpty
-                                            ? 0
-                                            : int.tryParse(
-                                                priceController.text),
-                                        goodsId: goodsId,
-                                        incomingListId: widget.incomingListId,
-                                        lakingId: null,
-                                      ),
-                                    ),
-                                  );
+                              final int goodId = widget.goodItem.goodId!;
+                              final int warehouseId =
+                                  widget.warehouseItem.warehouseId!;
+                              final int withBox =
+                                  boxNumberController.text.isEmpty
+                                      ? 0
+                                      : int.parse(boxNumberController.text);
+                              final int withoutBox =
+                                  seedNumberController.text.isEmpty
+                                      ? 0
+                                      : int.parse(seedNumberController.text);
+
+                              final int totalCounted = withoutBox +
+                                  (withBox * widget.goodItem.numInBox);
+
+                              context.read<AppBloc>().add(AddCountedIncomings(
+                                  addCountedIncomingItem: CountedIncomingsModel(
+                                      incomingsId: widget.incomingListId,
+                                      warehouseId: warehouseId,
+                                      goodId: goodId,
+                                      withoutBox: withoutBox,
+                                      withBoxes: withBox,
+                                      price: priceController.text.isEmpty
+                                          ? 0
+                                          : int.parse(priceController.text),
+                                      totalCounted: totalCounted)));
                               Navigator.of(context).pop();
                               clearTextControllers();
                             }
@@ -292,38 +338,6 @@ class _CreateOrUpdateIncomingGoodsScreenState
       }
       return const Text('data');
     });
-  }
-
-  Future<dynamic> showBrandsDialog(
-      BuildContext context, DisplayAppState appState, double width) {
-    return showDialog(
-      context: context,
-      builder: (context) {
-        return Directionality(
-          textDirection: TextDirection.rtl,
-          child: SimpleDialog(
-            title: appState.personsList.isNotEmpty
-                ? const Text('شخص فرستنده رو انتخاب کنید',
-                    textAlign: TextAlign.center)
-                : null,
-            children: [
-              ShowDialogScreen(
-                width: width,
-                personsList: appState.personsList,
-                brandsList: null,
-                isAddingNewPerson: true,
-              ),
-              const Padding(
-                padding: EdgeInsets.fromLTRB(8, 5, 8, 0),
-                child: ShowDialogButton(
-                  isAddingNewPerson: true,
-                ),
-              )
-            ],
-          ),
-        );
-      },
-    );
   }
 
   void clearTextControllers() {
