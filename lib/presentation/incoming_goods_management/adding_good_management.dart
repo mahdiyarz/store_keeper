@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:store_keeper/models/brands_model.dart';
-import 'package:store_keeper/models/goods_model.dart';
-import 'package:store_keeper/widgets/goods_list_view.dart';
+import 'package:store_keeper/models/import_models.dart';
 
+import '../../widgets/adding_goods_list_view.dart';
 import '../resources/import_resources.dart';
 
 class AddingGoodManagement extends StatefulWidget {
   final List<BrandsModel> brandsList;
   final List<GoodsModel> goodsList;
+  final List<WarehousesModel> warehouseList;
   final int incomingGoodId;
   const AddingGoodManagement({
     Key? key,
     required this.goodsList,
     required this.brandsList,
+    required this.warehouseList,
     required this.incomingGoodId,
   }) : super(key: key);
 
@@ -99,11 +100,10 @@ class _AddingGoodManagementState extends State<AddingGoodManagement> {
                     padding: EdgeInsets.only(top: width * .08),
                     child: const Text('کالایی که دنبالشی پیدا نشد!'),
                   ),
-                  child: GoodsListView(
-                    width: width,
+                  child: AddingGoodsListView(
                     brandsList: widget.brandsList,
                     goodsList: filteredGoods,
-                    isAdding: true,
+                    warehousesList: widget.warehouseList,
                     incomingListId: widget.incomingGoodId,
                   ),
                 ),
