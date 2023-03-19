@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:store_keeper/bloc/bloc_exports.dart';
 import 'package:store_keeper/presentation/resources/import_resources.dart';
-import 'package:store_keeper/widgets/goods_list_view.dart';
+import 'package:store_keeper/widgets/goods_summary_list_view.dart';
 import 'package:store_keeper/widgets/screens_style.dart';
 
 import '../../widgets/CircleButton.dart';
@@ -137,10 +137,11 @@ class _GoodsManagementScreenState extends State<GoodsManagementScreen> {
                 return appState.goodsList.isNotEmpty
                     ? Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: GoodsListView(
+                        child: GoodsSummaryListView(
                           width: screenWidth,
                           brandsList: appState.brandsList,
                           goodsList: appState.goodsList,
+                          warehousesList: appState.warehousesList,
                           isAdding: false,
                         ),
                       )
