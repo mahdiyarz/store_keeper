@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:store_keeper/bloc/bloc_exports.dart';
 
 import '../../widgets/CircleButton.dart';
-import '../../widgets/incomings_list_view.dart';
+import 'local_widgets/incomings_grid_view.dart';
 import '../../widgets/screens_style.dart';
 import '../../widgets/show_modal_bottom_button.dart';
 import '../resources/import_resources.dart';
@@ -135,7 +135,7 @@ class _IncomingsScreenState extends State<IncomingsScreen> {
                 return appState.incomingList.isNotEmpty
                     ? Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: IncomingsListView(
+                        child: IncomingsGridView(
                           width: width,
                           personsList: appState.personsList,
                           incomings: appState.incomingList,

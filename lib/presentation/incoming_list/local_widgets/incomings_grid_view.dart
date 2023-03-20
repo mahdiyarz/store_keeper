@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:persian/persian.dart';
-import 'package:store_keeper/models/persons_model.dart';
-import 'package:store_keeper/presentation/incoming_goods_management/tab_incoming_goods_management_screen.dart';
 import 'package:store_keeper/presentation/incoming_list/create_or_update_incoming_list_screen.dart';
 
-import '../models/import_models.dart';
-import '../presentation/resources/import_resources.dart';
+import '../../../models/import_models.dart';
+import '../../incoming_goods_management/tab_incoming_goods_management_screen.dart';
+import '../../resources/color_manager.dart';
+import '../../resources/routes_manager.dart';
 
-class IncomingsListView extends StatelessWidget {
+class IncomingsGridView extends StatelessWidget {
   final List<PersonsModel> personsList;
   final List<IncomingsModel> incomings;
   final double width;
-  const IncomingsListView({
+  const IncomingsGridView({
     Key? key,
     required this.width,
     required this.personsList,
@@ -41,7 +41,15 @@ class IncomingsListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    final double screenWidth = MediaQuery.of(context).size.width;
+    return GridView.builder(
+      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+        maxCrossAxisExtent: screenWidth * .4,
+        childAspectRatio: 1,
+        crossAxisSpacing: 5,
+        mainAxisSpacing: 5,
+      ),
+
       physics:
           const NeverScrollableScrollPhysics(), //! to disable GridView's scrolling
       shrinkWrap: true, //! You won't see infinite size error
@@ -53,7 +61,6 @@ class IncomingsListView extends StatelessWidget {
 
         return Container(
           padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 5),
-          margin: const EdgeInsets.fromLTRB(8, 0, 8, 0),
           decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(
@@ -68,12 +75,7 @@ class IncomingsListView extends StatelessWidget {
             color: ColorManager.primaryContainer,
             elevation: 2,
             shadowColor: ColorManager.shadow,
-            borderRadius: const BorderRadius.only(
-              bottomLeft: Radius.circular(8),
-              bottomRight: Radius.circular(20),
-              topLeft: Radius.circular(8),
-              topRight: Radius.circular(20),
-            ),
+            borderRadius: BorderRadius.circular(20),
             child: InkWell(
               onTap: () {
                 Navigator.of(context).pushReplacementNamed(
@@ -92,55 +94,55 @@ class IncomingsListView extends StatelessWidget {
                   oldIncomingList: incomings[index],
                 );
               },
-              child: Row(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
                     padding: const EdgeInsets.all(5),
                     margin: const EdgeInsets.all(3),
                     alignment: Alignment.center,
-                    height: width * .15,
-                    width: width * .15,
+                    height: width * .1,
+                    // width: width * .15,
                     decoration: BoxDecoration(
                       color: ColorManager.secondary,
                       borderRadius: BorderRadius.circular(18),
                     ),
                     child: FittedBox(
                       child: Text(
-                        incomingItemsBrand.personName,
+                        incomings[index].incomingDate.toPersian().toString(),
                         style: TextStyle(
                           color: ColorManager.onSecondary,
                         ),
                       ),
                     ),
                   ),
+                  const SizedBox(
+                    height: 8,
+                  ),
                   Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 5, horizontal: 8),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          FittedBox(
-                            child: Text(
-                              'ورود ${incomings[index].boxes.toString().withPersianNumbers()} جعبه به انبار',
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: ColorManager.onPrimaryContainer,
-                              ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        FittedBox(
+                          child: Text(
+                            '${incomings[index].boxes.toString().withPersianNumbers()} جعبه',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: ColorManager.onPrimaryContainer,
                             ),
                           ),
-                          const SizedBox(height: 5),
-                          FittedBox(
-                            child: Text(
-                              'در تاریخ ${incomings[index].incomingDate.toPersian().toString()}',
-                              style: TextStyle(
-                                  color: ColorManager.onPrimaryContainer
-                                      .withOpacity(.7)),
-                            ),
+                        ),
+                        const SizedBox(height: 1),
+                        FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            'از ${incomingItemsBrand.personName}',
+                            style: TextStyle(
+                                color: ColorManager.onPrimaryContainer
+                                    .withOpacity(.7)),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
