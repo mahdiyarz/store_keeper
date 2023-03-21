@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:persian/persian.dart';
 
 import '../models/import_models.dart';
 import '../presentation/incoming_goods_management/create_or_update_incoming_goods_screen.dart';
 import '../presentation/resources/import_resources.dart';
 
 class TransferredGoodsListView extends StatelessWidget {
+  final List<CountedIncomingsModel> transferredGoods;
   final List<BrandsModel> brandsList;
   final List<WarehousesModel> warehousesList;
   final List<GoodsModel> goodsList;
   final int incomingListId;
   const TransferredGoodsListView({
     Key? key,
+    required this.transferredGoods,
     required this.brandsList,
     required this.warehousesList,
     required this.goodsList,
@@ -287,14 +290,17 @@ class TransferredGoodsListView extends StatelessWidget {
         //     (numberOfGoodsInBox * countGoodsModel.numOfBox!.toInt()) +
         //         countGoodsModel.numOfSeed!.toInt();
         // }
+        final thisTransferredGood = goodsList.firstWhere(
+            (element) => element.goodId == transferredGoods[index].goodId);
+
         final thisGoodBrand = brandsList.firstWhere((element) =>
             element.brandId ==
-            goodsList[index]
+            thisTransferredGood
                 .brandId); //*This method find the brand of each incoming item
 
         final thisWarehouseGoodIn = warehousesList.firstWhere((element) =>
             element.warehouseId ==
-            warehousesList[index]
+            transferredGoods[index]
                 .warehouseId); //*This method find the warehouse of each incoming item
 
         return Container(
@@ -321,13 +327,13 @@ class TransferredGoodsListView extends StatelessWidget {
               topRight: Radius.circular(20),
             ),
             child: InkWell(
-              onTap: () => _showAddIncomeGoodBottomSheet(
-                context: context,
-                addingIncomeGood: goodsList[index],
-                brand: thisGoodBrand,
-                warehouse: thisWarehouseGoodIn,
-                incomingListId: incomingListId,
-              ),
+              // onTap: () => _showAddIncomeGoodBottomSheet(
+              //   context: context,
+              //   addingIncomeGood: goodsList[index],
+              //   brand: thisGoodBrand,
+              //   warehouse: thisWarehouseGoodIn,
+              //   incomingListId: incomingListId,
+              // ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -362,7 +368,7 @@ class TransferredGoodsListView extends StatelessWidget {
                           FittedBox(
                             fit: BoxFit.scaleDown,
                             child: Text(
-                              goodsList[index].goodName,
+                              thisTransferredGood.goodName,
                               style: TextStyle(
                                 color: ColorManager.onPrimaryContainer,
                                 fontSize: FontSize.s16,
@@ -373,7 +379,7 @@ class TransferredGoodsListView extends StatelessWidget {
                           FittedBox(
                             fit: BoxFit.scaleDown,
                             child: Text(
-                              goodsList[index].goodLatinName,
+                              thisTransferredGood.goodLatinName,
                               style: TextStyle(
                                 color: ColorManager.onPrimaryContainer
                                     .withOpacity(.8),
@@ -478,7 +484,7 @@ class TransferredGoodsListView extends StatelessWidget {
                           FittedBox(
                             fit: BoxFit.scaleDown,
                             child: Text(
-                              'تعداد کل ورودی: ',
+                              'تعداد کل ورودی: ${transferredGoods[index].totalCounted.toString().withPersianNumbers()}',
                               style: TextStyle(
                                 color: ColorManager.onPrimaryContainer
                                     .withOpacity(.7),
@@ -496,7 +502,7 @@ class TransferredGoodsListView extends StatelessWidget {
           ),
         );
       },
-      itemCount: goodsList.length,
+      itemCount: transferredGoods.length,
     );
   }
 }

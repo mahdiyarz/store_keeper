@@ -41,12 +41,17 @@ class IncomingGoodsManagementScreen extends StatelessWidget {
           context.read<AppBloc>().add(const FetchEvent());
         }
         if (appState is DisplayAppState) {
+          final List<CountedIncomingsModel> transferredGoodsList = appState
+              .countedIncomingsList
+              .where((element) => element.incomingsId == incomingListId)
+              .toList();
           return appState.countedIncomingsList
                   .where((element) => element.incomingsId == incomingListId)
                   .isNotEmpty
               ? Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: TransferredGoodsListView(
+                    transferredGoods: transferredGoodsList,
                     brandsList: appState.brandsList,
                     goodsList: appState.goodsList,
                     warehousesList: appState.warehousesList,
