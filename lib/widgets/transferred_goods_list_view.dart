@@ -1,3 +1,5 @@
+import 'dart:core';
+
 import 'package:flutter/material.dart';
 import 'package:persian/persian.dart';
 
@@ -46,229 +48,212 @@ class TransferredGoodsListView extends StatelessWidget {
     );
   }
 
-  // Future<dynamic> _showGoodsDialog(
-  //   BuildContext context,
-  //   double width,
-  //   GoodsModel goodsModel,
-  //   BrandsModel brandName,
-  // ) {
-  //   return showDialog(
-  //     context: context,
-  //     builder: (context) {
-  //       return Directionality(
-  //         textDirection: TextDirection.rtl,
-  //         child: SimpleDialog(
-  //           elevation: 5,
-  //           backgroundColor: ColorManager.background.withOpacity(.8),
-  //           children: [
-  //             Container(
-  //               padding: const EdgeInsets.symmetric(horizontal: 12),
-  //               width: width,
-  //               child: SingleChildScrollView(
-  //                 child: Column(
-  //                   crossAxisAlignment: CrossAxisAlignment.start,
-  //                   children: [
-  //                     Row(
-  //                       children: [
-  //                         Container(
-  //                           height: width * .3,
-  //                           width: width * .3,
-  //                           decoration: BoxDecoration(
-  //                             borderRadius: BorderRadius.circular(25),
-  //                             color: ColorManager.primaryContainer,
-  //                           ),
-  //                           child: Column(
-  //                             mainAxisAlignment: MainAxisAlignment.center,
-  //                             children: [
-  //                               FittedBox(
-  //                                 fit: BoxFit.scaleDown,
-  //                                 child: Text(
-  //                                   brandName.brandName,
-  //                                   style: TextStyle(
-  //                                     color: ColorManager.onPrimaryContainer,
-  //                                   ),
-  //                                 ),
-  //                               ),
-  //                               FittedBox(
-  //                                 fit: BoxFit.scaleDown,
-  //                                 child: Text(
-  //                                   brandName.brandLatinName,
-  //                                   style: TextStyle(
-  //                                     color: ColorManager.onPrimaryContainer
-  //                                         .withOpacity(.6),
-  //                                   ),
-  //                                 ),
-  //                               ),
-  //                             ],
-  //                           ),
-  //                         ),
-  //                         Expanded(
-  //                           child: Container(
-  //                             margin: const EdgeInsets.only(right: 5),
-  //                             height: width * .3,
-  //                             decoration: BoxDecoration(
-  //                               borderRadius: BorderRadius.circular(25),
-  //                               color: ColorManager.error,
-  //                             ),
-  //                             child: Column(
-  //                                 mainAxisAlignment: MainAxisAlignment.center,
-  //                                 children: [
-  //                                   Icon(
-  //                                     Icons.contact_support_rounded,
-  //                                     color: ColorManager.onError,
-  //                                     size: 45,
-  //                                   ),
-  //                                   FittedBox(
-  //                                     fit: BoxFit.scaleDown,
-  //                                     child: Text(
-  //                                       'با جعبه های ${goodsModel.numInBox.toString().withPersianNumbers()}تایی',
-  //                                       style: TextStyle(
-  //                                         color: ColorManager.onError,
-  //                                       ),
-  //                                     ),
-  //                                   ),
-  //                                 ]),
-  //                           ),
-  //                         ),
-  //                       ],
-  //                     ),
-  //                     Container(
-  //                       margin: const EdgeInsets.symmetric(vertical: 5),
-  //                       padding: const EdgeInsets.symmetric(
-  //                         vertical: 3,
-  //                         horizontal: 8,
-  //                       ),
-  //                       height: width * .2,
-  //                       width: width,
-  //                       decoration: BoxDecoration(
-  //                         borderRadius: BorderRadius.circular(25),
-  //                         color: ColorManager.secondary,
-  //                       ),
-  //                       child: Column(
-  //                           mainAxisAlignment: MainAxisAlignment.center,
-  //                           children: [
-  //                             FittedBox(
-  //                               fit: BoxFit.scaleDown,
-  //                               child: Text(
-  //                                 goodsModel.goodName,
-  //                                 style: TextStyle(
-  //                                   color: ColorManager.onPrimaryContainer,
-  //                                 ),
-  //                               ),
-  //                             ),
-  //                             FittedBox(
-  //                               fit: BoxFit.scaleDown,
-  //                               child: Text(
-  //                                 goodsModel.goodLatinName,
-  //                                 style: TextStyle(
-  //                                   color: ColorManager.onPrimaryContainer
-  //                                       .withOpacity(.6),
-  //                                 ),
-  //                               ),
-  //                             ),
-  //                           ]),
-  //                     ),
-  //                     Row(
-  //                       children: [
-  //                         CircleAvatar(
-  //                           backgroundColor: ColorManager.primaryContainer,
-  //                           foregroundColor: ColorManager.primary,
-  //                           child: const Icon(Icons.qr_code_2_rounded),
-  //                         ),
-  //                         const SizedBox(
-  //                           width: 5,
-  //                         ),
-  //                         Expanded(
-  //                           child: goodsModel.barcode != null
-  //                               ? Text(
-  //                                   goodsModel.barcode.toString(),
-  //                                   style: TextStyle(
-  //                                     color: ColorManager.onBackground,
-  //                                   ),
-  //                                 )
-  //                               : Text(
-  //                                   'بارکد برای این کالا ثبت نشده',
-  //                                   style: TextStyle(
-  //                                     color: ColorManager.onBackground,
-  //                                   ),
-  //                                 ),
-  //                         ),
-  //                       ],
-  //                     ),
-  //                     const SizedBox(
-  //                       height: 5,
-  //                     ),
-  //                     Row(
-  //                       children: [
-  //                         CircleAvatar(
-  //                           backgroundColor: ColorManager.primaryContainer,
-  //                           foregroundColor: ColorManager.primary,
-  //                           child: const Icon(Icons.account_tree_rounded),
-  //                         ),
-  //                         const SizedBox(
-  //                           width: 5,
-  //                         ),
-  //                         Expanded(
-  //                           child: goodsModel.accountingCode != null
-  //                               ? Text(
-  //                                   goodsModel.accountingCode
-  //                                       .toString()
-  //                                       .withPersianNumbers(),
-  //                                   style: TextStyle(
-  //                                     color: ColorManager.onBackground,
-  //                                   ),
-  //                                 )
-  //                               : Text(
-  //                                   'کد سیستم مالی ثبت نشده',
-  //                                   style: TextStyle(
-  //                                     color: ColorManager.onBackground,
-  //                                   ),
-  //                                 ),
-  //                         ),
-  //                       ],
-  //                     ),
-  //                     const SizedBox(
-  //                       height: 25,
-  //                     ),
-  //                     Row(
-  //                       children: [
-  //                         Expanded(
-  //                           child: ElevatedButton.icon(
-  //                             onPressed: () {
-  //                               Navigator.of(context).pop();
-  //                               _showModalBottomSheet(
-  //                                   context: context, oldGood: goodsModel);
-  //                             },
-  //                             icon: const Icon(Icons.save_as_rounded),
-  //                             label: const Text('میخوام ویرایشش کنم'),
-  //                           ),
-  //                         ),
-  //                         const SizedBox(
-  //                           width: 5,
-  //                         ),
-  //                         CircleAvatar(
-  //                           backgroundColor:
-  //                               ColorManager.primary.withOpacity(.7),
-  //                           child: IconButton(
-  //                               onPressed: () {
-  //                                 Navigator.of(context).pop();
-  //                               },
-  //                               icon: Icon(
-  //                                 Icons.arrow_forward,
-  //                                 color: ColorManager.onPrimary.withOpacity(.7),
-  //                               )),
-  //                         ),
-  //                       ],
-  //                     ),
-  //                   ],
-  //                 ),
-  //               ),
-  //             ),
-  //           ],
-  //         ),
-  //       );
-  //     },
-  //   );
+  Future<dynamic> _showTransferredGoodsDialog({
+    required BuildContext context,
+    required String goodName,
+    required String warehouseName,
+    required String brandName,
+    required int? withBox,
+    required int withoutBox,
+    required int price,
+    required int totalCounted,
+  }) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        final double width = MediaQuery.of(context).size.width;
+
+        return Directionality(
+          textDirection: TextDirection.rtl,
+          child: SimpleDialog(
+            elevation: 5,
+            backgroundColor: ColorManager.background.withOpacity(.8),
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                width: width,
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            height: width * .2,
+                            width: width * .2,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(25),
+                              color: ColorManager.primaryContainer,
+                            ),
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Text(
+                                brandName,
+                                style: TextStyle(
+                                  color: ColorManager.onPrimaryContainer,
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 3,
+                          ),
+                          Expanded(
+                            child: Container(
+                              margin: const EdgeInsets.symmetric(vertical: 5),
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 3,
+                                horizontal: 8,
+                              ),
+                              height: width * .2,
+                              width: width,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25),
+                                color: ColorManager.secondary,
+                              ),
+                              child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    FittedBox(
+                                      fit: BoxFit.scaleDown,
+                                      child: Text(
+                                        goodName,
+                                        style: TextStyle(
+                                          color:
+                                              ColorManager.onPrimaryContainer,
+                                        ),
+                                      ),
+                                    ),
+                                    FittedBox(
+                                      fit: BoxFit.scaleDown,
+                                      child: Text(
+                                        warehouseName,
+                                        style: TextStyle(
+                                          color: ColorManager.onPrimaryContainer
+                                              .withOpacity(.6),
+                                        ),
+                                      ),
+                                    ),
+                                  ]),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          CircleAvatar(
+                            backgroundColor: ColorManager.primaryContainer,
+                            foregroundColor: ColorManager.primary,
+                            child: const Icon(Icons.pages_rounded),
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Expanded(
+                            child: withBox != null
+                                ? Text(
+                                    'ورود ${withBox.toString().withPersianNumbers()} جعبه',
+                                    style: TextStyle(
+                                      color: ColorManager.onBackground,
+                                    ),
+                                  )
+                                : Text(
+                                    'کالا به صورت کلی (جعبه ای) نداریم',
+                                    style: TextStyle(
+                                      color: ColorManager.onBackground,
+                                    ),
+                                  ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        children: [
+                          CircleAvatar(
+                            backgroundColor: ColorManager.primaryContainer,
+                            foregroundColor: ColorManager.primary,
+                            child:
+                                const Icon(Icons.auto_awesome_mosaic_outlined),
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Expanded(
+                            child: withoutBox != 0
+                                ? Text(
+                                    'ورود ${withoutBox.toString().withPersianNumbers()} عدد',
+                                    style: TextStyle(
+                                      color: ColorManager.onBackground,
+                                    ),
+                                  )
+                                : Text(
+                                    'کالای دانه ای نداریم',
+                                    style: TextStyle(
+                                      color: ColorManager.onBackground,
+                                    ),
+                                  ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 25,
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: ElevatedButton.icon(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                // _showModalBottomSheet(
+                                //     context: context, oldGood: goodsModel);
+                              },
+                              icon: const Icon(Icons.save_as_rounded),
+                              label: const Text('میخوام ویرایشش کنم'),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          CircleAvatar(
+                            backgroundColor:
+                                ColorManager.primary.withOpacity(.7),
+                            child: IconButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                icon: Icon(
+                                  Icons.arrow_forward,
+                                  color: ColorManager.onPrimary.withOpacity(.7),
+                                )),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  // extension ConvertToRial on String {
+  //   static String convertToRial(String cost){
+  //     if (cost.length >= 3) {
+  //       for (var i = 0; i < cost.length; i++) {
+  //         if (condition) {
+
+  //         }
+  //       }
+
+  //     } else{
+  //       return cost;
+  //     }
+  //   }
   // }
 
   @override
@@ -327,7 +312,17 @@ class TransferredGoodsListView extends StatelessWidget {
               topRight: Radius.circular(20),
             ),
             child: InkWell(
-              // onTap: () => _showAddIncomeGoodBottomSheet(
+              onTap: () => _showTransferredGoodsDialog(
+                context: context,
+                goodName: thisTransferredGood.goodName,
+                brandName: thisGoodBrand.brandName,
+                warehouseName: thisWarehouseGoodIn.warehouseName,
+                withBox: transferredGoods[index].withBoxes!,
+                withoutBox: transferredGoods[index].withoutBox,
+                totalCounted: transferredGoods[index].totalCounted,
+                price: transferredGoods[index].price,
+              ),
+              //  _showAddIncomeGoodBottomSheet(
               //   context: context,
               //   addingIncomeGood: goodsList[index],
               //   brand: thisGoodBrand,
@@ -388,109 +383,36 @@ class TransferredGoodsListView extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 5),
-                          // isAdding == false
-                          //     ? Row(
-                          //         mainAxisAlignment:
-                          //             MainAxisAlignment.spaceBetween,
-                          //         children: [
-                          //           FittedBox(
-                          //             fit: BoxFit.scaleDown,
-                          //             child: Text(
-                          //               'تعداد در هر جعبه: ${goodsList[index].numInBox.toString().withPersianNumbers()}',
-                          //               style: TextStyle(
-                          //                 color: ColorManager.onPrimaryContainer
-                          //                     .withOpacity(.7),
-                          //                 fontSize: FontSize.s12,
-                          //               ),
-                          //             ),
-                          //           ),
-                          //           Row(
-                          //             children: [
-                          //               Container(
-                          //                 padding: const EdgeInsets.symmetric(
-                          //                     horizontal: 3),
-                          //                 decoration: BoxDecoration(
-                          //                   color: ColorManager.secondary,
-                          //                   borderRadius:
-                          //                       BorderRadius.circular(8),
-                          //                 ),
-                          //                 child: Row(
-                          //                   children: [
-                          //                     Text(
-                          //                       'بارکد',
-                          //                       style: TextStyle(
-                          //                         color:
-                          //                             ColorManager.onSecondary,
-                          //                         fontSize: 10,
-                          //                       ),
-                          //                     ),
-                          //                     goodsList[index].barcode != null
-                          //                         ? Icon(
-                          //                             Icons.done_rounded,
-                          //                             size: 10,
-                          //                             color:
-                          //                                 ColorManager.primary,
-                          //                           )
-                          //                         : Icon(
-                          //                             Icons.clear_rounded,
-                          //                             size: 10,
-                          //                             color: ColorManager.error,
-                          //                           ),
-                          //                   ],
-                          //                 ),
-                          //               ),
-                          //               const SizedBox(
-                          //                 width: 3,
-                          //               ),
-                          //               Container(
-                          //                 padding: const EdgeInsets.symmetric(
-                          //                     horizontal: 3),
-                          //                 decoration: BoxDecoration(
-                          //                   color: ColorManager.secondary,
-                          //                   borderRadius:
-                          //                       BorderRadius.circular(8),
-                          //                 ),
-                          //                 child: Row(
-                          //                   children: [
-                          //                     Text(
-                          //                       'کدینگ',
-                          //                       style: TextStyle(
-                          //                         color:
-                          //                             ColorManager.onSecondary,
-                          //                         fontSize: 10,
-                          //                       ),
-                          //                     ),
-                          //                     goodsList[index].accountingCode !=
-                          //                             null
-                          //                         ? Icon(
-                          //                             Icons.done_rounded,
-                          //                             size: 10,
-                          //                             color:
-                          //                                 ColorManager.primary,
-                          //                           )
-                          //                         : Icon(
-                          //                             Icons.clear_rounded,
-                          //                             size: 10,
-                          //                             color: ColorManager.error,
-                          //                           ),
-                          //                   ],
-                          //                 ),
-                          //               ),
-                          //             ],
-                          //           ),
-                          //         ],
-                          //       )
-                          //     :
-                          FittedBox(
-                            fit: BoxFit.scaleDown,
-                            child: Text(
-                              'تعداد کل ورودی: ${transferredGoods[index].totalCounted.toString().withPersianNumbers()}',
-                              style: TextStyle(
-                                color: ColorManager.onPrimaryContainer
-                                    .withOpacity(.7),
-                                fontSize: FontSize.s12,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(
+                                  'ورود ${transferredGoods[index].totalCounted.toString().withPersianNumbers()} عدد به انبار ${thisWarehouseGoodIn.warehouseName}',
+                                  style: TextStyle(
+                                    color: ColorManager.onPrimaryContainer
+                                        .withOpacity(.7),
+                                    fontSize: FontSize.s12,
+                                  ),
+                                  textAlign: TextAlign.right,
+                                ),
                               ),
-                            ),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(
+                                  '${transferredGoods[index].price.toString().withPersianNumbers()} ریال',
+                                  style: TextStyle(
+                                    color: ColorManager.onPrimaryContainer
+                                        .withOpacity(.7),
+                                    fontSize: FontSize.s12,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
