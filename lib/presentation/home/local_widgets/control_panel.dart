@@ -168,7 +168,7 @@ class _ControlPanelState extends State<ControlPanel>
                   animationButtonController: _animationButton2Controller,
                   titleButton1: 'موجودی',
                   iconButton1: Icons.hourglass_empty_rounded,
-                  routeButton1: '',
+                  routeButton1: Routes.stockRoute,
                   titleButton2: 'انبارگردانی',
                   iconButton2: Icons.published_with_changes_rounded,
                   routeButton2: '',
