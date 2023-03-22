@@ -34,6 +34,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     on<DeleteIncomingList>(_onDeleteIncomingList);
     on<AddCountedIncomings>(_onAddCountedIncomings);
     on<EditCountedIncomings>(_onEditCountedIncomings);
+    on<DeleteCountedIncomings>(_onDeleteCountedIncomings);
     on<AddGood>(_onAddGood);
     on<DeleteGood>(_onDeleteGood);
     on<EditGood>(_onEditGood);
@@ -43,6 +44,45 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     on<DeletePerson>(_onDeletePerson);
     on<AddWarehouse>(_onAddWarehouse);
     on<EditWarehouse>(_onEditWarehouse);
+  }
+
+  void _onDeleteCountedIncomings(
+      DeleteCountedIncomings event, Emitter<AppState> emit) async {
+    log('delete counted incoming item');
+
+    final CountedIncomingsModel deletedCountedIncome =
+        event.deleteCountedIncomingItem;
+
+    final StockModel deletedStockItem = _stocksList.firstWhere(
+        (element) => element.countedIncomingId == deletedCountedIncome.id);
+
+    final StockEachWarehouseModel deletedStockEachWarehouseItem =
+        _stockEachWarehouse.firstWhere(
+            (element) => element.countedIncomingId == deletedCountedIncome.id);
+
+    await DBHelper.instance.deleteCountedIncoming(deletedCountedIncome);
+    await DBHelper.instance.deleteStock(deletedStockItem);
+    await DBHelper.instance
+        .deleteStockEachWarehouse(deletedStockEachWarehouseItem);
+
+    emit(
+      DisplayAppState(
+        brandsList: _brandsList,
+        incomingList: _incomingList,
+        countedIncomingsList: _countedIncomingsList
+          ..remove(deletedCountedIncome),
+        stockEachWarehouseList: _stockEachWarehouse
+          ..remove(deletedStockEachWarehouseItem),
+        stocksList: _stocksList..remove(deletedStockItem),
+        goodsList: _goodsList,
+        personsList: _personsList,
+        warehousesList: _warehousesList,
+        countGoodsList: _countGoodsList,
+        lakingList: _lakingList,
+        failureMessage: _failureMessage,
+        successMessage: _successMessage,
+      ),
+    );
   }
 
   void _onEditCountedIncomings(
