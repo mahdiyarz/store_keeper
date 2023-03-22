@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:persian/persian.dart';
 import 'package:store_keeper/models/import_models.dart';
 import 'package:store_keeper/presentation/resources/import_resources.dart';
 
@@ -293,26 +294,22 @@ class GoodsStockSummaryListView extends StatelessWidget {
           const NeverScrollableScrollPhysics(), //! to disable GridView's scrolling
       shrinkWrap: true, //! You won't see infinite size error
       itemBuilder: (context, index) {
-        // if (isAdding == false && countedGoodsList != null) {
-        //   final CountGoodsModel countGoodsModel = countedGoodsList![index];
-        //   final int numberOfGoodsInBox = goodsList
-        //       .firstWhere(
-        //           (element) => element.goodId == countGoodsModel.goodsId)
-        //       .numInBox;
-
-        //   final int totalCounted =
-        //       (numberOfGoodsInBox * countGoodsModel.numOfBox!.toInt()) +
-        //           countGoodsModel.numOfSeed!.toInt();
-        // }
         final thisGoodBrand = brandsList.firstWhere((element) =>
             element.brandId ==
             goodsList[index]
                 .brandId); //*This method find the brand of each incoming item
 
-        final thisWarehouseGoodIn = warehousesList.firstWhere((element) =>
-            element.warehouseId ==
-            warehousesList[index]
-                .warehouseId); //*This method find the warehouse of each incoming item
+        final int totalGoodStocks = stockList
+            .where((element) => element.goodId == goodsList[index].goodId)
+            .toList()
+            .map((e) => e.totalStock)
+            .toList()
+            .reduce((value, element) => value + element);
+
+        final int withBox = totalGoodStocks ~/ goodsList[index].numInBox;
+
+        final int withoutBox =
+            totalGoodStocks - (withBox * goodsList[index].numInBox);
 
         return Container(
           padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 5),
@@ -409,109 +406,65 @@ class GoodsStockSummaryListView extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 5),
-                          // isAdding == false
-                          //     ? Row(
-                          //         mainAxisAlignment:
-                          //             MainAxisAlignment.spaceBetween,
-                          //         children: [
-                          //           FittedBox(
-                          //             fit: BoxFit.scaleDown,
-                          //             child: Text(
-                          //               'تعداد در هر جعبه: ${goodsList[index].numInBox.toString().withPersianNumbers()}',
-                          //               style: TextStyle(
-                          //                 color: ColorManager.onPrimaryContainer
-                          //                     .withOpacity(.7),
-                          //                 fontSize: FontSize.s12,
-                          //               ),
-                          //             ),
-                          //           ),
-                          //           Row(
-                          //             children: [
-                          //               Container(
-                          //                 padding: const EdgeInsets.symmetric(
-                          //                     horizontal: 3),
-                          //                 decoration: BoxDecoration(
-                          //                   color: ColorManager.secondary,
-                          //                   borderRadius:
-                          //                       BorderRadius.circular(8),
-                          //                 ),
-                          //                 child: Row(
-                          //                   children: [
-                          //                     Text(
-                          //                       'بارکد',
-                          //                       style: TextStyle(
-                          //                         color:
-                          //                             ColorManager.onSecondary,
-                          //                         fontSize: 10,
-                          //                       ),
-                          //                     ),
-                          //                     goodsList[index].barcode != null
-                          //                         ? Icon(
-                          //                             Icons.done_rounded,
-                          //                             size: 10,
-                          //                             color:
-                          //                                 ColorManager.primary,
-                          //                           )
-                          //                         : Icon(
-                          //                             Icons.clear_rounded,
-                          //                             size: 10,
-                          //                             color: ColorManager.error,
-                          //                           ),
-                          //                   ],
-                          //                 ),
-                          //               ),
-                          //               const SizedBox(
-                          //                 width: 3,
-                          //               ),
-                          //               Container(
-                          //                 padding: const EdgeInsets.symmetric(
-                          //                     horizontal: 3),
-                          //                 decoration: BoxDecoration(
-                          //                   color: ColorManager.secondary,
-                          //                   borderRadius:
-                          //                       BorderRadius.circular(8),
-                          //                 ),
-                          //                 child: Row(
-                          //                   children: [
-                          //                     Text(
-                          //                       'کدینگ',
-                          //                       style: TextStyle(
-                          //                         color:
-                          //                             ColorManager.onSecondary,
-                          //                         fontSize: 10,
-                          //                       ),
-                          //                     ),
-                          //                     goodsList[index].accountingCode !=
-                          //                             null
-                          //                         ? Icon(
-                          //                             Icons.done_rounded,
-                          //                             size: 10,
-                          //                             color:
-                          //                                 ColorManager.primary,
-                          //                           )
-                          //                         : Icon(
-                          //                             Icons.clear_rounded,
-                          //                             size: 10,
-                          //                             color: ColorManager.error,
-                          //                           ),
-                          //                   ],
-                          //                 ),
-                          //               ),
-                          //             ],
-                          //           ),
-                          //         ],
-                          //       )
-                          //     : FittedBox(
-                          //         fit: BoxFit.scaleDown,
-                          //         child: Text(
-                          //           'تعداد کل ورودی: ',
-                          //           style: TextStyle(
-                          //             color: ColorManager.onPrimaryContainer
-                          //                 .withOpacity(.7),
-                          //             fontSize: FontSize.s12,
-                          //           ),
-                          //         ),
-                          //       ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(
+                                  '${totalGoodStocks.toString().withPersianNumbers()} عدد موجود',
+                                  style: TextStyle(
+                                    color: ColorManager.onPrimaryContainer
+                                        .withOpacity(.7),
+                                    fontSize: FontSize.s12,
+                                  ),
+                                ),
+                              ),
+                              Row(
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 3),
+                                    decoration: BoxDecoration(
+                                      color: ColorManager.secondary,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: withBox > 0 &&
+                                            withBox.toString().isNotEmpty
+                                        ? Text(
+                                            '${withBox.toString().withPersianNumbers()} جعبه',
+                                            style: TextStyle(
+                                              color: ColorManager.onSecondary,
+                                              fontSize: 10,
+                                            ),
+                                          )
+                                        : null,
+                                  ),
+                                  const SizedBox(
+                                    width: 3,
+                                  ),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 3),
+                                    decoration: BoxDecoration(
+                                      color: ColorManager.secondary,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: withoutBox > 0 &&
+                                            withoutBox.toString().isNotEmpty
+                                        ? Text(
+                                            '${withoutBox.toString().withPersianNumbers()} بدون جعبه',
+                                            style: TextStyle(
+                                              color: ColorManager.onSecondary,
+                                              fontSize: 10,
+                                            ),
+                                          )
+                                        : null,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                     ),
@@ -522,7 +475,7 @@ class GoodsStockSummaryListView extends StatelessWidget {
           ),
         );
       },
-      itemCount: stockList.length,
+      itemCount: goodsList.length,
     );
   }
 }
