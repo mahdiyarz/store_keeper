@@ -3,6 +3,7 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:persian/persian.dart';
 
+import '../bloc/bloc_exports.dart';
 import '../models/import_models.dart';
 import '../presentation/incoming_goods_management/create_or_update_incoming_goods_screen.dart';
 import '../presentation/resources/import_resources.dart';
@@ -22,11 +23,12 @@ class TransferredGoodsListView extends StatelessWidget {
     required this.incomingListId,
   }) : super(key: key);
 
-  void _showAddIncomeGoodBottomSheet({
+  void _showEditIncomeGoodBottomSheet({
     required BuildContext context,
-    required GoodsModel addingIncomeGood,
+    required GoodsModel incomeGood,
     required BrandsModel brand,
     required int incomingListId,
+    required CountedIncomingsModel countedIncomingGood,
   }) {
     showModalBottomSheet(
       isDismissible: false,
@@ -38,8 +40,9 @@ class TransferredGoodsListView extends StatelessWidget {
               EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
           child: CreateOrUpdateIncomingGoodsScreen(
             brandItem: brand,
-            goodItem: addingIncomeGood,
+            goodItem: incomeGood,
             incomingListId: incomingListId,
+            countedIncomingGood: countedIncomingGood,
           ),
         ),
       ),
@@ -48,13 +51,10 @@ class TransferredGoodsListView extends StatelessWidget {
 
   Future<dynamic> _showTransferredGoodsDialog({
     required BuildContext context,
-    required String goodName,
-    required String warehouseName,
-    required String brandName,
-    required int? withBox,
-    required int withoutBox,
-    required int price,
-    required int totalCounted,
+    required GoodsModel good,
+    required WarehousesModel warehouse,
+    required BrandsModel brand,
+    required CountedIncomingsModel countedIncomingGood,
   }) {
     return showDialog(
       context: context,
@@ -68,7 +68,7 @@ class TransferredGoodsListView extends StatelessWidget {
             backgroundColor: ColorManager.background.withOpacity(.8),
             children: [
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 width: width,
                 child: SingleChildScrollView(
                   child: Column(
@@ -86,7 +86,7 @@ class TransferredGoodsListView extends StatelessWidget {
                             child: FittedBox(
                               fit: BoxFit.scaleDown,
                               child: Text(
-                                brandName,
+                                brand.brandName,
                                 style: TextStyle(
                                   color: ColorManager.onPrimaryContainer,
                                 ),
@@ -115,7 +115,7 @@ class TransferredGoodsListView extends StatelessWidget {
                                     FittedBox(
                                       fit: BoxFit.scaleDown,
                                       child: Text(
-                                        goodName,
+                                        good.goodName,
                                         style: TextStyle(
                                           color:
                                               ColorManager.onPrimaryContainer,
@@ -125,7 +125,7 @@ class TransferredGoodsListView extends StatelessWidget {
                                     FittedBox(
                                       fit: BoxFit.scaleDown,
                                       child: Text(
-                                        warehouseName,
+                                        warehouse.warehouseName,
                                         style: TextStyle(
                                           color: ColorManager.onPrimaryContainer
                                               .withOpacity(.6),
@@ -148,9 +148,9 @@ class TransferredGoodsListView extends StatelessWidget {
                             width: 5,
                           ),
                           Expanded(
-                            child: withBox != null
+                            child: countedIncomingGood.withBoxes != null
                                 ? Text(
-                                    'ورود ${withBox.toString().withPersianNumbers()} جعبه',
+                                    'ورود ${countedIncomingGood.withBoxes.toString().withPersianNumbers()} جعبه',
                                     style: TextStyle(
                                       color: ColorManager.onBackground,
                                     ),
@@ -179,9 +179,9 @@ class TransferredGoodsListView extends StatelessWidget {
                             width: 5,
                           ),
                           Expanded(
-                            child: withoutBox != 0
+                            child: countedIncomingGood.withoutBox != 0
                                 ? Text(
-                                    'ورود ${withoutBox.toString().withPersianNumbers()} عدد',
+                                    'ورود ${countedIncomingGood.withoutBox.toString().withPersianNumbers()} عدد',
                                     style: TextStyle(
                                       color: ColorManager.onBackground,
                                     ),
@@ -204,12 +204,36 @@ class TransferredGoodsListView extends StatelessWidget {
                             child: ElevatedButton.icon(
                               onPressed: () {
                                 Navigator.of(context).pop();
-                                // _showModalBottomSheet(
-                                //     context: context, oldGood: goodsModel);
+                                _showEditIncomeGoodBottomSheet(
+                                  context: context,
+                                  incomeGood: good,
+                                  brand: brand,
+                                  incomingListId: incomingListId,
+                                  countedIncomingGood: countedIncomingGood,
+                                );
                               },
                               icon: const Icon(Icons.save_as_rounded),
-                              label: const Text('میخوام ویرایشش کنم'),
+                              label: const Text('میخوام اینو ویرایش کنم'),
                             ),
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          ElevatedButton.icon(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: ColorManager.error,
+                              foregroundColor: ColorManager.onError,
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              context.read<AppBloc>().add(
+                                    DeleteCountedIncomings(
+                                        deleteCountedIncomingItem:
+                                            countedIncomingGood),
+                                  );
+                            },
+                            icon: const Icon(Icons.delete_outline_rounded),
+                            label: const Text('حذف'),
                           ),
                           const SizedBox(
                             width: 5,
@@ -262,17 +286,6 @@ class TransferredGoodsListView extends StatelessWidget {
           const NeverScrollableScrollPhysics(), //! to disable GridView's scrolling
       shrinkWrap: true, //! You won't see infinite size error
       itemBuilder: (context, index) {
-        // if (isAdding == false && countedGoodsList != null) {
-        //   final CountGoodsModel countGoodsModel = countedGoodsList![index];
-        //   final int numberOfGoodsInBox = goodsList
-        //       .firstWhere(
-        //           (element) => element.goodId == countGoodsModel.goodsId)
-        //       .numInBox;
-
-        // final int totalCounted =
-        //     (numberOfGoodsInBox * countGoodsModel.numOfBox!.toInt()) +
-        //         countGoodsModel.numOfSeed!.toInt();
-        // }
         final thisTransferredGood = goodsList.firstWhere(
             (element) => element.goodId == transferredGoods[index].goodId);
 
@@ -312,21 +325,11 @@ class TransferredGoodsListView extends StatelessWidget {
             child: InkWell(
               onTap: () => _showTransferredGoodsDialog(
                 context: context,
-                goodName: thisTransferredGood.goodName,
-                brandName: thisGoodBrand.brandName,
-                warehouseName: thisWarehouseGoodIn.warehouseName,
-                withBox: transferredGoods[index].withBoxes!,
-                withoutBox: transferredGoods[index].withoutBox,
-                totalCounted: transferredGoods[index].totalCounted,
-                price: transferredGoods[index].price,
+                good: thisTransferredGood,
+                brand: thisGoodBrand,
+                warehouse: thisWarehouseGoodIn,
+                countedIncomingGood: transferredGoods[index],
               ),
-              //  _showAddIncomeGoodBottomSheet(
-              //   context: context,
-              //   addingIncomeGood: goodsList[index],
-              //   brand: thisGoodBrand,
-              //   warehouse: thisWarehouseGoodIn,
-              //   incomingListId: incomingListId,
-              // ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

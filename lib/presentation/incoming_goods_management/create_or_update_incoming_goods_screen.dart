@@ -10,10 +10,12 @@ class CreateOrUpdateIncomingGoodsScreen extends StatefulWidget {
   final BrandsModel brandItem;
   final GoodsModel goodItem;
   final int incomingListId;
+  final CountedIncomingsModel? countedIncomingGood;
   const CreateOrUpdateIncomingGoodsScreen({
     required this.brandItem,
     required this.goodItem,
     required this.incomingListId,
+    this.countedIncomingGood,
     Key? key,
   }) : super(key: key);
 
@@ -35,23 +37,32 @@ class _CreateOrUpdateIncomingGoodsScreenState
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-
-    // if (widget.oldIncomingList != null) {
-    //   boxNumberController.text = widget.oldIncomingList!.numOfBoxes.toString();
-    //   final String brandItem = widget.brandsList!
-    //       .firstWhere(
-    //           (element) => element.brandId == widget.oldIncomingList!.brandId)
-    //       .brandItem;
-    //   brandItemController.text = brandItem;
-    //   brandIdController.text = widget.oldIncomingList!.brandId.toString();
-    // }
+    if (widget.countedIncomingGood != null) {
+      boxNumberController.text =
+          widget.countedIncomingGood!.withBoxes.toString();
+      seedNumberController.text =
+          widget.countedIncomingGood!.withoutBox.toString();
+      priceController.text = widget.countedIncomingGood!.price.toString();
+      incomingIdController.text =
+          widget.countedIncomingGood!.incomingsId.toString();
+      warehouseIdController.text =
+          widget.countedIncomingGood!.warehouseId.toString();
+    }
 
     return BlocBuilder<AppBloc, AppState>(builder: (context, appState) {
       if (appState is AppStateInitial) {
         context.read<AppBloc>().add(const FetchEvent());
       }
       if (appState is DisplayAppState) {
+        widget.countedIncomingGood != null
+            ? [
+                warehouseNameController.text = appState.warehousesList
+                    .firstWhere((element) =>
+                        element.warehouseId ==
+                        widget.countedIncomingGood!.warehouseId)
+                    .warehouseName
+              ]
+            : null;
         return Form(
           key: _formKey,
           child: Directionality(
@@ -191,98 +202,62 @@ class _CreateOrUpdateIncomingGoodsScreenState
                       Expanded(
                         child: ElevatedButton(
                           onPressed: () {
-                            if (seedNumberController.text.isEmpty &&
-                                warehouseNameController.text.isEmpty) {
-                              return;
-                            } else {
-                              final int goodId = widget.goodItem.goodId!;
-                              final int withBox =
-                                  boxNumberController.text.isEmpty
-                                      ? 0
-                                      : int.parse(boxNumberController.text);
-                              final int withoutBox =
-                                  seedNumberController.text.isEmpty
-                                      ? 0
-                                      : int.parse(seedNumberController.text);
+                            if (_formKey.currentState!.validate()) {
+                              if (seedNumberController.text.isNotEmpty &&
+                                  warehouseNameController.text.isNotEmpty) {
+                                final int goodId = widget.goodItem.goodId!;
+                                final int withBox =
+                                    boxNumberController.text.isEmpty
+                                        ? 0
+                                        : int.parse(boxNumberController.text);
+                                final int withoutBox =
+                                    seedNumberController.text.isEmpty
+                                        ? 0
+                                        : int.parse(seedNumberController.text);
 
-                              final int totalCounted = withoutBox +
-                                  (withBox * widget.goodItem.numInBox);
-
-                              context.read<AppBloc>().add(AddCountedIncomings(
-                                  addCountedIncomingItem: CountedIncomingsModel(
-                                      incomingsId: widget.incomingListId,
-                                      warehouseId:
-                                          int.parse(warehouseIdController.text),
-                                      goodId: goodId,
-                                      withoutBox: withoutBox,
-                                      withBoxes: withBox,
-                                      price: priceController.text.isEmpty
-                                          ? 0
-                                          : int.parse(priceController.text),
-                                      totalCounted: totalCounted)));
-                              Navigator.of(context).pop();
-                              clearTextControllers();
+                                final int totalCounted = withoutBox +
+                                    (withBox * widget.goodItem.numInBox);
+                                widget.countedIncomingGood != null
+                                    ? context.read<AppBloc>().add(EditCountedIncomings(
+                                        oldCountedIncomingId:
+                                            widget.countedIncomingGood!.id!,
+                                        newCountedIncomingItem: CountedIncomingsModel(
+                                            id: widget.countedIncomingGood!.id,
+                                            incomingsId: widget
+                                                .countedIncomingGood!
+                                                .incomingsId,
+                                            warehouseId: int.parse(
+                                                warehouseIdController.text),
+                                            goodId: widget
+                                                .countedIncomingGood!.goodId,
+                                            withoutBox: withoutBox,
+                                            withBoxes: withBox,
+                                            price: priceController.text.isEmpty
+                                                ? 0
+                                                : int.parse(
+                                                    priceController.text),
+                                            totalCounted: totalCounted)))
+                                    : context.read<AppBloc>().add(
+                                        AddCountedIncomings(
+                                            addCountedIncomingItem: CountedIncomingsModel(incomingsId: widget.incomingListId, warehouseId: int.parse(warehouseIdController.text), goodId: goodId, withoutBox: withoutBox, withBoxes: withBox, price: priceController.text.isEmpty ? 0 : int.parse(priceController.text), totalCounted: totalCounted)));
+                                Navigator.of(context).pop();
+                                clearTextControllers();
+                              }
                             }
-                            // if (_formKey.currentState!.validate()) {
-                            //   if (brandNameController.text.isNotEmpty &&
-                            //       boxNumberController.text.isNotEmpty &&
-                            //       brandIdController.text.isNotEmpty) {
-                            //     const snackBar = SnackBar(
-                            //       dismissDirection: DismissDirection.up,
-                            //       content:
-                            //           // widget.oldIncomingList != null
-                            //           //     ? const Text(
-                            //           //         'به خوبی ویرایشش کردی',
-                            //           //         textAlign: TextAlign.center,
-                            //           //       )
-                            //           //     :
-                            //           Text(
-                            //         'یکی دیگه به لیست اضافه شد',
-                            //         textAlign: TextAlign.center,
-                            //       ),
-                            //       duration: Duration(
-                            //         seconds: 2,
-                            //       ),
-                            //     );
-                            //     // widget.oldIncomingList != null
-                            //     //     ? context.read<AppBloc>().add(
-                            //     //           EditIncomingList(
-                            //     //             oldIncomingListId: widget
-                            //     //                 .oldIncomingList!
-                            //     //                 .incomingListId!,
-                            //     //             newIncomingListItem:
-                            //     //                 IncomingListModel(
-                            //     //                     brandId: int.parse(
-                            //     //                         brandIdController.text),
-                            //     //                     numOfBoxes:
-                            //     //                         int.parse(
-                            //     //                             boxNumberController
-                            //     //                                 .text),
-                            //     //                     incomingListDate: widget
-                            //     //                         .oldIncomingList!
-                            //     //                         .incomingListDate),
-                            //     //           ),
-                            //     //         )
-                            //     //     :
-                            //     context.read<AppBloc>().add(
-                            //           AddIncomingList(
-                            //             addIncomingListItem: IncomingListModel(
-                            //               brandId: int.parse(
-                            //                 brandIdController.text,
-                            //               ),
-                            //               numOfBoxes: int.parse(
-                            //                 boxNumberController.text,
-                            //               ),
-                            //               incomingListDate: DateTime.now(),
-                            //             ),
-                            //           ),
-                            //         );
-                            //     Navigator.of(context).pop();
-                            //     clearTextControllers();
-                            //     ScaffoldMessenger.of(context)
-                            //         .showSnackBar(snackBar);
-                            //   }
-                            // }
+
+                            const snackBar = SnackBar(
+                              dismissDirection: DismissDirection.up,
+                              content: Text(
+                                'یکی به لیست وارد شده ها اضافه شد',
+                                textAlign: TextAlign.center,
+                              ),
+                              duration: Duration(
+                                seconds: 2,
+                              ),
+                            );
+
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
                           },
                           child: const Text('ثبت'),
                         ),
