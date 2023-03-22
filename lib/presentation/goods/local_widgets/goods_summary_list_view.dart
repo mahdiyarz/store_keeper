@@ -2,27 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:persian/persian.dart';
 import 'package:store_keeper/presentation/goods/create_or_update_good_screen.dart';
 
-import '../models/import_models.dart';
-import '../presentation/incoming_goods_management/create_or_update_incoming_goods_screen.dart';
-import '../presentation/resources/import_resources.dart';
+import '../../../models/import_models.dart';
+import '../../resources/import_resources.dart';
 
 class GoodsSummaryListView extends StatelessWidget {
   final List<BrandsModel> brandsList;
-  final List<WarehousesModel> warehousesList;
   final List<GoodsModel> goodsList;
-  final List<CountGoodsModel>? countedGoodsList;
-  final int? incomingListId;
-  final bool isAdding;
-  final double width;
   const GoodsSummaryListView({
     Key? key,
-    required this.width,
     required this.brandsList,
-    required this.warehousesList,
     required this.goodsList,
-    required this.isAdding,
-    this.incomingListId,
-    this.countedGoodsList,
   }) : super(key: key);
 
   void _showModalBottomSheet({
@@ -40,30 +29,6 @@ class GoodsSummaryListView extends StatelessWidget {
           child: CreateOrUpdateGoodScreen(
             oldGood: oldGood,
             brandsList: brandsList,
-          ),
-        ),
-      ),
-    );
-  }
-
-  void _showAddIncomeGoodBottomSheet({
-    required BuildContext context,
-    required GoodsModel addingIncomeGood,
-    required BrandsModel brand,
-    required int incomingListId,
-  }) {
-    showModalBottomSheet(
-      isDismissible: false,
-      isScrollControlled: true,
-      context: context,
-      builder: (context) => SingleChildScrollView(
-        child: Container(
-          padding:
-              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-          child: CreateOrUpdateIncomingGoodsScreen(
-            brandItem: brand,
-            goodItem: addingIncomeGood,
-            incomingListId: incomingListId,
           ),
         ),
       ),
@@ -297,31 +262,16 @@ class GoodsSummaryListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double width = MediaQuery.of(context).size.width;
     return ListView.builder(
       physics:
           const NeverScrollableScrollPhysics(), //! to disable GridView's scrolling
       shrinkWrap: true, //! You won't see infinite size error
       itemBuilder: (context, index) {
-        if (isAdding == false && countedGoodsList != null) {
-          final CountGoodsModel countGoodsModel = countedGoodsList![index];
-          final int numberOfGoodsInBox = goodsList
-              .firstWhere(
-                  (element) => element.goodId == countGoodsModel.goodsId)
-              .numInBox;
-
-          final int totalCounted =
-              (numberOfGoodsInBox * countGoodsModel.numOfBox!.toInt()) +
-                  countGoodsModel.numOfSeed!.toInt();
-        }
         final thisGoodBrand = brandsList.firstWhere((element) =>
             element.brandId ==
             goodsList[index]
                 .brandId); //*This method find the brand of each incoming item
-
-        final thisWarehouseGoodIn = warehousesList.firstWhere((element) =>
-            element.warehouseId ==
-            warehousesList[index]
-                .warehouseId); //*This method find the warehouse of each incoming item
 
         return Container(
           padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 5),
@@ -351,19 +301,12 @@ class GoodsSummaryListView extends StatelessWidget {
                 context: context,
                 oldGood: goodsList[index],
               ),
-              onTap: () => isAdding == false
-                  ? _showGoodsDialog(
-                      context,
-                      width,
-                      goodsList[index],
-                      thisGoodBrand,
-                    )
-                  : _showAddIncomeGoodBottomSheet(
-                      context: context,
-                      addingIncomeGood: goodsList[index],
-                      brand: thisGoodBrand,
-                      incomingListId: incomingListId!,
-                    ),
+              onTap: () => _showGoodsDialog(
+                context,
+                width,
+                goodsList[index],
+                thisGoodBrand,
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -418,109 +361,89 @@ class GoodsSummaryListView extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 5),
-                          isAdding == false
-                              ? Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    FittedBox(
-                                      fit: BoxFit.scaleDown,
-                                      child: Text(
-                                        'تعداد در هر جعبه: ${goodsList[index].numInBox.toString().withPersianNumbers()}',
-                                        style: TextStyle(
-                                          color: ColorManager.onPrimaryContainer
-                                              .withOpacity(.7),
-                                          fontSize: FontSize.s12,
-                                        ),
-                                      ),
-                                    ),
-                                    Row(
-                                      children: [
-                                        Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 3),
-                                          decoration: BoxDecoration(
-                                            color: ColorManager.secondary,
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                          ),
-                                          child: Row(
-                                            children: [
-                                              Text(
-                                                'بارکد',
-                                                style: TextStyle(
-                                                  color:
-                                                      ColorManager.onSecondary,
-                                                  fontSize: 10,
-                                                ),
-                                              ),
-                                              goodsList[index].barcode != null
-                                                  ? Icon(
-                                                      Icons.done_rounded,
-                                                      size: 10,
-                                                      color:
-                                                          ColorManager.primary,
-                                                    )
-                                                  : Icon(
-                                                      Icons.clear_rounded,
-                                                      size: 10,
-                                                      color: ColorManager.error,
-                                                    ),
-                                            ],
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          width: 3,
-                                        ),
-                                        Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 3),
-                                          decoration: BoxDecoration(
-                                            color: ColorManager.secondary,
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                          ),
-                                          child: Row(
-                                            children: [
-                                              Text(
-                                                'کدینگ',
-                                                style: TextStyle(
-                                                  color:
-                                                      ColorManager.onSecondary,
-                                                  fontSize: 10,
-                                                ),
-                                              ),
-                                              goodsList[index].accountingCode !=
-                                                      null
-                                                  ? Icon(
-                                                      Icons.done_rounded,
-                                                      size: 10,
-                                                      color:
-                                                          ColorManager.primary,
-                                                    )
-                                                  : Icon(
-                                                      Icons.clear_rounded,
-                                                      size: 10,
-                                                      color: ColorManager.error,
-                                                    ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                )
-                              : FittedBox(
-                                  fit: BoxFit.scaleDown,
-                                  child: Text(
-                                    'تعداد کل ورودی: ',
-                                    style: TextStyle(
-                                      color: ColorManager.onPrimaryContainer
-                                          .withOpacity(.7),
-                                      fontSize: FontSize.s12,
-                                    ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(
+                                  'تعداد در هر جعبه: ${goodsList[index].numInBox.toString().withPersianNumbers()}',
+                                  style: TextStyle(
+                                    color: ColorManager.onPrimaryContainer
+                                        .withOpacity(.7),
+                                    fontSize: FontSize.s12,
                                   ),
                                 ),
+                              ),
+                              Row(
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 3),
+                                    decoration: BoxDecoration(
+                                      color: ColorManager.secondary,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          'بارکد',
+                                          style: TextStyle(
+                                            color: ColorManager.onSecondary,
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                        goodsList[index].barcode != null
+                                            ? Icon(
+                                                Icons.done_rounded,
+                                                size: 10,
+                                                color: ColorManager.primary,
+                                              )
+                                            : Icon(
+                                                Icons.clear_rounded,
+                                                size: 10,
+                                                color: ColorManager.error,
+                                              ),
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 3,
+                                  ),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 3),
+                                    decoration: BoxDecoration(
+                                      color: ColorManager.secondary,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          'کدینگ',
+                                          style: TextStyle(
+                                            color: ColorManager.onSecondary,
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                        goodsList[index].accountingCode != null
+                                            ? Icon(
+                                                Icons.done_rounded,
+                                                size: 10,
+                                                color: ColorManager.primary,
+                                              )
+                                            : Icon(
+                                                Icons.clear_rounded,
+                                                size: 10,
+                                                color: ColorManager.error,
+                                              ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          )
                         ],
                       ),
                     ),
