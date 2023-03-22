@@ -22,7 +22,6 @@ class AddingGoodsListView extends StatelessWidget {
     required BuildContext context,
     required GoodsModel addingIncomeGood,
     required BrandsModel brand,
-    required WarehousesModel warehouse,
     required int incomingListId,
   }) {
     showModalBottomSheet(
@@ -36,7 +35,6 @@ class AddingGoodsListView extends StatelessWidget {
           child: CreateOrUpdateIncomingGoodsScreen(
             brandItem: brand,
             goodItem: addingIncomeGood,
-            warehouseItem: warehouse,
             incomingListId: incomingListId,
           ),
         ),
@@ -293,10 +291,10 @@ class AddingGoodsListView extends StatelessWidget {
             goodsList[index]
                 .brandId); //*This method find the brand of each incoming item
 
-        final thisWarehouseGoodIn = warehousesList.firstWhere((element) =>
-            element.warehouseId ==
-            warehousesList[index]
-                .warehouseId); //*This method find the warehouse of each incoming item
+        // final thisWarehouseGoodIn = warehousesList.firstWhere((element) =>
+        //     element.warehouseId ==
+        //     warehousesList[index]
+        //         .warehouseId); //*This method find the warehouse of each incoming item
 
         return Container(
           padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 5),
@@ -330,7 +328,6 @@ class AddingGoodsListView extends StatelessWidget {
                 context: context,
                 addingIncomeGood: goodsList[index],
                 brand: thisGoodBrand,
-                warehouse: thisWarehouseGoodIn,
                 incomingListId: incomingListId,
               ),
               child: Row(

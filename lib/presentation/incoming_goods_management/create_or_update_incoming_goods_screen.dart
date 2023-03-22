@@ -9,12 +9,10 @@ import '../../widgets/selecting_warehouse/selecting_warehouse.dart';
 class CreateOrUpdateIncomingGoodsScreen extends StatefulWidget {
   final BrandsModel brandItem;
   final GoodsModel goodItem;
-  final WarehousesModel warehouseItem;
   final int incomingListId;
   const CreateOrUpdateIncomingGoodsScreen({
     required this.brandItem,
     required this.goodItem,
-    required this.warehouseItem,
     required this.incomingListId,
     Key? key,
   }) : super(key: key);
@@ -193,14 +191,11 @@ class _CreateOrUpdateIncomingGoodsScreenState
                       Expanded(
                         child: ElevatedButton(
                           onPressed: () {
-                            if (boxNumberController.text.isEmpty &&
-                                seedNumberController.text.isEmpty &&
-                                priceController.text.isEmpty) {
+                            if (seedNumberController.text.isEmpty &&
+                                warehouseNameController.text.isEmpty) {
                               return;
                             } else {
                               final int goodId = widget.goodItem.goodId!;
-                              final int warehouseId =
-                                  widget.warehouseItem.warehouseId!;
                               final int withBox =
                                   boxNumberController.text.isEmpty
                                       ? 0
@@ -216,7 +211,8 @@ class _CreateOrUpdateIncomingGoodsScreenState
                               context.read<AppBloc>().add(AddCountedIncomings(
                                   addCountedIncomingItem: CountedIncomingsModel(
                                       incomingsId: widget.incomingListId,
-                                      warehouseId: warehouseId,
+                                      warehouseId:
+                                          int.parse(warehouseIdController.text),
                                       goodId: goodId,
                                       withoutBox: withoutBox,
                                       withBoxes: withBox,
@@ -344,5 +340,7 @@ class _CreateOrUpdateIncomingGoodsScreenState
     boxNumberController.clear();
     seedNumberController.clear();
     priceController.clear();
+    warehouseNameController.clear();
+    warehouseIdController.clear();
   }
 }

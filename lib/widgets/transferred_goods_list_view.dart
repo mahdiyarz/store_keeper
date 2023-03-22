@@ -26,7 +26,6 @@ class TransferredGoodsListView extends StatelessWidget {
     required BuildContext context,
     required GoodsModel addingIncomeGood,
     required BrandsModel brand,
-    required WarehousesModel warehouse,
     required int incomingListId,
   }) {
     showModalBottomSheet(
@@ -40,7 +39,6 @@ class TransferredGoodsListView extends StatelessWidget {
           child: CreateOrUpdateIncomingGoodsScreen(
             brandItem: brand,
             goodItem: addingIncomeGood,
-            warehouseItem: warehouse,
             incomingListId: incomingListId,
           ),
         ),

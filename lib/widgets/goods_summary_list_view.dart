@@ -50,7 +50,6 @@ class GoodsSummaryListView extends StatelessWidget {
     required BuildContext context,
     required GoodsModel addingIncomeGood,
     required BrandsModel brand,
-    required WarehousesModel warehouse,
     required int incomingListId,
   }) {
     showModalBottomSheet(
@@ -64,7 +63,6 @@ class GoodsSummaryListView extends StatelessWidget {
           child: CreateOrUpdateIncomingGoodsScreen(
             brandItem: brand,
             goodItem: addingIncomeGood,
-            warehouseItem: warehouse,
             incomingListId: incomingListId,
           ),
         ),
@@ -364,7 +362,6 @@ class GoodsSummaryListView extends StatelessWidget {
                       context: context,
                       addingIncomeGood: goodsList[index],
                       brand: thisGoodBrand,
-                      warehouse: thisWarehouseGoodIn,
                       incomingListId: incomingListId!,
                     ),
               child: Row(
