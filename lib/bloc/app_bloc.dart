@@ -33,6 +33,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     on<EditIncomingList>(_onEditIncomingList);
     on<DeleteIncomingList>(_onDeleteIncomingList);
     on<AddCountedIncomings>(_onAddCountedIncomings);
+    on<EditCountedIncomings>(_onEditCountedIncomings);
     on<AddGood>(_onAddGood);
     on<DeleteGood>(_onDeleteGood);
     on<EditGood>(_onEditGood);
@@ -42,6 +43,94 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     on<DeletePerson>(_onDeletePerson);
     on<AddWarehouse>(_onAddWarehouse);
     on<EditWarehouse>(_onEditWarehouse);
+  }
+
+  void _onEditCountedIncomings(
+      EditCountedIncomings event, Emitter<AppState> emit) async {
+    log('edit counted incomings on bloc');
+
+    final CountedIncomingsModel editedCountedIncome =
+        event.newCountedIncomingItem;
+
+    final int oldCountedIncomeId = event.oldCountedIncomingId;
+
+    final CountedIncomingsModel finalEditedCountedIncome =
+        CountedIncomingsModel(
+      id: oldCountedIncomeId,
+      incomingsId: editedCountedIncome.incomingsId,
+      warehouseId: editedCountedIncome.warehouseId,
+      goodId: editedCountedIncome.goodId,
+      withoutBox: editedCountedIncome.withoutBox,
+      withBoxes: editedCountedIncome.withBoxes,
+      price: editedCountedIncome.price,
+      totalCounted: editedCountedIncome.totalCounted,
+    );
+
+    final StockModel oldStockItem = _stocksList.firstWhere(
+        (element) => element.countedIncomingId == oldCountedIncomeId);
+
+    final StockModel finalEditedStock = StockModel(
+      id: oldStockItem.id,
+      goodId: oldStockItem.goodId,
+      totalStock: editedCountedIncome.totalCounted,
+      date: oldStockItem.date,
+      countedIncomingId: oldStockItem.countedIncomingId,
+    );
+
+    final StockEachWarehouseModel oldStockEachWarehouseItem =
+        _stockEachWarehouse.firstWhere(
+            (element) => element.countedIncomingId == oldCountedIncomeId);
+
+    final StockEachWarehouseModel finalEditedStockEachWarehouse =
+        StockEachWarehouseModel(
+      id: oldStockEachWarehouseItem.id,
+      goodId: oldStockEachWarehouseItem.goodId,
+      warehouseId: editedCountedIncome.warehouseId,
+      totalStock: editedCountedIncome.totalCounted,
+      date: oldStockEachWarehouseItem.date,
+      countedIncomingId: oldStockEachWarehouseItem.countedIncomingId,
+    );
+
+    if (editedCountedIncome.incomingsId.toString().isNotEmpty &&
+        editedCountedIncome.warehouseId.toString().isNotEmpty &&
+        editedCountedIncome.goodId.toString().isNotEmpty &&
+        editedCountedIncome.withoutBox.toString().isNotEmpty &&
+        editedCountedIncome.totalCounted.toString().isNotEmpty) {
+      await DBHelper.instance.updateCountedIncoming(
+        finalEditedCountedIncome,
+      );
+
+      await DBHelper.instance.updateStock(
+        finalEditedStock,
+      );
+
+      await DBHelper.instance.updateStockEachWarehouse(
+        finalEditedStockEachWarehouse,
+      );
+    }
+
+    emit(
+      DisplayAppState(
+        brandsList: _brandsList,
+        incomingList: _incomingList,
+        countedIncomingsList: _countedIncomingsList
+          ..remove(oldCountedIncomeId)
+          ..add(finalEditedCountedIncome),
+        stockEachWarehouseList: _stockEachWarehouse
+          ..remove(oldStockEachWarehouseItem)
+          ..add(finalEditedStockEachWarehouse),
+        stocksList: _stocksList
+          ..remove(oldStockItem)
+          ..add(finalEditedStock),
+        goodsList: _goodsList,
+        personsList: _personsList,
+        warehousesList: _warehousesList,
+        countGoodsList: _countGoodsList,
+        lakingList: _lakingList,
+        failureMessage: _failureMessage,
+        successMessage: _successMessage,
+      ),
+    );
   }
 
   void _onAddCountedIncomings(
@@ -57,6 +146,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       goodId: countedIncomeItem.goodId,
       totalStock: countedIncomeItem.totalCounted,
       date: date,
+      countedIncomingId: countedIncomeItem.id,
     );
 
     final StockEachWarehouseModel newStockEachWarehouseItem =
@@ -65,6 +155,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       warehouseId: countedIncomeItem.warehouseId,
       totalStock: countedIncomeItem.totalCounted,
       date: date,
+      countedIncomingId: countedIncomeItem.id,
     );
 
     if (countedIncomeItem.incomingsId.toString().isNotEmpty &&

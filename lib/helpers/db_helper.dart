@@ -62,6 +62,8 @@ class DBHelper {
       CREATE TABLE $stockTable(
         ${StockFields.id} $idType,
         ${StockFields.goodId} $intType,
+        ${StockFields.countedIncomingId} $intType,
+        ${StockFields.countedOutputId} $intType,
         ${StockFields.date} $textType,
         ${StockFields.totalStock}  $intType      
       )
@@ -72,6 +74,8 @@ class DBHelper {
         ${StockEachWarehouseFields.id} $idType,
         ${StockEachWarehouseFields.goodId} $intType,
         ${StockEachWarehouseFields.warehouseId}  $intType,      
+        ${StockEachWarehouseFields.countedIncomingId}  $intType,      
+        ${StockEachWarehouseFields.countedOutputId}  $intType,      
         ${StockEachWarehouseFields.date}  $textType,      
         ${StockEachWarehouseFields.totalStock}  $intType      
       )
