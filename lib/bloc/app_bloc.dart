@@ -51,6 +51,22 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     final CountedIncomingsModel countedIncomeItem =
         event.addCountedIncomingItem;
 
+    final DateTime date = DateTime.now();
+
+    final StockModel newStockItem = StockModel(
+      goodId: countedIncomeItem.goodId,
+      totalStock: countedIncomeItem.totalCounted,
+      date: date,
+    );
+
+    final StockEachWarehouseModel newStockEachWarehouseItem =
+        StockEachWarehouseModel(
+      goodId: countedIncomeItem.goodId,
+      warehouseId: countedIncomeItem.warehouseId,
+      totalStock: countedIncomeItem.totalCounted,
+      date: date,
+    );
+
     if (countedIncomeItem.incomingsId.toString().isNotEmpty &&
         countedIncomeItem.warehouseId.toString().isNotEmpty &&
         countedIncomeItem.goodId.toString().isNotEmpty &&
@@ -58,20 +74,19 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         countedIncomeItem.totalCounted.toString().isNotEmpty) {
       await DBHelper.instance.insertCountedIncoming(countedIncomeItem);
 
+      // final bool isExistBrandOnIncomingList = _incomingList.isNotEmpty
+      //     ? _incomingList
+      //         .any((element) => element.brandId == deletedBrand.brandId)
+      //     : false; //! false means we can delete this brand and it is not exist on incoming list
+
+// final bool isExistThisDateStock = _stocksList.isNotEmpty ?  :false;
+
       await DBHelper.instance.insertStock(
-        StockModel(
-          goodId: countedIncomeItem.goodId,
-          totalStock: countedIncomeItem.totalCounted,
-          date: DateTime.now(),
-        ),
+        newStockItem,
       );
+
       await DBHelper.instance.insertStockEachWarehouse(
-        StockEachWarehouseModel(
-          goodId: countedIncomeItem.goodId,
-          warehouseId: countedIncomeItem.warehouseId,
-          totalStock: countedIncomeItem.totalCounted,
-          date: DateTime.now(),
-        ),
+        newStockEachWarehouseItem,
       );
     }
 
@@ -85,8 +100,9 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         countedIncomingsList: _countedIncomingsList
           ..clear()
           ..addAll(lastUpdateCountedIncomings),
-        stockEachWarehouseList: _stockEachWarehouse,
-        stocksList: _stocksList,
+        stockEachWarehouseList: _stockEachWarehouse
+          ..add(newStockEachWarehouseItem),
+        stocksList: _stocksList..add(newStockItem),
         goodsList: _goodsList,
         personsList: _personsList,
         warehousesList: _warehousesList,
