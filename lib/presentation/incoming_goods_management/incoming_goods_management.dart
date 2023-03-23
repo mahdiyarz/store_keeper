@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:store_keeper/bloc/bloc_exports.dart';
-import 'package:store_keeper/widgets/transferred_goods_list_view.dart';
+import 'package:store_keeper/presentation/incoming_goods_management/local_widgets/transferred_goods_list_view.dart';
 
 import '../../models/import_models.dart';
 import '../resources/import_resources.dart';

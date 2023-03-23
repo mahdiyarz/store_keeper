@@ -3,10 +3,10 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:persian/persian.dart';
 
-import '../bloc/bloc_exports.dart';
-import '../models/import_models.dart';
-import '../presentation/incoming_goods_management/create_or_update_incoming_goods_screen.dart';
-import '../presentation/resources/import_resources.dart';
+import '../../../bloc/bloc_exports.dart';
+import '../../../models/import_models.dart';
+import '../create_or_update_incoming_goods_screen.dart';
+import '../../resources/import_resources.dart';
 
 class TransferredGoodsListView extends StatelessWidget {
   final List<CountedIncomingsModel> transferredGoods;

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:persian/persian.dart';
 import 'package:store_keeper/models/import_models.dart';
@@ -299,12 +301,16 @@ class GoodsStockSummaryListView extends StatelessWidget {
             goodsList[index]
                 .brandId); //*This method find the brand of each incoming item
 
-        final int totalGoodStocks = stockList
+        final List<int> allGoodStocksList = stockList
             .where((element) => element.goodId == goodsList[index].goodId)
             .toList()
             .map((e) => e.totalStock)
-            .toList()
-            .reduce((value, element) => value + element);
+            .toList();
+
+        final int totalGoodStocks =
+            allGoodStocksList.reduce((value, element) => value + element);
+
+        log(totalGoodStocks.toString());
 
         final int withBox = totalGoodStocks ~/ goodsList[index].numInBox;
 

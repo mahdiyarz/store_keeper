@@ -60,10 +60,10 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         _stockEachWarehouse.firstWhere(
             (element) => element.countedIncomingId == deletedCountedIncome.id);
 
-    await DBHelper.instance.deleteCountedIncoming(deletedCountedIncome);
     await DBHelper.instance.deleteStock(deletedStockItem);
     await DBHelper.instance
         .deleteStockEachWarehouse(deletedStockEachWarehouseItem);
+    await DBHelper.instance.deleteCountedIncoming(deletedCountedIncome);
 
     emit(
       DisplayAppState(
@@ -93,6 +93,9 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         event.newCountedIncomingItem;
 
     final int oldCountedIncomeId = event.oldCountedIncomingId;
+    final CountedIncomingsModel deletingOldCountedIncomingItem =
+        _countedIncomingsList
+            .firstWhere((element) => element.id == oldCountedIncomeId);
 
     final CountedIncomingsModel finalEditedCountedIncome =
         CountedIncomingsModel(
@@ -105,9 +108,11 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       price: editedCountedIncome.price,
       totalCounted: editedCountedIncome.totalCounted,
     );
-
+    log('step 1');
+    log(_stocksList.toString());
     final StockModel oldStockItem = _stocksList.firstWhere(
         (element) => element.countedIncomingId == oldCountedIncomeId);
+    log('step 2');
 
     final StockModel finalEditedStock = StockModel(
       id: oldStockItem.id,
@@ -154,7 +159,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         brandsList: _brandsList,
         incomingList: _incomingList,
         countedIncomingsList: _countedIncomingsList
-          ..remove(oldCountedIncomeId)
+          ..remove(deletingOldCountedIncomingItem)
           ..add(finalEditedCountedIncome),
         stockEachWarehouseList: _stockEachWarehouse
           ..remove(oldStockEachWarehouseItem)
@@ -180,24 +185,6 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     final CountedIncomingsModel countedIncomeItem =
         event.addCountedIncomingItem;
 
-    final DateTime date = DateTime.now();
-
-    final StockModel newStockItem = StockModel(
-      goodId: countedIncomeItem.goodId,
-      totalStock: countedIncomeItem.totalCounted,
-      date: date,
-      countedIncomingId: countedIncomeItem.id,
-    );
-
-    final StockEachWarehouseModel newStockEachWarehouseItem =
-        StockEachWarehouseModel(
-      goodId: countedIncomeItem.goodId,
-      warehouseId: countedIncomeItem.warehouseId,
-      totalStock: countedIncomeItem.totalCounted,
-      date: date,
-      countedIncomingId: countedIncomeItem.id,
-    );
-
     if (countedIncomeItem.incomingsId.toString().isNotEmpty &&
         countedIncomeItem.warehouseId.toString().isNotEmpty &&
         countedIncomeItem.goodId.toString().isNotEmpty &&
@@ -205,44 +192,69 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         countedIncomeItem.totalCounted.toString().isNotEmpty) {
       await DBHelper.instance.insertCountedIncoming(countedIncomeItem);
 
-      // final bool isExistBrandOnIncomingList = _incomingList.isNotEmpty
-      //     ? _incomingList
-      //         .any((element) => element.brandId == deletedBrand.brandId)
-      //     : false; //! false means we can delete this brand and it is not exist on incoming list
+      final List<CountedIncomingsModel> lastUpdateCountedIncomings =
+          await DBHelper.instance.fetchCountedIncomingsData();
 
-// final bool isExistThisDateStock = _stocksList.isNotEmpty ?  :false;
+      final CountedIncomingsModel recallCountedIncoming =
+          lastUpdateCountedIncomings.firstWhere((element) =>
+              element.goodId == countedIncomeItem.goodId &&
+              element.incomingsId == countedIncomeItem.incomingsId);
+
+      final DateTime date = DateTime.now();
+
+      final StockModel newStockItem = StockModel(
+        goodId: recallCountedIncoming.goodId,
+        totalStock: recallCountedIncoming.totalCounted,
+        date: date,
+        countedIncomingId: recallCountedIncoming.id,
+      );
 
       await DBHelper.instance.insertStock(
         newStockItem,
       );
 
+      final List<StockModel> lastUpdateStock =
+          await DBHelper.instance.fetchStocksData();
+
+      final StockEachWarehouseModel newStockEachWarehouseItem =
+          StockEachWarehouseModel(
+        goodId: recallCountedIncoming.goodId,
+        warehouseId: recallCountedIncoming.warehouseId,
+        totalStock: recallCountedIncoming.totalCounted,
+        date: date,
+        countedIncomingId: recallCountedIncoming.id,
+      );
+
       await DBHelper.instance.insertStockEachWarehouse(
         newStockEachWarehouseItem,
       );
+
+      final List<StockEachWarehouseModel> lastUpdateStockWarehouse =
+          await DBHelper.instance.fetchStocksEachWarehouseData();
+
+      emit(
+        DisplayAppState(
+          brandsList: _brandsList,
+          incomingList: _incomingList,
+          countedIncomingsList: _countedIncomingsList
+            ..clear()
+            ..addAll(lastUpdateCountedIncomings),
+          stockEachWarehouseList: _stockEachWarehouse
+            ..clear()
+            ..addAll(lastUpdateStockWarehouse),
+          stocksList: _stocksList
+            ..clear()
+            ..addAll(lastUpdateStock),
+          goodsList: _goodsList,
+          personsList: _personsList,
+          warehousesList: _warehousesList,
+          countGoodsList: _countGoodsList,
+          lakingList: _lakingList,
+          failureMessage: _failureMessage,
+          successMessage: _successMessage,
+        ),
+      );
     }
-
-    final List<CountedIncomingsModel> lastUpdateCountedIncomings =
-        await DBHelper.instance.fetchCountedIncomingsData();
-
-    emit(
-      DisplayAppState(
-        brandsList: _brandsList,
-        incomingList: _incomingList,
-        countedIncomingsList: _countedIncomingsList
-          ..clear()
-          ..addAll(lastUpdateCountedIncomings),
-        stockEachWarehouseList: _stockEachWarehouse
-          ..add(newStockEachWarehouseItem),
-        stocksList: _stocksList..add(newStockItem),
-        goodsList: _goodsList,
-        personsList: _personsList,
-        warehousesList: _warehousesList,
-        countGoodsList: _countGoodsList,
-        lakingList: _lakingList,
-        failureMessage: _failureMessage,
-        successMessage: _successMessage,
-      ),
-    );
   }
 
   void _onEditWarehouse(EditWarehouse event, Emitter<AppState> emit) async {
