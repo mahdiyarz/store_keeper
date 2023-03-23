@@ -131,7 +131,7 @@ class _StockScreenState extends State<StockScreen> {
                 context.read<AppBloc>().add(const FetchEvent());
               }
               if (appState is DisplayAppState) {
-                return appState.goodsList.isNotEmpty
+                return appState.stocksList.isNotEmpty
                     ? Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: GoodsStockSummaryListView(
