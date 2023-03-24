@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:store_keeper/presentation/incoming_goods_management/tab_incoming_goods_management_screen.dart';
+import 'package:store_keeper/presentation/incoming_goods_management/main_incoming_goods_management_screen.dart';
 import 'package:store_keeper/presentation/resources/assets_manager.dart';
 import 'package:store_keeper/presentation/stock/stock_screen.dart';
 import 'package:store_keeper/presentation/warehouse/warehouses_management_screen.dart';
@@ -18,6 +18,7 @@ class Routes {
   static const String personsRoute = '/persons-management';
   static const String warehouseRoute = '/warehouse-management';
   static const String stockRoute = '/stock';
+  static const String incomingsGoodsRoute = '/incoming-goods';
 }
 
 class RouteGenerator {
@@ -46,17 +47,26 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (context) => const StockScreen(),
         );
-      case Routes.tabIncomingGoodsRoute:
+      case Routes.incomingsGoodsRoute:
         final args =
-            routeSettings.arguments as TabIncomingGoodsManagementScreen;
+            routeSettings.arguments as MainIncomingGoodsManagementScreen;
         return MaterialPageRoute(
-          builder: (context) => TabIncomingGoodsManagementScreen(
+          builder: (context) => MainIncomingGoodsManagementScreen(
+            incomingInformation: args.incomingInformation,
             title: args.title,
-            boxNumber: args.boxNumber,
-            dateTime: args.dateTime,
-            incomingGoodId: args.incomingGoodId,
           ),
         );
+      // case Routes.tabIncomingGoodsRoute:
+      //   final args =
+      //       routeSettings.arguments as TabIncomingGoodsManagementScreen;
+      //   return MaterialPageRoute(
+      //     builder: (context) => TabIncomingGoodsManagementScreen(
+      //       title: args.title,
+      //       boxNumber: args.boxNumber,
+      //       dateTime: args.dateTime,
+      //       incomingGoodId: args.incomingGoodId,
+      //     ),
+      //   );
 
       default:
         return unDefinedRoute();

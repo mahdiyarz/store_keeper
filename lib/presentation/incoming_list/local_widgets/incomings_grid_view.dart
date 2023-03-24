@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:persian/persian.dart';
+import 'package:store_keeper/presentation/incoming_goods_management/main_incoming_goods_management_screen.dart';
 import 'package:store_keeper/presentation/incoming_list/create_or_update_incoming_list_screen.dart';
 
 import '../../../models/import_models.dart';
-import '../../incoming_goods_management/tab_incoming_goods_management_screen.dart';
 import '../../resources/color_manager.dart';
 import '../../resources/routes_manager.dart';
 
@@ -54,10 +54,10 @@ class IncomingsGridView extends StatelessWidget {
           const NeverScrollableScrollPhysics(), //! to disable GridView's scrolling
       shrinkWrap: true, //! You won't see infinite size error
       itemBuilder: (context, index) {
-        final incomingItemsBrand = personsList.firstWhere((element) =>
+        final incomingItemsPerson = personsList.firstWhere((element) =>
             element.personId ==
             incomings[index]
-                .personId); //*This method find the brand of each incoming item
+                .personId); //*This method find the Person of each incoming item
 
         return Container(
           padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 5),
@@ -79,13 +79,18 @@ class IncomingsGridView extends StatelessWidget {
             child: InkWell(
               onTap: () {
                 Navigator.of(context).pushReplacementNamed(
-                  Routes.tabIncomingGoodsRoute,
-                  arguments: TabIncomingGoodsManagementScreen(
-                    title: incomingItemsBrand.personName,
-                    boxNumber: incomings[index].boxes,
-                    dateTime: incomings[index].incomingDate,
-                    incomingGoodId: incomings[index].incomingId!,
+                  Routes.incomingsGoodsRoute,
+                  arguments: MainIncomingGoodsManagementScreen(
+                    incomingInformation: incomings[index],
+                    title: incomingItemsPerson.personName,
                   ),
+                  // Routes.tabIncomingGoodsRoute,
+                  // arguments: TabIncomingGoodsManagementScreen(
+                  //   title: incomingItemsBrand.personName,
+                  //   boxNumber: incomings[index].boxes,
+                  //   dateTime: incomings[index].incomingDate,
+                  //   incomingGoodId: incomings[index].incomingId!,
+                  // ),
                 );
               },
               onDoubleTap: () {
@@ -136,7 +141,7 @@ class IncomingsGridView extends StatelessWidget {
                         FittedBox(
                           fit: BoxFit.scaleDown,
                           child: Text(
-                            'از ${incomingItemsBrand.personName}',
+                            'از ${incomingItemsPerson.personName}',
                             style: TextStyle(
                                 color: ColorManager.onPrimaryContainer
                                     .withOpacity(.7)),
