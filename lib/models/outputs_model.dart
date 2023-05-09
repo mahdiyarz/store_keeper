@@ -45,17 +45,17 @@ class OutputsModel extends Equatable {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'id': id,
-      'personId': personId,
-      'date': date.toIso8601String(),
+      OutputsFields.id: id,
+      OutputsFields.personId: personId,
+      OutputsFields.date: date.toIso8601String(),
     };
   }
 
   static OutputsModel fromMap(Map<String, dynamic> map) {
     return OutputsModel(
-      id: map['id'] != null ? map['id'] as int : null,
-      personId: map['personId'] as int,
-      date: DateTime.parse(map['date'] as String),
+      id: map[OutputsFields.id] != null ? map[OutputsFields.id] as int : null,
+      personId: map[OutputsFields.personId] as int,
+      date: DateTime.parse(map[OutputsFields.date] as String),
     );
   }
 }

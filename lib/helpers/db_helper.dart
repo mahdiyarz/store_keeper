@@ -201,43 +201,6 @@ class DBHelper {
     db.close();
   }
 
-  //* Outputs CRUD queries
-
-  Future<OutputsModel> insertOutput(OutputsModel outputsModel) async {
-    final db = await instance.database;
-    final id = await db.insert(outputsTable, outputsModel.toMap());
-
-    return outputsModel.copyWith(id: id);
-  }
-
-  Future<List<OutputsModel>> fetchOutputsData() async {
-    final db = await instance.database;
-    const orderBy = '${OutputsFields.date} ASC';
-    final fetchResult = await db.query(outputsTable, orderBy: orderBy);
-
-    return fetchResult.map((e) => OutputsModel.fromMap(e)).toList();
-  }
-
-  Future<int> updateOutput(OutputsModel outputsModel) async {
-    final db = await instance.database;
-
-    return db.update(
-      outputsTable,
-      outputsModel.toMap(),
-      where: '${OutputsFields.id} = ?',
-      whereArgs: [outputsModel.id],
-    );
-  }
-
-  Future<int> deleteOutput(OutputsModel outputsModel) async {
-    final db = await instance.database;
-    return db.delete(
-      outputsTable,
-      where: '${OutputsFields.id} = ?',
-      whereArgs: [outputsModel.id],
-    );
-  }
-
   //* Counted Outputs CRUD queries
 
   Future<CountedOutputsModel> insertCountedOutput(
