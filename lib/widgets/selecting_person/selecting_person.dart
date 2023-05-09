@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:store_keeper/widgets/selecting_person/show_persons_dialog_screen.dart';
-
 import 'package:store_keeper/widgets/show_dialog_button.dart';
 
 import '../../bloc/bloc_exports.dart';
@@ -41,8 +40,8 @@ class SelectingPerson extends StatelessWidget {
             personNameController.text = returnValue[1];
             final List<PersonsModel> cashedPersons = goodState.personsList;
             final PersonsModel chosenPerson = cashedPersons.firstWhere(
-                (element) => element.personName == personNameController.text);
-            personIdController.text = chosenPerson.personId.toString();
+                (element) => element.name == personNameController.text);
+            personIdController.text = chosenPerson.id.toString();
           }
         });
       },

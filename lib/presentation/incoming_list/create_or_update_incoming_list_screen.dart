@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:store_keeper/bloc/bloc_exports.dart';
 import 'package:store_keeper/presentation/resources/color_manager.dart';
 
@@ -28,9 +27,8 @@ class CreateOrUpdateIncomingListScreen extends StatelessWidget {
     if (oldIncomingList != null) {
       boxNumberController.text = oldIncomingList!.boxes.toString();
       final String personName = personsList!
-          .firstWhere(
-              (element) => element.personId == oldIncomingList!.personId)
-          .personName;
+          .firstWhere((element) => element.id == oldIncomingList!.personId)
+          .name;
       personNameController.text = personName;
       personIdController.text = oldIncomingList!.personId.toString();
     }

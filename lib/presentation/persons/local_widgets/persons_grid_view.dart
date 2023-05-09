@@ -63,8 +63,8 @@ class PersonsGridView extends StatelessWidget {
             title: FittedBox(
                 fit: BoxFit.scaleDown,
                 child: Text(
-                  personsList[index].personName,
-                  style: Theme.of(context).textTheme.bodyText1,
+                  personsList[index].name,
+                  style: Theme.of(context).textTheme.bodyLarge,
                 )),
             onTap: () {
               _showModalBottomSheet(

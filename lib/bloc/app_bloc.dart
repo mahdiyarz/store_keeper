@@ -343,12 +343,12 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
     final int oldPersonIndex = _personsList.indexOf(oldPerson);
 
-    if (editedPerson.personName.isNotEmpty) {
-      await DBHelper.instance.updatePersons(
+    if (editedPerson.name.isNotEmpty) {
+      await PersonsQueries.instance.updateData(
         PersonsModel(
-          personId: oldPerson.personId,
-          personName: editedPerson.personName,
-          personDescription: editedPerson.personDescription,
+          id: oldPerson.id,
+          name: editedPerson.name,
+          description: editedPerson.description,
         ),
       );
     }
@@ -376,17 +376,17 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     log('run ADD Person');
     final PersonsModel person = event.person;
 
-    if (person.personName.isNotEmpty) {
-      await DBHelper.instance.insertPersons(
+    if (person.name.isNotEmpty) {
+      await PersonsQueries.instance.insertData(
         PersonsModel(
-          personName: person.personName,
-          personDescription: person.personDescription,
+          name: person.name,
+          description: person.description,
         ),
       );
     }
 
     final List<PersonsModel> lastUpdatedPersons =
-        await DBHelper.instance.fetchPersonsData();
+        await PersonsQueries.instance.fetchAllData();
 
     emit(
       DisplayAppState(
@@ -430,7 +430,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       ..addAll(await DBHelper.instance.fetchLakingData());
     _personsList
       ..clear()
-      ..addAll(await DBHelper.instance.fetchPersonsData());
+      ..addAll(await PersonsQueries.instance.fetchAllData());
     _warehousesList
       ..clear()
       ..addAll(await WarehouseQueries.instance.fetchAllData());

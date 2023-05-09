@@ -18,11 +18,11 @@ class CreateOrUpdatePersonScreen extends StatelessWidget {
     TextEditingController descriptionController = TextEditingController();
 
     if (oldPerson != null) {
-      if (oldPerson!.personName.isNotEmpty) {
-        nameController.text = oldPerson!.personName;
+      if (oldPerson!.name.isNotEmpty) {
+        nameController.text = oldPerson!.name;
       }
-      if (oldPerson!.personDescription!.isNotEmpty) {
-        descriptionController.text = oldPerson!.personDescription!;
+      if (oldPerson!.description!.isNotEmpty) {
+        descriptionController.text = oldPerson!.description!;
       }
     }
 
@@ -94,8 +94,8 @@ class CreateOrUpdatePersonScreen extends StatelessWidget {
                       onPressed: () {
                         if (nameController.value.text.isNotEmpty) {
                           final PersonsModel person = PersonsModel(
-                            personName: nameController.text,
-                            personDescription: descriptionController.text,
+                            name: nameController.text,
+                            description: descriptionController.text,
                           );
                           Navigator.of(context).pop();
 
@@ -104,9 +104,9 @@ class CreateOrUpdatePersonScreen extends StatelessWidget {
                                     EditPerson(
                                       oldPerson: oldPerson!,
                                       newPerson: PersonsModel(
-                                          personId: oldPerson!.personId,
-                                          personName: nameController.text,
-                                          personDescription:
+                                          id: oldPerson!.id,
+                                          name: nameController.text,
+                                          description:
                                               descriptionController.text),
                                     ),
                                   )

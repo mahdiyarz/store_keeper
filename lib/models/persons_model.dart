@@ -4,60 +4,60 @@ const String personsTable = 'persons';
 
 class PersonsFields {
   static const List<String> values = [
-    personId,
-    personName,
-    personDescription,
+    id,
+    name,
+    description,
   ];
 
-  static const String personId = 'personId';
-  static const String personName = 'personName';
-  static const String personDescription = 'personDescription';
+  static const String id = 'id';
+  static const String name = 'name';
+  static const String description = 'description';
 }
 
 class PersonsModel extends Equatable {
-  final int? personId;
-  final String personName;
-  final String? personDescription;
+  final int? id;
+  final String name;
+  final String? description;
 
   const PersonsModel({
-    this.personId,
-    required this.personName,
-    this.personDescription,
+    this.id,
+    required this.name,
+    this.description,
   });
 
   @override
   List<Object?> get props => [
-        personId,
-        personName,
-        personDescription,
+        id,
+        name,
+        description,
       ];
 
   PersonsModel copyWith({
-    int? personId,
-    String? personName,
-    String? personDescription,
+    int? id,
+    String? name,
+    String? description,
   }) {
     return PersonsModel(
-      personId: personId ?? this.personId,
-      personName: personName ?? this.personName,
-      personDescription: personDescription ?? this.personDescription,
+      id: id ?? this.id,
+      name: name ?? this.name,
+      description: description ?? this.description,
     );
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'personId': personId,
-      'personName': personName,
-      'personDescription': personDescription,
+      PersonsFields.id: id,
+      PersonsFields.name: name,
+      PersonsFields.description: description,
     };
   }
 
-  static PersonsModel fromJson(Map<String, dynamic> json) {
+  static PersonsModel fromMap(Map<String, dynamic> json) {
     return PersonsModel(
-      personId: json['personId'] != null ? json['personId'] as int : null,
-      personName: json['personName'] as String,
-      personDescription: json['personDescription'] != null
-          ? json['personDescription'] as String
+      id: json[PersonsFields.id] != null ? json[PersonsFields.id] as int : null,
+      name: json[PersonsFields.name] as String,
+      description: json[PersonsFields.description] != null
+          ? json[PersonsFields.description] as String
           : null,
     );
   }

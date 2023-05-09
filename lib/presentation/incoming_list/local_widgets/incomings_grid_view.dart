@@ -55,7 +55,7 @@ class IncomingsGridView extends StatelessWidget {
       shrinkWrap: true, //! You won't see infinite size error
       itemBuilder: (context, index) {
         final incomingItemsPerson = personsList.firstWhere((element) =>
-            element.personId ==
+            element.id ==
             incomings[index]
                 .personId); //*This method find the Person of each incoming item
 
@@ -82,7 +82,7 @@ class IncomingsGridView extends StatelessWidget {
                   Routes.incomingsGoodsRoute,
                   arguments: MainIncomingGoodsManagementScreen(
                     incomingInformation: incomings[index],
-                    title: incomingItemsPerson.personName,
+                    title: incomingItemsPerson.name,
                   ),
                   // Routes.tabIncomingGoodsRoute,
                   // arguments: TabIncomingGoodsManagementScreen(
@@ -141,7 +141,7 @@ class IncomingsGridView extends StatelessWidget {
                         FittedBox(
                           fit: BoxFit.scaleDown,
                           child: Text(
-                            'از ${incomingItemsPerson.personName}',
+                            'از ${incomingItemsPerson.name}',
                             style: TextStyle(
                                 color: ColorManager.onPrimaryContainer
                                     .withOpacity(.7)),

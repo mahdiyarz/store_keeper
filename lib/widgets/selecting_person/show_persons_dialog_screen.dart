@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:store_keeper/models/import_models.dart';
-
 import 'package:store_keeper/presentation/persons/create_or_update_person_screen.dart';
 
 class ShowPersonsDialogScreen extends StatelessWidget {
@@ -65,7 +64,7 @@ class ShowPersonsDialogScreen extends StatelessWidget {
                   child: ListTile(
                     title: FittedBox(
                       fit: BoxFit.scaleDown,
-                      child: Text(personsList[index].personName,
+                      child: Text(personsList[index].name,
                           style: const TextStyle(color: Colors.black54),
                           textAlign: TextAlign.center),
                     ),
@@ -77,8 +76,8 @@ class ShowPersonsDialogScreen extends StatelessWidget {
                       );
                     },
                     onTap: () => Navigator.pop(context, [
-                      personsList[index].personId,
-                      personsList[index].personName,
+                      personsList[index].id,
+                      personsList[index].name,
                     ]),
                   ),
                 ),
