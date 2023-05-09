@@ -80,27 +80,33 @@ class CountedOutputsModel extends Equatable {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'id': id,
-      'outputId': outputId,
-      'warehouseId': warehouseId,
-      'goodId': goodId,
-      'withBoxes': withBoxes,
-      'withoutBox': withoutBox,
-      'price': price,
-      'totalCounted': totalCounted,
+      CountedOutputsFields.id: id,
+      CountedOutputsFields.outputId: outputId,
+      CountedOutputsFields.warehouseId: warehouseId,
+      CountedOutputsFields.goodId: goodId,
+      CountedOutputsFields.withBoxes: withBoxes,
+      CountedOutputsFields.withoutBox: withoutBox,
+      CountedOutputsFields.price: price,
+      CountedOutputsFields.totalCounted: totalCounted,
     };
   }
 
   static CountedOutputsModel fromMap(Map<String, dynamic> map) {
     return CountedOutputsModel(
-      id: map['id'] != null ? map['id'] as int : null,
-      outputId: map['outputId'] as int,
-      warehouseId: map['warehouseId'] as int,
-      goodId: map['goodId'] as int,
-      withBoxes: map['withBoxes'] != null ? map['withBoxes'] as int : null,
-      withoutBox: map['withoutBox'] as int,
-      price: map['price'] != null ? map['price'] as int : null,
-      totalCounted: map['totalCounted'] as int,
+      id: map[CountedOutputsFields.id] != null
+          ? map[CountedOutputsFields.id] as int
+          : null,
+      outputId: map[CountedOutputsFields.outputId] as int,
+      warehouseId: map[CountedOutputsFields.warehouseId] as int,
+      goodId: map[CountedOutputsFields.goodId] as int,
+      withBoxes: map[CountedOutputsFields.withBoxes] != null
+          ? map[CountedOutputsFields.withBoxes] as int
+          : null,
+      withoutBox: map[CountedOutputsFields.withoutBox] as int,
+      price: map[CountedOutputsFields.price] != null
+          ? map[CountedOutputsFields.price] as int
+          : null,
+      totalCounted: map[CountedOutputsFields.totalCounted] as int,
     );
   }
 }

@@ -201,47 +201,6 @@ class DBHelper {
     db.close();
   }
 
-  //* Counted Outputs CRUD queries
-
-  Future<CountedOutputsModel> insertCountedOutput(
-      CountedOutputsModel countedOutputsModel) async {
-    final db = await instance.database;
-    final id =
-        await db.insert(countedOutputsTable, countedOutputsModel.toMap());
-
-    return countedOutputsModel.copyWith(id: id);
-  }
-
-  Future<List<CountedOutputsModel>> fetchCountedOutputsData() async {
-    final db = await instance.database;
-    const orderBy = '${CountedOutputsFields.totalCounted} ASC';
-    final fetchResult = await db.query(countedOutputsTable, orderBy: orderBy);
-
-    return fetchResult.map((e) => CountedOutputsModel.fromMap(e)).toList();
-  }
-
-  Future<int> updateCountedOutput(
-      CountedOutputsModel countedOutputsModel) async {
-    final db = await instance.database;
-
-    return db.update(
-      countedOutputsTable,
-      countedOutputsModel.toMap(),
-      where: '${CountedOutputsFields.id} = ?',
-      whereArgs: [countedOutputsModel.id],
-    );
-  }
-
-  Future<int> deleteCountedOutput(
-      CountedOutputsModel countedOutputsModel) async {
-    final db = await instance.database;
-    return db.delete(
-      countedOutputsTable,
-      where: '${CountedOutputsFields.id} = ?',
-      whereArgs: [countedOutputsModel.id],
-    );
-  }
-
   //* Counted Transfers CRUD queries
 
   Future<CountedTransfersModel> insertCountedTransfer(
