@@ -7,8 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:store_keeper/helpers/db_helper.dart';
 import 'package:store_keeper/models/import_models.dart';
 
-import '../helpers/queries/counted_incomings_db_q.dart';
-import '../helpers/queries/incomings_db_q.dart';
+import '../helpers/queries/export_queries.dart';
 
 part 'app_event.dart';
 part 'app_state.dart';
@@ -67,7 +66,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
             (element) => element.countedIncomingId == deletedCountedIncome.id);
 
     log('step 3');
-    await DBHelper.instance.deleteStock(deletedStockItem);
+    await StockQueries.instance.deleteData(deletedStockItem);
     await DBHelper.instance
         .deleteStockEachWarehouse(deletedStockEachWarehouseItem);
     await CountedIncomingsQueries.instance.deleteData(deletedCountedIncome);
@@ -151,7 +150,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         finalEditedCountedIncome,
       );
 
-      await DBHelper.instance.updateStock(
+      await StockQueries.instance.updateData(
         finalEditedStock,
       );
 
@@ -215,12 +214,12 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         countedIncomingId: recallCountedIncoming.id,
       );
 
-      await DBHelper.instance.insertStock(
+      await StockQueries.instance.insertData(
         newStockItem,
       );
 
       final List<StockModel> lastUpdateStock =
-          await DBHelper.instance.fetchStocksData();
+          await StockQueries.instance.fetchAllData();
 
       final StockEachWarehouseModel newStockEachWarehouseItem =
           StockEachWarehouseModel(
@@ -440,7 +439,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       ..addAll(await DBHelper.instance.fetchStocksEachWarehouseData());
     _stocksList
       ..clear()
-      ..addAll(await DBHelper.instance.fetchStocksData());
+      ..addAll(await StockQueries.instance.fetchAllData());
     _countedIncomingsList
       ..clear()
       ..addAll(await CountedIncomingsQueries.instance.fetchAllData());
