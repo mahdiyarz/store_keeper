@@ -66,23 +66,27 @@ class CountedTransfersModel extends Equatable {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'id': id,
-      'transferId': transferId,
-      'goodId': goodId,
-      'withBoxes': withBoxes,
-      'withoutBox': withoutBox,
-      'totalCounted': totalCounted,
+      CountedTransfersFields.id: id,
+      CountedTransfersFields.transferId: transferId,
+      CountedTransfersFields.goodId: goodId,
+      CountedTransfersFields.withBoxes: withBoxes,
+      CountedTransfersFields.withoutBox: withoutBox,
+      CountedTransfersFields.totalCounted: totalCounted,
     };
   }
 
   static CountedTransfersModel fromMap(Map<String, dynamic> map) {
     return CountedTransfersModel(
-      id: map['id'] != null ? map['id'] as int : null,
-      transferId: map['transferId'] as int,
-      goodId: map['goodId'] as int,
-      withBoxes: map['withBoxes'] != null ? map['withBoxes'] as int : null,
-      withoutBox: map['withoutBox'] as int,
-      totalCounted: map['totalCounted'] as int,
+      id: map[CountedTransfersFields.id] != null
+          ? map[CountedTransfersFields.id] as int
+          : null,
+      transferId: map[CountedTransfersFields.transferId] as int,
+      goodId: map[CountedTransfersFields.goodId] as int,
+      withBoxes: map[CountedTransfersFields.withBoxes] != null
+          ? map[CountedTransfersFields.withBoxes] as int
+          : null,
+      withoutBox: map[CountedTransfersFields.withoutBox] as int,
+      totalCounted: map[CountedTransfersFields.totalCounted] as int,
     );
   }
 }

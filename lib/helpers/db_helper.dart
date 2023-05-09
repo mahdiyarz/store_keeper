@@ -201,47 +201,6 @@ class DBHelper {
     db.close();
   }
 
-  //* Counted Transfers CRUD queries
-
-  Future<CountedTransfersModel> insertCountedTransfer(
-      CountedTransfersModel countedTransfersModel) async {
-    final db = await instance.database;
-    final id =
-        await db.insert(countedTransfersTable, countedTransfersModel.toMap());
-
-    return countedTransfersModel.copyWith(id: id);
-  }
-
-  Future<List<CountedTransfersModel>> fetchCountedTransfersData() async {
-    final db = await instance.database;
-    const orderBy = '${CountedTransfersFields.totalCounted} ASC';
-    final fetchResult = await db.query(countedTransfersTable, orderBy: orderBy);
-
-    return fetchResult.map((e) => CountedTransfersModel.fromMap(e)).toList();
-  }
-
-  Future<int> updateCountedTransfer(
-      CountedTransfersModel countedTransfersModel) async {
-    final db = await instance.database;
-
-    return db.update(
-      countedTransfersTable,
-      countedTransfersModel.toMap(),
-      where: '${CountedTransfersFields.id} = ?',
-      whereArgs: [countedTransfersModel.id],
-    );
-  }
-
-  Future<int> deleteCountedTransfer(
-      CountedTransfersModel countedTransfersModel) async {
-    final db = await instance.database;
-    return db.delete(
-      countedTransfersTable,
-      where: '${CountedTransfersFields.id} = ?',
-      whereArgs: [countedTransfersModel.id],
-    );
-  }
-
   //* Brands Logics
 
   Future<BrandsModel> insertBrands(BrandsModel brandsModel) async {
