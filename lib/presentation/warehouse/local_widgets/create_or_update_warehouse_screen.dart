@@ -16,8 +16,8 @@ class CreateOrUpdateWarehouseScreen extends StatelessWidget {
     TextEditingController nameController = TextEditingController();
 
     if (oldWarehouse != null) {
-      if (oldWarehouse!.warehouseName.isNotEmpty) {
-        nameController.text = oldWarehouse!.warehouseName;
+      if (oldWarehouse!.name.isNotEmpty) {
+        nameController.text = oldWarehouse!.name;
       }
     }
 
@@ -76,7 +76,7 @@ class CreateOrUpdateWarehouseScreen extends StatelessWidget {
                       onPressed: () {
                         if (nameController.value.text.isNotEmpty) {
                           final WarehousesModel warehouse = WarehousesModel(
-                            warehouseName: nameController.text,
+                            name: nameController.text,
                           );
                           Navigator.of(context).pop();
 
@@ -85,8 +85,8 @@ class CreateOrUpdateWarehouseScreen extends StatelessWidget {
                                     EditWarehouse(
                                       oldWarehouse: oldWarehouse!,
                                       newWarehouse: WarehousesModel(
-                                        warehouseId: oldWarehouse!.warehouseId,
-                                        warehouseName: nameController.text,
+                                        id: oldWarehouse!.id,
+                                        name: nameController.text,
                                       ),
                                     ),
                                   )

@@ -63,8 +63,8 @@ class WarehousesGridView extends StatelessWidget {
             title: FittedBox(
                 fit: BoxFit.scaleDown,
                 child: Text(
-                  warehousesList[index].warehouseName,
-                  style: Theme.of(context).textTheme.bodyText1,
+                  warehousesList[index].name,
+                  style: Theme.of(context).textTheme.bodyLarge,
                 )),
             onTap: () {
               _showModalBottomSheet(

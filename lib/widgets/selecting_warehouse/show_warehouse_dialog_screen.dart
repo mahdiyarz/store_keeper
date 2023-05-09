@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:store_keeper/models/import_models.dart';
-
 import 'package:store_keeper/presentation/warehouse/local_widgets/create_or_update_warehouse_screen.dart';
 
 class ShowWarehouseDialogScreen extends StatelessWidget {
@@ -63,7 +62,7 @@ class ShowWarehouseDialogScreen extends StatelessWidget {
                   child: ListTile(
                     title: FittedBox(
                       fit: BoxFit.scaleDown,
-                      child: Text(warehouseList[index].warehouseName,
+                      child: Text(warehouseList[index].name,
                           style: const TextStyle(color: Colors.black54),
                           textAlign: TextAlign.center),
                     ),
@@ -75,8 +74,8 @@ class ShowWarehouseDialogScreen extends StatelessWidget {
                       );
                     },
                     onTap: () => Navigator.pop(context, [
-                      warehouseList[index].warehouseId,
-                      warehouseList[index].warehouseName,
+                      warehouseList[index].id,
+                      warehouseList[index].name,
                     ]),
                   ),
                 ),

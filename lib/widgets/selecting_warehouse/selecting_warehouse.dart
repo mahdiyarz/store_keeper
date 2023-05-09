@@ -2,9 +2,8 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:store_keeper/models/import_models.dart';
-
-import 'package:store_keeper/widgets/show_dialog_button.dart';
 import 'package:store_keeper/widgets/selecting_warehouse/show_warehouse_dialog_screen.dart';
+import 'package:store_keeper/widgets/show_dialog_button.dart';
 
 import '../../bloc/bloc_exports.dart';
 import '../../presentation/resources/import_resources.dart';
@@ -42,9 +41,8 @@ class SelectingWarehouse extends StatelessWidget {
             final List<WarehousesModel> cashedWarehouses =
                 appState.warehousesList;
             final WarehousesModel chosenWarehouse = cashedWarehouses.firstWhere(
-                (element) =>
-                    element.warehouseName == warehouseNameController.text);
-            warehouseIdController.text = chosenWarehouse.warehouseId.toString();
+                (element) => element.name == warehouseNameController.text);
+            warehouseIdController.text = chosenWarehouse.id.toString();
           }
         });
       },

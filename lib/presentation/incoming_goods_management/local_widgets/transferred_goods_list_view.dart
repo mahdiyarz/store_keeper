@@ -45,7 +45,7 @@ class _TransferredGoodsListViewState extends State<TransferredGoodsListView> {
                 .brandId); //*This method find the brand of each incoming item
 
         final thisWarehouseGoodIn = widget.warehousesList.firstWhere((element) =>
-            element.warehouseId ==
+            element.id ==
             widget.transferredGoods[index]
                 .warehouseId); //*This method find the warehouse of each incoming item
 
@@ -140,7 +140,7 @@ class _TransferredGoodsListViewState extends State<TransferredGoodsListView> {
                               FittedBox(
                                 fit: BoxFit.scaleDown,
                                 child: Text(
-                                  'ورود ${widget.transferredGoods[index].totalCounted.toString().withPersianNumbers()} عدد به انبار ${thisWarehouseGoodIn.warehouseName}',
+                                  'ورود ${widget.transferredGoods[index].totalCounted.toString().withPersianNumbers()} عدد به انبار ${thisWarehouseGoodIn.name}',
                                   style: TextStyle(
                                     color: ColorManager.onPrimaryContainer
                                         .withOpacity(.7),
