@@ -424,7 +424,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       ..addAll(await DBHelper.instance.fetchGoodsData());
     _countGoodsList
       ..clear()
-      ..addAll(await DBHelper.instance.fetchCountGoodsData());
+      ..addAll(await CountedGoodsQueries.instance.fetchAllData());
     _lakingList
       ..clear()
       ..addAll(await DBHelper.instance.fetchLakingData());
@@ -867,7 +867,8 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         : false; //! false means it is not exist on count goods list
 
     if (isExistIncomingListOnCountGoods == true) {
-      await DBHelper.instance.deleteCountGoodsOfIncomingList(deletedIncomeItem);
+      await CountedGoodsQueries.instance
+          .deleteDataByIncomingList(deletedIncomeItem);
       await IncomingsQueries.instance.deleteData(deletedIncomeItem);
       emit(
         DisplayAppState(
@@ -913,7 +914,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     final CountGoodsModel countedGood = event.countedGood;
 
     if (countedGood.goodsId.toString().isNotEmpty) {
-      await DBHelper.instance.insertCountGoods(
+      await CountedGoodsQueries.instance.insertData(
         CountGoodsModel(
           numOfBox: countedGood.numOfBox,
           numOfSeed: countedGood.numOfSeed,
@@ -926,7 +927,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     }
 
     final List<CountGoodsModel> lastUpdatedCountGoods =
-        await DBHelper.instance.fetchCountGoodsData();
+        await CountedGoodsQueries.instance.fetchAllData();
 
     emit(
       DisplayAppState(

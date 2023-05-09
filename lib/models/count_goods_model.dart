@@ -4,7 +4,7 @@ const String countGoodsTable = 'countGoods';
 
 class CountGoodsFields {
   static const List<String> values = [
-    countGoodsId,
+    id,
     numOfBox,
     numOfSeed,
     price,
@@ -13,7 +13,7 @@ class CountGoodsFields {
     lakingId,
   ];
 
-  static const String countGoodsId = 'countGoodsId';
+  static const String id = 'id';
   static const String numOfBox = 'numOfBox';
   static const String numOfSeed = 'numOfSeed';
   static const String price = 'price';
@@ -23,7 +23,7 @@ class CountGoodsFields {
 }
 
 class CountGoodsModel extends Equatable {
-  final int? countGoodsId;
+  final int? id;
   final int? numOfBox;
   final int? numOfSeed;
   final int? price;
@@ -32,7 +32,7 @@ class CountGoodsModel extends Equatable {
   final int? lakingId;
 
   const CountGoodsModel({
-    this.countGoodsId,
+    this.id,
     required this.numOfBox,
     required this.numOfSeed,
     required this.price,
@@ -41,8 +41,8 @@ class CountGoodsModel extends Equatable {
     required this.lakingId,
   });
 
-  Map<String, Object?> toJson() => {
-        CountGoodsFields.countGoodsId: countGoodsId,
+  Map<String, Object?> toMap() => {
+        CountGoodsFields.id: id,
         CountGoodsFields.numOfBox: numOfBox,
         CountGoodsFields.numOfSeed: numOfSeed,
         CountGoodsFields.price: price,
@@ -51,8 +51,8 @@ class CountGoodsModel extends Equatable {
         CountGoodsFields.lakingId: lakingId,
       };
 
-  CountGoodsModel copy({
-    int? countGoodsId,
+  CountGoodsModel copyWith({
+    int? id,
     int? numOfBox,
     int? numOfSeed,
     int? price,
@@ -61,7 +61,7 @@ class CountGoodsModel extends Equatable {
     int? lakingId,
   }) =>
       CountGoodsModel(
-        countGoodsId: countGoodsId ?? this.countGoodsId,
+        id: id ?? this.id,
         numOfBox: numOfBox ?? this.numOfBox,
         numOfSeed: numOfSeed ?? this.numOfSeed,
         price: price ?? this.price,
@@ -70,8 +70,8 @@ class CountGoodsModel extends Equatable {
         lakingId: lakingId ?? this.lakingId,
       );
 
-  static CountGoodsModel fromJson(Map<String, Object?> json) => CountGoodsModel(
-        countGoodsId: json[CountGoodsFields.countGoodsId] as int?,
+  static CountGoodsModel fromMap(Map<String, Object?> json) => CountGoodsModel(
+        id: json[CountGoodsFields.id] as int?,
         numOfBox: json[CountGoodsFields.numOfBox] as int?,
         numOfSeed: json[CountGoodsFields.numOfSeed] as int?,
         price: json[CountGoodsFields.price] as int?,
@@ -82,7 +82,7 @@ class CountGoodsModel extends Equatable {
 
   @override
   List<Object?> get props => [
-        countGoodsId,
+        id,
         numOfBox,
         numOfSeed,
         price,

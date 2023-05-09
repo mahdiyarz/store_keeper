@@ -83,7 +83,7 @@ class DBHelper {
 
     await db.execute('''
       CREATE TABLE $countGoodsTable(
-        ${CountGoodsFields.countGoodsId} $idType,
+        ${CountGoodsFields.id} $idType,
         ${CountGoodsFields.numOfBox} $intTypeNull,
         ${CountGoodsFields.numOfSeed} $intTypeNull,
         ${CountGoodsFields.price}  $intTypeNull, 
@@ -199,43 +199,6 @@ class DBHelper {
     final db = await instance.database;
 
     db.close();
-  }
-
-  //* Count Goods Logics
-
-  Future<CountGoodsModel> insertCountGoods(
-      CountGoodsModel countGoodsModel) async {
-    final db = await instance.database;
-    final id = await db.insert(countGoodsTable, countGoodsModel.toJson());
-
-    return countGoodsModel.copy(countGoodsId: id);
-  }
-
-  Future<List<CountGoodsModel>> fetchCountGoodsData() async {
-    final db = await instance.database;
-    const orderBy = '${CountGoodsFields.countGoodsId} ASC';
-    final fetchResult = await db.query(countGoodsTable, orderBy: orderBy);
-
-    return fetchResult.map((e) => CountGoodsModel.fromJson(e)).toList();
-  }
-
-  Future<int> deleteCountGoods(CountGoodsModel countGoodsModel) async {
-    final db = await instance.database;
-    return db.delete(
-      countGoodsTable,
-      where: '${CountGoodsFields.countGoodsId} = ?',
-      whereArgs: [countGoodsModel.countGoodsId],
-    );
-  }
-
-  Future<int> deleteCountGoodsOfIncomingList(
-      IncomingsModel incomingListModel) async {
-    final db = await instance.database;
-    return db.delete(
-      countGoodsTable,
-      where: '${CountGoodsFields.incomingListId} = ?',
-      whereArgs: [incomingListModel.incomingId],
-    );
   }
 
   //* Goods Logics
