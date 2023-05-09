@@ -1,5 +1,5 @@
-import 'package:sqflite/sqflite.dart' as sqflite;
 import 'package:path/path.dart' as pathPackage;
+import 'package:sqflite/sqflite.dart' as sqflite;
 
 import '../models/import_models.dart';
 
@@ -199,61 +199,6 @@ class DBHelper {
     final db = await instance.database;
 
     db.close();
-  }
-
-  //* Incoming List Logics
-
-  Future<IncomingsModel> insertIncomingList(
-      IncomingsModel incomingListModel) async {
-    final db = await instance.database;
-    final id = await db.insert(incomingsTable, incomingListModel.toJson());
-
-    return incomingListModel.copy(incomingId: id);
-  }
-
-  Future<List<IncomingsModel>> fetchIncomingListData() async {
-    final db = await instance.database;
-    const orderBy = '${IncomingsFields.incomingDate} ASC';
-    final fetchResult = await db.query(incomingsTable, orderBy: orderBy);
-
-    return fetchResult.map((e) => IncomingsModel.fromJson(e)).toList();
-  }
-
-  Future<IncomingsModel> fetchSingleIncomingGoodData(int incomingId) async {
-    final db = await instance.database;
-
-    final fetchResult = await db.query(
-      incomingsTable,
-      columns: IncomingsFields.values,
-      where: '${IncomingsFields.incomingId} = ?',
-      whereArgs: [incomingId],
-    );
-
-    if (fetchResult.isNotEmpty) {
-      return IncomingsModel.fromJson(fetchResult.first);
-    } else {
-      throw Exception('ID $incomingId not found');
-    }
-  }
-
-  Future<int> updateIncomingList(IncomingsModel incomingListModel) async {
-    final db = await instance.database;
-
-    return db.update(
-      incomingsTable,
-      incomingListModel.toJson(),
-      where: '${IncomingsFields.incomingId} = ?',
-      whereArgs: [incomingListModel.incomingId],
-    );
-  }
-
-  Future<int> deleteIncomingList(IncomingsModel incomingListModel) async {
-    final db = await instance.database;
-    return db.delete(
-      incomingsTable,
-      where: '${IncomingsFields.incomingId} = ?',
-      whereArgs: [incomingListModel.incomingId],
-    );
   }
 
   //* Counted Incomings Logics

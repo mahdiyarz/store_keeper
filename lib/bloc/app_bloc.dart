@@ -3,9 +3,11 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart' show immutable;
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:store_keeper/helpers/db_helper.dart';
 import 'package:store_keeper/models/import_models.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../helpers/queries/incomings_db_q.dart';
 
 part 'app_event.dart';
 part 'app_state.dart';
@@ -53,18 +55,23 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     final CountedIncomingsModel deletedCountedIncome =
         event.deleteCountedIncomingItem;
 
+    log('step 1');
+    log(_stocksList.toString());
     final StockModel deletedStockItem = _stocksList.firstWhere(
         (element) => element.countedIncomingId == deletedCountedIncome.id);
 
+    log('step 2');
     final StockEachWarehouseModel deletedStockEachWarehouseItem =
         _stockEachWarehouse.firstWhere(
             (element) => element.countedIncomingId == deletedCountedIncome.id);
 
+    log('step 3');
     await DBHelper.instance.deleteStock(deletedStockItem);
     await DBHelper.instance
         .deleteStockEachWarehouse(deletedStockEachWarehouseItem);
     await DBHelper.instance.deleteCountedIncoming(deletedCountedIncome);
 
+    log('step 4');
     emit(
       DisplayAppState(
         brandsList: _brandsList,
@@ -108,11 +115,9 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       price: editedCountedIncome.price,
       totalCounted: editedCountedIncome.totalCounted,
     );
-    log('step 1');
-    log(_stocksList.toString());
+
     final StockModel oldStockItem = _stocksList.firstWhere(
         (element) => element.countedIncomingId == oldCountedIncomeId);
-    log('step 2');
 
     final StockModel finalEditedStock = StockModel(
       id: oldStockItem.id,
@@ -413,7 +418,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       ..addAll(await DBHelper.instance.fetchBrandsData());
     _incomingList
       ..clear()
-      ..addAll(await DBHelper.instance.fetchIncomingListData());
+      ..addAll(await IncomingsQueries.instance.fetchAllData());
     _goodsList
       ..clear()
       ..addAll(await DBHelper.instance.fetchGoodsData());
@@ -634,11 +639,11 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
     if (incomingListItem.boxes.toString().isNotEmpty &&
         incomingListItem.personId.toString().isNotEmpty) {
-      await DBHelper.instance.insertIncomingList(incomingListItem);
+      await IncomingsQueries.instance.insertData(incomingListItem);
     }
 
     final List<IncomingsModel> lastUpdatedIncomingList =
-        await DBHelper.instance.fetchIncomingListData();
+        await IncomingsQueries.instance.fetchAllData();
 
     emit(
       DisplayAppState(
@@ -815,7 +820,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     if (editedIncomingList.boxes.toString().isNotEmpty &&
         editedIncomingList.personId.toString().isNotEmpty &&
         editedIncomingList.incomingDate.toString().isNotEmpty) {
-      await DBHelper.instance.updateIncomingList(
+      await IncomingsQueries.instance.updateData(
         IncomingsModel(
           incomingId: incomeId,
           personId: editedIncomingList.personId,
@@ -864,7 +869,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
     if (isExistIncomingListOnCountGoods == true) {
       await DBHelper.instance.deleteCountGoodsOfIncomingList(deletedIncomeItem);
-      await DBHelper.instance.deleteIncomingList(deletedIncomeItem);
+      await IncomingsQueries.instance.deleteData(deletedIncomeItem);
       emit(
         DisplayAppState(
           brandsList: _brandsList,
@@ -884,7 +889,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         ),
       );
     } else {
-      await DBHelper.instance.deleteIncomingList(deletedIncomeItem);
+      await IncomingsQueries.instance.deleteData(deletedIncomeItem);
       emit(
         DisplayAppState(
           brandsList: _brandsList,
