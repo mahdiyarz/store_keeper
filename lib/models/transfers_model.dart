@@ -50,21 +50,21 @@ class TransfersModel extends Equatable {
     );
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'id': id,
-      'personId': personId,
-      'boxes': boxes,
-      'date': date.toIso8601String,
+      TransfersField.id: id,
+      TransfersField.personId: personId,
+      TransfersField.boxes: boxes,
+      TransfersField.date: date.toIso8601String,
     };
   }
 
-  static TransfersModel fromJson(Map<String, dynamic> map) {
+  static TransfersModel fromMap(Map<String, dynamic> map) {
     return TransfersModel(
-      id: map['id'] != null ? map['id'] as int : null,
-      personId: map['personId'] as int,
-      boxes: map['boxes'] as int,
-      date: DateTime.parse(map['date'] as String),
+      id: map[TransfersField.id] != null ? map[TransfersField.id] as int : null,
+      personId: map[TransfersField.personId] as int,
+      boxes: map[TransfersField.boxes] as int,
+      date: DateTime.parse(map[TransfersField.date] as String),
     );
   }
 }

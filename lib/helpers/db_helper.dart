@@ -459,43 +459,6 @@ class DBHelper {
     );
   }
 
-  //* Transfers CRUD scrips
-
-  Future<TransfersModel> insertTransfer(TransfersModel transfersModel) async {
-    final db = await instance.database;
-    final result = await db.insert(transfersTable, transfersModel.toJson());
-
-    return transfersModel.copyWith(id: result);
-  }
-
-  Future<List<TransfersModel>> fetchTransfersData() async {
-    final db = await instance.database;
-    const orderBy = '${TransfersField.date} ASC';
-    final fetchResult = await db.query(transfersTable, orderBy: orderBy);
-
-    return fetchResult.map((e) => TransfersModel.fromJson(e)).toList();
-  }
-
-  Future<int> updateTransfer(TransfersModel transfersModel) async {
-    final db = await instance.database;
-
-    return db.update(
-      transfersTable,
-      transfersModel.toJson(),
-      where: '${TransfersField.id} = ?',
-      whereArgs: [transfersModel.id],
-    );
-  }
-
-  Future<int> deleteTransfer(TransfersModel transfersModel) async {
-    final db = await instance.database;
-    return db.delete(
-      transfersTable,
-      where: '${TransfersField.id} = ?',
-      whereArgs: [transfersModel.id],
-    );
-  }
-
   //* Count Goods Logics
 
   Future<CountGoodsModel> insertCountGoods(
