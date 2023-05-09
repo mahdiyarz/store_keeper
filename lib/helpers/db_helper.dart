@@ -123,8 +123,8 @@ class DBHelper {
 
     await db.execute('''
       CREATE TABLE $warehousesTable(
-        ${WarehousesFields.warehouseId} $idType,
-        ${WarehousesFields.warehouseName} $textType
+        ${WarehousesFields.id} $idType,
+        ${WarehousesFields.name} $textType
       )
     ''');
 
@@ -493,44 +493,6 @@ class DBHelper {
       transfersTable,
       where: '${TransfersField.id} = ?',
       whereArgs: [transfersModel.id],
-    );
-  }
-
-  //* Warehouse CRUD scrips
-
-  Future<WarehousesModel> insertWarehouse(
-      WarehousesModel warehousesModel) async {
-    final db = await instance.database;
-    final result = await db.insert(warehousesTable, warehousesModel.toMap());
-
-    return warehousesModel.copyWith(warehouseId: result);
-  }
-
-  Future<List<WarehousesModel>> fetchWarehousesData() async {
-    final db = await instance.database;
-    const orderBy = '${WarehousesFields.warehouseName} ASC';
-    final fetchResult = await db.query(warehousesTable, orderBy: orderBy);
-
-    return fetchResult.map((e) => WarehousesModel.fromMap(e)).toList();
-  }
-
-  Future<int> updateWarehouse(WarehousesModel warehousesModel) async {
-    final db = await instance.database;
-
-    return db.update(
-      warehousesTable,
-      warehousesModel.toMap(),
-      where: '${WarehousesFields.warehouseId} = ?',
-      whereArgs: [warehousesModel.warehouseId],
-    );
-  }
-
-  Future<int> deleteWarehouse(WarehousesModel warehousesModel) async {
-    final db = await instance.database;
-    return db.delete(
-      warehousesTable,
-      where: '${WarehousesFields.warehouseId} = ?',
-      whereArgs: [warehousesModel.warehouseId],
     );
   }
 

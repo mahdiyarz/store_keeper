@@ -270,11 +270,11 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
     final int oldWarehouseIndex = _warehousesList.indexOf(oldWarehouse);
 
-    if (editedWarehouse.warehouseName.isNotEmpty) {
-      await DBHelper.instance.updateWarehouse(
+    if (editedWarehouse.name.isNotEmpty) {
+      await WarehouseQueries.instance.updateData(
         WarehousesModel(
-          warehouseId: oldWarehouse.warehouseId,
-          warehouseName: editedWarehouse.warehouseName,
+          id: oldWarehouse.id,
+          name: editedWarehouse.name,
         ),
       );
     }
@@ -304,12 +304,12 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
     final WarehousesModel warehouse = event.warehouse;
 
-    if (warehouse.warehouseName.isNotEmpty) {
-      await DBHelper.instance.insertWarehouse(warehouse);
+    if (warehouse.name.isNotEmpty) {
+      await WarehouseQueries.instance.insertData(warehouse);
     }
 
     final List<WarehousesModel> lastUpdatedWarehouses =
-        await DBHelper.instance.fetchWarehousesData();
+        await WarehouseQueries.instance.fetchAllData();
 
     emit(
       DisplayAppState(
@@ -433,7 +433,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       ..addAll(await DBHelper.instance.fetchPersonsData());
     _warehousesList
       ..clear()
-      ..addAll(await DBHelper.instance.fetchWarehousesData());
+      ..addAll(await WarehouseQueries.instance.fetchAllData());
     _stockEachWarehouse
       ..clear()
       ..addAll(await StockEachWarehouseQueries.instance.fetchAllData());
