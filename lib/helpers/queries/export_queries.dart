@@ -4,3 +4,4 @@ export 'stock_db_q.dart';
 export 'stock_warehouse_db_q.dart';
 export 'transfers_db_q.dart';
 export 'warehouse_db_q.dart';
+export 'warehouse_handling_db_q.dart';

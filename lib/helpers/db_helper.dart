@@ -201,46 +201,6 @@ class DBHelper {
     db.close();
   }
 
-  //* warehouse handling CRUD queries
-
-  Future<WarehouseHandlingModel> insertWarehouseHandling(
-      WarehouseHandlingModel warehouseHandlingModel) async {
-    final db = await instance.database;
-    final id = await db.insert(warehousesTable, warehouseHandlingModel.toMap());
-
-    return warehouseHandlingModel.copyWith(id: id);
-  }
-
-  Future<List<WarehouseHandlingModel>> fetchWarehouseHandlingsData() async {
-    final db = await instance.database;
-    const orderBy = '${WarehouseHandlingFields.date} ASC';
-    final fetchResult = await db.query(warehousesTable, orderBy: orderBy);
-
-    return fetchResult.map((e) => WarehouseHandlingModel.fromMap(e)).toList();
-  }
-
-  Future<int> updateWarehouseHandling(
-      WarehouseHandlingModel warehouseHandlingModel) async {
-    final db = await instance.database;
-
-    return db.update(
-      warehousesTable,
-      warehouseHandlingModel.toMap(),
-      where: '${WarehouseHandlingFields.id} = ?',
-      whereArgs: [warehouseHandlingModel.id],
-    );
-  }
-
-  Future<int> deleteWarehouseHandling(
-      WarehouseHandlingModel warehouseHandlingModel) async {
-    final db = await instance.database;
-    return db.delete(
-      warehousesTable,
-      where: '${WarehouseHandlingFields.id} = ?',
-      whereArgs: [warehouseHandlingModel.id],
-    );
-  }
-
   //* Counted warehouse handling CRUD queries
 
   Future<CountedWarehouseHandlingModel> insertCountedWarehouseHandling(

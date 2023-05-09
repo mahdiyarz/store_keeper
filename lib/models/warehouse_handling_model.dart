@@ -52,19 +52,21 @@ class WarehouseHandlingModel extends Equatable {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'id': id,
-      'warehouseId': warehouseId,
-      'date': date.toIso8601String(),
-      'countNumber': countNumber,
+      WarehouseHandlingFields.id: id,
+      WarehouseHandlingFields.warehouseId: warehouseId,
+      WarehouseHandlingFields.date: date.toIso8601String(),
+      WarehouseHandlingFields.countNumber: countNumber,
     };
   }
 
   static WarehouseHandlingModel fromMap(Map<String, dynamic> map) {
     return WarehouseHandlingModel(
-      id: map['id'] != null ? map['id'] as int : null,
-      warehouseId: map['warehouseId'] as int,
-      date: DateTime.parse(map['date'] as String),
-      countNumber: map['countNumber'] as int,
+      id: map[WarehouseHandlingFields.id] != null
+          ? map[WarehouseHandlingFields.id] as int
+          : null,
+      warehouseId: map[WarehouseHandlingFields.warehouseId] as int,
+      date: DateTime.parse(map[WarehouseHandlingFields.date] as String),
+      countNumber: map[WarehouseHandlingFields.countNumber] as int,
     );
   }
 }
