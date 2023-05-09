@@ -67,8 +67,8 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
     log('step 3');
     await StockQueries.instance.deleteData(deletedStockItem);
-    await DBHelper.instance
-        .deleteStockEachWarehouse(deletedStockEachWarehouseItem);
+    await StockEachWarehouseQueries.instance
+        .deleteData(deletedStockEachWarehouseItem);
     await CountedIncomingsQueries.instance.deleteData(deletedCountedIncome);
 
     log('step 4');
@@ -154,7 +154,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         finalEditedStock,
       );
 
-      await DBHelper.instance.updateStockEachWarehouse(
+      await StockEachWarehouseQueries.instance.updateData(
         finalEditedStockEachWarehouse,
       );
     }
@@ -230,12 +230,12 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         countedIncomingId: recallCountedIncoming.id,
       );
 
-      await DBHelper.instance.insertStockEachWarehouse(
+      await StockEachWarehouseQueries.instance.insertData(
         newStockEachWarehouseItem,
       );
 
       final List<StockEachWarehouseModel> lastUpdateStockWarehouse =
-          await DBHelper.instance.fetchStocksEachWarehouseData();
+          await StockEachWarehouseQueries.instance.fetchAllData();
 
       emit(
         DisplayAppState(
@@ -436,7 +436,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       ..addAll(await DBHelper.instance.fetchWarehousesData());
     _stockEachWarehouse
       ..clear()
-      ..addAll(await DBHelper.instance.fetchStocksEachWarehouseData());
+      ..addAll(await StockEachWarehouseQueries.instance.fetchAllData());
     _stocksList
       ..clear()
       ..addAll(await StockQueries.instance.fetchAllData());
