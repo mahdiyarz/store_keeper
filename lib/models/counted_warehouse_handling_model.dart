@@ -66,23 +66,28 @@ class CountedWarehouseHandlingModel extends Equatable {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'id': id,
-      'warehouseHandlingId': warehouseHandlingId,
-      'goodId': goodId,
-      'withBoxes': withBoxes,
-      'withoutBox': withoutBox,
-      'totalCounted': totalCounted,
+      CountedWarehouseHandlingFields.id: id,
+      CountedWarehouseHandlingFields.warehouseHandlingId: warehouseHandlingId,
+      CountedWarehouseHandlingFields.goodId: goodId,
+      CountedWarehouseHandlingFields.withBoxes: withBoxes,
+      CountedWarehouseHandlingFields.withoutBox: withoutBox,
+      CountedWarehouseHandlingFields.totalCounted: totalCounted,
     };
   }
 
   static CountedWarehouseHandlingModel fromMap(Map<String, dynamic> map) {
     return CountedWarehouseHandlingModel(
-      id: map['id'] != null ? map['id'] as int : null,
-      warehouseHandlingId: map['warehouseHandlingId'] as int,
-      goodId: map['goodId'] as int,
-      withBoxes: map['withBoxes'] != null ? map['withBoxes'] as int : null,
-      withoutBox: map['withoutBox'] as int,
-      totalCounted: map['totalCounted'] as int,
+      id: map[CountedWarehouseHandlingFields.id] != null
+          ? map[CountedWarehouseHandlingFields.id] as int
+          : null,
+      warehouseHandlingId:
+          map[CountedWarehouseHandlingFields.warehouseHandlingId] as int,
+      goodId: map[CountedWarehouseHandlingFields.goodId] as int,
+      withBoxes: map[CountedWarehouseHandlingFields.withBoxes] != null
+          ? map[CountedWarehouseHandlingFields.withBoxes] as int
+          : null,
+      withoutBox: map[CountedWarehouseHandlingFields.withoutBox] as int,
+      totalCounted: map[CountedWarehouseHandlingFields.totalCounted] as int,
     );
   }
 }
