@@ -36,8 +36,8 @@ class _TransferredGoodsListViewState extends State<TransferredGoodsListView> {
           const NeverScrollableScrollPhysics(), //! to disable GridView's scrolling
       shrinkWrap: true, //! You won't see infinite size error
       itemBuilder: (context, index) {
-        final thisTransferredGood = widget.goodsList.firstWhere((element) =>
-            element.goodId == widget.transferredGoods[index].goodId);
+        final thisTransferredGood = widget.goodsList.firstWhere(
+            (element) => element.id == widget.transferredGoods[index].goodId);
 
         final thisGoodBrand = widget.brandsList.firstWhere((element) =>
             element.id ==
@@ -114,7 +114,7 @@ class _TransferredGoodsListViewState extends State<TransferredGoodsListView> {
                           FittedBox(
                             fit: BoxFit.scaleDown,
                             child: Text(
-                              thisTransferredGood.goodName,
+                              thisTransferredGood.name,
                               style: TextStyle(
                                 color: ColorManager.onPrimaryContainer,
                                 fontSize: FontSize.s16,
@@ -125,7 +125,7 @@ class _TransferredGoodsListViewState extends State<TransferredGoodsListView> {
                           FittedBox(
                             fit: BoxFit.scaleDown,
                             child: Text(
-                              thisTransferredGood.goodLatinName,
+                              thisTransferredGood.latin,
                               style: TextStyle(
                                 color: ColorManager.onPrimaryContainer
                                     .withOpacity(.8),

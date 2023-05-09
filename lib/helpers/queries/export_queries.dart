@@ -4,6 +4,7 @@ export 'counted_incomings_db_q.dart';
 export 'counted_outputs_db_q.dart';
 export 'counted_transfers_db_q.dart';
 export 'counted_warehouse_handling_db_q.dart';
+export 'goods_db_q.dart';
 export 'incomings_db_q.dart';
 export 'outputs_db_q.dart';
 export 'persons_db_q.dart';

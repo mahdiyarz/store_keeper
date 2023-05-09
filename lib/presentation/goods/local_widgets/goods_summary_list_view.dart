@@ -139,7 +139,7 @@ class GoodsSummaryListView extends StatelessWidget {
                               FittedBox(
                                 fit: BoxFit.scaleDown,
                                 child: Text(
-                                  goodsModel.goodName,
+                                  goodsModel.name,
                                   style: TextStyle(
                                     color: ColorManager.onPrimaryContainer,
                                   ),
@@ -148,7 +148,7 @@ class GoodsSummaryListView extends StatelessWidget {
                               FittedBox(
                                 fit: BoxFit.scaleDown,
                                 child: Text(
-                                  goodsModel.goodLatinName,
+                                  goodsModel.latin,
                                   style: TextStyle(
                                     color: ColorManager.onPrimaryContainer
                                         .withOpacity(.6),
@@ -341,7 +341,7 @@ class GoodsSummaryListView extends StatelessWidget {
                           FittedBox(
                             fit: BoxFit.scaleDown,
                             child: Text(
-                              goodsList[index].goodName,
+                              goodsList[index].name,
                               style: TextStyle(
                                 color: ColorManager.onPrimaryContainer,
                                 fontSize: FontSize.s16,
@@ -352,7 +352,7 @@ class GoodsSummaryListView extends StatelessWidget {
                           FittedBox(
                             fit: BoxFit.scaleDown,
                             child: Text(
-                              goodsList[index].goodLatinName,
+                              goodsList[index].latin,
                               style: TextStyle(
                                 color: ColorManager.onPrimaryContainer
                                     .withOpacity(.8),

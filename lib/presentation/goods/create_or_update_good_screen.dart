@@ -34,8 +34,8 @@ class _CreateOrUpdateGoodScreenState extends State<CreateOrUpdateGoodScreen> {
   @override
   Widget build(BuildContext context) {
     if (widget.oldGood != null) {
-      goodNameController.text = widget.oldGood!.goodName;
-      goodLatinNameController.text = widget.oldGood!.goodLatinName;
+      goodNameController.text = widget.oldGood!.name;
+      goodLatinNameController.text = widget.oldGood!.latin;
       numberInBoxController.text = widget.oldGood!.numInBox.toString();
       final String brandName = widget.brandsList!
           .firstWhere((element) => element.id == widget.oldGood!.brandId)
@@ -259,10 +259,10 @@ class _CreateOrUpdateGoodScreenState extends State<CreateOrUpdateGoodScreen> {
                                 widget.oldGood != null
                                     ? context.read<AppBloc>().add(
                                           EditGood(
-                                            oldGoodId: widget.oldGood!.goodId!,
+                                            oldGoodId: widget.oldGood!.id!,
                                             editedGood: GoodsModel(
-                                              goodName: goodNameController.text,
-                                              goodLatinName:
+                                              name: goodNameController.text,
+                                              latin:
                                                   goodLatinNameController.text,
                                               brandId: int.parse(
                                                   brandIdController.text),
@@ -279,8 +279,8 @@ class _CreateOrUpdateGoodScreenState extends State<CreateOrUpdateGoodScreen> {
                                     : context.read<AppBloc>().add(
                                           AddGood(
                                             good: GoodsModel(
-                                              goodName: goodNameController.text,
-                                              goodLatinName:
+                                              name: goodNameController.text,
+                                              latin:
                                                   goodLatinNameController.text,
                                               brandId: int.parse(
                                                   brandIdController.text),

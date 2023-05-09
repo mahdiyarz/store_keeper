@@ -95,9 +95,9 @@ class DBHelper {
 
     await db.execute('''
       CREATE TABLE $goodsTable(
-        ${GoodsFields.goodId} $idType,
-        ${GoodsFields.goodName} $textType,
-        ${GoodsFields.goodLatinName} $textType,
+        ${GoodsFields.id} $idType,
+        ${GoodsFields.name} $textType,
+        ${GoodsFields.latin} $textType,
         ${GoodsFields.brandId} $intType,
         ${GoodsFields.numInBox}  $intType,
         ${GoodsFields.barcode} $intTypeNull,      
@@ -199,43 +199,6 @@ class DBHelper {
     final db = await instance.database;
 
     db.close();
-  }
-
-  //* Goods Logics
-
-  Future<GoodsModel> insertGoods(GoodsModel goodsModel) async {
-    final db = await instance.database;
-    final id = await db.insert(goodsTable, goodsModel.toJson());
-
-    return goodsModel.copy(goodId: id);
-  }
-
-  Future<List<GoodsModel>> fetchGoodsData() async {
-    final db = await instance.database;
-    const orderBy = '${GoodsFields.goodName} ASC';
-    final fetchResult = await db.query(goodsTable, orderBy: orderBy);
-
-    return fetchResult.map((e) => GoodsModel.fromJson(e)).toList();
-  }
-
-  Future<int> deleteGoods(GoodsModel goodsModel) async {
-    final db = await instance.database;
-    return db.delete(
-      goodsTable,
-      where: '${GoodsFields.goodId} = ?',
-      whereArgs: [goodsModel.goodId],
-    );
-  }
-
-  Future<int> updateGoods(GoodsModel goodsModel) async {
-    final db = await instance.database;
-
-    return db.update(
-      goodsTable,
-      goodsModel.toJson(),
-      where: '${GoodsFields.goodId} = ?',
-      whereArgs: [goodsModel.goodId],
-    );
   }
 
   //* Laking Logics

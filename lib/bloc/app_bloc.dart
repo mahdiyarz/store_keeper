@@ -421,7 +421,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       ..addAll(await IncomingsQueries.instance.fetchAllData());
     _goodsList
       ..clear()
-      ..addAll(await DBHelper.instance.fetchGoodsData());
+      ..addAll(await GoodsQueries.instance.fetchAllData());
     _countGoodsList
       ..clear()
       ..addAll(await CountedGoodsQueries.instance.fetchAllData());
@@ -669,25 +669,25 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
     final GoodsModel good = event.good;
 
-    if (good.goodName.isNotEmpty &&
-        good.goodLatinName.isNotEmpty &&
+    if (good.name.isNotEmpty &&
+        good.latin.isNotEmpty &&
         good.numInBox.toString().isNotEmpty &&
         good.brandId.toString().isNotEmpty) {
       if (good.barcode.toString().isNotEmpty) {
-        await DBHelper.instance.insertGoods(
+        await GoodsQueries.instance.insertData(
           GoodsModel(
-            goodName: good.goodName,
-            goodLatinName: good.goodLatinName,
+            name: good.name,
+            latin: good.latin,
             brandId: good.brandId,
             numInBox: good.numInBox,
             barcode: good.barcode,
           ),
         );
       } else {
-        await DBHelper.instance.insertGoods(
+        await GoodsQueries.instance.insertData(
           GoodsModel(
-            goodName: good.goodName,
-            goodLatinName: good.goodLatinName,
+            name: good.name,
+            latin: good.latin,
             brandId: good.brandId,
             numInBox: good.numInBox,
           ),
@@ -696,7 +696,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     }
 
     final List<GoodsModel> lastUpdatedGoods =
-        await DBHelper.instance.fetchGoodsData();
+        await GoodsQueries.instance.fetchAllData();
 
     emit(
       DisplayAppState(
@@ -724,11 +724,10 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     final GoodsModel deletedGood = event.deletedGood;
 
     final bool isExistGoodOnCountGoods = _countGoodsList.isNotEmpty
-        ? _countGoodsList
-            .any((element) => element.goodsId == deletedGood.goodId)
+        ? _countGoodsList.any((element) => element.goodsId == deletedGood.id)
         : false; //! false means we can delete this brand and it is not exist on count goods list
     if (isExistGoodOnCountGoods == false) {
-      await DBHelper.instance.deleteGoods(deletedGood);
+      await GoodsQueries.instance.deleteData(deletedGood);
       emit(
         DisplayAppState(
             brandsList: _brandsList,
@@ -752,21 +751,21 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
     final int goodId = event.oldGoodId;
     final GoodsModel oldGood =
-        _goodsList.firstWhere((element) => element.goodId == goodId);
+        _goodsList.firstWhere((element) => element.id == goodId);
 
     final GoodsModel editedGood = event.editedGood;
 
     final int oldGoodIndex = _goodsList.indexOf(oldGood);
 
-    if (editedGood.goodName.isNotEmpty &&
-        editedGood.goodLatinName.isNotEmpty &&
+    if (editedGood.name.isNotEmpty &&
+        editedGood.latin.isNotEmpty &&
         editedGood.brandId.toString().isNotEmpty &&
         editedGood.numInBox.toString().isNotEmpty) {
-      await DBHelper.instance.updateGoods(
+      await GoodsQueries.instance.updateData(
         GoodsModel(
-          goodId: goodId,
-          goodName: editedGood.goodName,
-          goodLatinName: editedGood.goodLatinName,
+          id: goodId,
+          name: editedGood.name,
+          latin: editedGood.latin,
           brandId: editedGood.brandId,
           numInBox: editedGood.numInBox,
           barcode: editedGood.barcode,
@@ -786,9 +785,9 @@ class AppBloc extends Bloc<AppEvent, AppState> {
             ..insert(
               oldGoodIndex,
               GoodsModel(
-                goodId: goodId,
-                goodName: editedGood.goodName,
-                goodLatinName: editedGood.goodLatinName,
+                id: goodId,
+                name: editedGood.name,
+                latin: editedGood.latin,
                 brandId: editedGood.brandId,
                 numInBox: editedGood.numInBox,
                 accountingCode: editedGood.accountingCode,

@@ -302,7 +302,7 @@ class GoodsStockSummaryListView extends StatelessWidget {
                 .brandId); //*This method find the brand of each incoming item
 
         final List<int> allGoodStocksList = stockList
-            .where((element) => element.goodId == goodsList[index].goodId)
+            .where((element) => element.goodId == goodsList[index].id)
             .toList()
             .map((e) => e.totalStock)
             .toList();
@@ -392,7 +392,7 @@ class GoodsStockSummaryListView extends StatelessWidget {
                           FittedBox(
                             fit: BoxFit.scaleDown,
                             child: Text(
-                              goodsList[index].goodName,
+                              goodsList[index].name,
                               style: TextStyle(
                                 color: ColorManager.onPrimaryContainer,
                                 fontSize: FontSize.s16,
@@ -403,7 +403,7 @@ class GoodsStockSummaryListView extends StatelessWidget {
                           FittedBox(
                             fit: BoxFit.scaleDown,
                             child: Text(
-                              goodsList[index].goodLatinName,
+                              goodsList[index].latin,
                               style: TextStyle(
                                 color: ColorManager.onPrimaryContainer
                                     .withOpacity(.8),
