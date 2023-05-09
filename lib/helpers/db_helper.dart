@@ -201,64 +201,6 @@ class DBHelper {
     db.close();
   }
 
-  //* Counted Incomings Logics
-
-  Future<CountedIncomingsModel> insertCountedIncoming(
-      CountedIncomingsModel countedIncomingsModel) async {
-    final db = await instance.database;
-    final id =
-        await db.insert(countedIncomingsTable, countedIncomingsModel.toJson());
-
-    return countedIncomingsModel.copy(id: id);
-  }
-
-  Future<List<CountedIncomingsModel>> fetchCountedIncomingsData() async {
-    final db = await instance.database;
-    const orderBy = '${CountedIncomingsFields.totalCounted} ASC';
-    final fetchResult = await db.query(countedIncomingsTable, orderBy: orderBy);
-
-    return fetchResult.map((e) => CountedIncomingsModel.fromJson(e)).toList();
-  }
-
-  // Future<CountedIncomingsModel> fetchSingleIncomingGoodData(int incomingId) async {
-  //   final db = await instance.database;
-
-  //   final fetchResult = await db.query(
-  //     countedIncomingsTable,
-  //     columns: CountedIncomingsFields.values,
-  //     where: '${CountedIncomingsFields.incomingId} = ?',
-  //     whereArgs: [incomingId],
-  //   );
-
-  //   if (fetchResult.isNotEmpty) {
-  //     return CountedIncomingsModel.fromJson(fetchResult.first);
-  //   } else {
-  //     throw Exception('ID $incomingId not found');
-  //   }
-  // }
-
-  Future<int> updateCountedIncoming(
-      CountedIncomingsModel countedIncomingsModel) async {
-    final db = await instance.database;
-
-    return db.update(
-      countedIncomingsTable,
-      countedIncomingsModel.toJson(),
-      where: '${CountedIncomingsFields.id} = ?',
-      whereArgs: [countedIncomingsModel.id],
-    );
-  }
-
-  Future<int> deleteCountedIncoming(
-      CountedIncomingsModel countedIncomingsModel) async {
-    final db = await instance.database;
-    return db.delete(
-      countedIncomingsTable,
-      where: '${CountedIncomingsFields.id} = ?',
-      whereArgs: [countedIncomingsModel.id],
-    );
-  }
-
   //* Stock CRUD queries
 
   Future<StockModel> insertStock(StockModel stockModel) async {

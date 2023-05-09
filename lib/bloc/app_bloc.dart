@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:store_keeper/helpers/db_helper.dart';
 import 'package:store_keeper/models/import_models.dart';
 
+import '../helpers/queries/counted_incomings_db_q.dart';
 import '../helpers/queries/incomings_db_q.dart';
 
 part 'app_event.dart';
@@ -69,7 +70,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     await DBHelper.instance.deleteStock(deletedStockItem);
     await DBHelper.instance
         .deleteStockEachWarehouse(deletedStockEachWarehouseItem);
-    await DBHelper.instance.deleteCountedIncoming(deletedCountedIncome);
+    await CountedIncomingsQueries.instance.deleteData(deletedCountedIncome);
 
     log('step 4');
     emit(
@@ -146,7 +147,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         editedCountedIncome.goodId.toString().isNotEmpty &&
         editedCountedIncome.withoutBox.toString().isNotEmpty &&
         editedCountedIncome.totalCounted.toString().isNotEmpty) {
-      await DBHelper.instance.updateCountedIncoming(
+      await CountedIncomingsQueries.instance.updateData(
         finalEditedCountedIncome,
       );
 
@@ -195,10 +196,10 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         countedIncomeItem.goodId.toString().isNotEmpty &&
         countedIncomeItem.withoutBox.toString().isNotEmpty &&
         countedIncomeItem.totalCounted.toString().isNotEmpty) {
-      await DBHelper.instance.insertCountedIncoming(countedIncomeItem);
+      await CountedIncomingsQueries.instance.insertData(countedIncomeItem);
 
       final List<CountedIncomingsModel> lastUpdateCountedIncomings =
-          await DBHelper.instance.fetchCountedIncomingsData();
+          await CountedIncomingsQueries.instance.fetchAllData();
 
       final CountedIncomingsModel recallCountedIncoming =
           lastUpdateCountedIncomings.firstWhere((element) =>
@@ -442,7 +443,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       ..addAll(await DBHelper.instance.fetchStocksData());
     _countedIncomingsList
       ..clear()
-      ..addAll(await DBHelper.instance.fetchCountedIncomingsData());
+      ..addAll(await CountedIncomingsQueries.instance.fetchAllData());
 
     emit(
       DisplayAppState(
