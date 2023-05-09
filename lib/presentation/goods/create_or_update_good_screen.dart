@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:store_keeper/bloc/bloc_exports.dart';
 import 'package:store_keeper/presentation/resources/color_manager.dart';
 
@@ -39,8 +38,8 @@ class _CreateOrUpdateGoodScreenState extends State<CreateOrUpdateGoodScreen> {
       goodLatinNameController.text = widget.oldGood!.goodLatinName;
       numberInBoxController.text = widget.oldGood!.numInBox.toString();
       final String brandName = widget.brandsList!
-          .firstWhere((element) => element.brandId == widget.oldGood!.brandId)
-          .brandName;
+          .firstWhere((element) => element.id == widget.oldGood!.brandId)
+          .name;
       brandNameController.text = brandName;
       brandIdController.text = widget.oldGood!.brandId.toString();
       if (widget.oldGood!.accountingCode != null) {

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:store_keeper/models/import_models.dart';
-
 import 'package:store_keeper/presentation/brands/create_or_update_brand_screen.dart';
 
 class ShowBrandsDialogScreen extends StatelessWidget {
@@ -65,13 +64,13 @@ class ShowBrandsDialogScreen extends StatelessWidget {
                   child: ListTile(
                     title: FittedBox(
                       fit: BoxFit.scaleDown,
-                      child: Text(brandsList[index].brandName,
+                      child: Text(brandsList[index].name,
                           style: const TextStyle(color: Colors.black54),
                           textAlign: TextAlign.center),
                     ),
                     subtitle: FittedBox(
                       fit: BoxFit.scaleDown,
-                      child: Text(brandsList[index].brandLatinName,
+                      child: Text(brandsList[index].latin,
                           style: const TextStyle(color: Colors.black54),
                           textAlign: TextAlign.center),
                     ),
@@ -81,8 +80,8 @@ class ShowBrandsDialogScreen extends StatelessWidget {
                           context: context, brandsModel: brandsList[index]);
                     },
                     onTap: () => Navigator.pop(context, [
-                      brandsList[index].brandId,
-                      brandsList[index].brandName,
+                      brandsList[index].id,
+                      brandsList[index].name,
                     ]),
                   ),
                 ),

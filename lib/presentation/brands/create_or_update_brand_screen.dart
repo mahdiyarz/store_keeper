@@ -19,11 +19,11 @@ class CreateOrUpdateBrandScreen extends StatelessWidget {
     TextEditingController latinNameController = TextEditingController();
 
     if (oldBrand != null) {
-      if (oldBrand!.brandName.isNotEmpty) {
-        nameController.text = oldBrand!.brandName;
+      if (oldBrand!.name.isNotEmpty) {
+        nameController.text = oldBrand!.name;
       }
-      if (oldBrand!.brandLatinName.isNotEmpty) {
-        latinNameController.text = oldBrand!.brandLatinName;
+      if (oldBrand!.latin.isNotEmpty) {
+        latinNameController.text = oldBrand!.latin;
       }
     }
 
@@ -104,8 +104,8 @@ class CreateOrUpdateBrandScreen extends StatelessWidget {
                         if (nameController.value.text.isNotEmpty &&
                             latinNameController.value.text.isNotEmpty) {
                           final BrandsModel brand = BrandsModel(
-                            brandName: nameController.text,
-                            brandLatinName: latinNameController.text,
+                            name: nameController.text,
+                            latin: latinNameController.text,
                           );
                           Navigator.of(context).pop();
                           oldBrand != null

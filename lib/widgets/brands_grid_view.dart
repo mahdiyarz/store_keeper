@@ -64,14 +64,14 @@ class BrandsGridView extends StatelessWidget {
             title: FittedBox(
                 fit: BoxFit.scaleDown,
                 child: Text(
-                  brandsList[index].brandName,
-                  style: Theme.of(context).textTheme.bodyText1,
+                  brandsList[index].name,
+                  style: Theme.of(context).textTheme.bodyLarge,
                 )),
             subtitle: FittedBox(
               fit: BoxFit.scaleDown,
               child: Text(
-                brandsList[index].brandLatinName,
-                style: Theme.of(context).textTheme.subtitle2,
+                brandsList[index].latin,
+                style: Theme.of(context).textTheme.titleSmall,
               ),
             ),
             onTap: () {

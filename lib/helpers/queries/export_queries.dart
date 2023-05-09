@@ -1,3 +1,4 @@
+export 'brands_db_q.dart';
 export 'counted_incomings_db_q.dart';
 export 'counted_outputs_db_q.dart';
 export 'counted_transfers_db_q.dart';

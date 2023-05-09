@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:store_keeper/models/brands_model.dart';
 import 'package:store_keeper/widgets/selecting_brand/show_brands_dialog_screen.dart';
-
 import 'package:store_keeper/widgets/show_dialog_button.dart';
 
 import '../../bloc/bloc_exports.dart';
@@ -41,8 +40,8 @@ class SelectingBrand extends StatelessWidget {
             brandNameController.text = returnValue[1];
             final List<BrandsModel> cashedBrands = goodState.brandsList;
             final BrandsModel chosenBrand = cashedBrands.firstWhere(
-                (element) => element.brandName == brandNameController.text);
-            brandIdController.text = chosenBrand.brandId.toString();
+                (element) => element.name == brandNameController.text);
+            brandIdController.text = chosenBrand.id.toString();
           }
         });
       },

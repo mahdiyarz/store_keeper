@@ -40,7 +40,7 @@ class _TransferredGoodsListViewState extends State<TransferredGoodsListView> {
             element.goodId == widget.transferredGoods[index].goodId);
 
         final thisGoodBrand = widget.brandsList.firstWhere((element) =>
-            element.brandId ==
+            element.id ==
             thisTransferredGood
                 .brandId); //*This method find the brand of each incoming item
 
@@ -96,7 +96,7 @@ class _TransferredGoodsListViewState extends State<TransferredGoodsListView> {
                     child: FittedBox(
                       fit: BoxFit.scaleDown,
                       child: Text(
-                        thisGoodBrand.brandName,
+                        thisGoodBrand.name,
                         style: TextStyle(
                           color: ColorManager.onSecondary,
                           fontSize: FontSize.s10,

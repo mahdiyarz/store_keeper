@@ -415,7 +415,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
     _brandsList
       ..clear()
-      ..addAll(await DBHelper.instance.fetchBrandsData());
+      ..addAll(await BrandsQueries.instance.fetchAllData());
     _incomingList
       ..clear()
       ..addAll(await IncomingsQueries.instance.fetchAllData());
@@ -470,17 +470,17 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
     final BrandsModel brand = event.brand;
 
-    if (brand.brandName.isNotEmpty && brand.brandLatinName.isNotEmpty) {
-      await DBHelper.instance.insertBrands(
+    if (brand.name.isNotEmpty && brand.latin.isNotEmpty) {
+      await BrandsQueries.instance.insertData(
         BrandsModel(
-          brandName: brand.brandName,
-          brandLatinName: brand.brandLatinName,
+          name: brand.name,
+          latin: brand.latin,
         ),
       );
     }
 
     final List<BrandsModel> lastUpdatedBrands =
-        await DBHelper.instance.fetchBrandsData();
+        await BrandsQueries.instance.fetchAllData();
 
     emit(
       DisplayAppState(
@@ -512,12 +512,11 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
     final int oldBrandIndex = _brandsList.indexOf(oldBrand);
 
-    if (editedBrand.brandName.isNotEmpty &&
-        editedBrand.brandLatinName.isNotEmpty) {
-      await DBHelper.instance.updateBrands(BrandsModel(
-        brandId: oldBrand.brandId,
-        brandName: editedBrand.brandName,
-        brandLatinName: editedBrand.brandLatinName,
+    if (editedBrand.name.isNotEmpty && editedBrand.latin.isNotEmpty) {
+      await BrandsQueries.instance.updateData(BrandsModel(
+        id: oldBrand.id,
+        name: editedBrand.name,
+        latin: editedBrand.latin,
       ));
 
       emit(
@@ -550,22 +549,22 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
     // final bool isExistBrandOnIncomingList = _incomingList.isNotEmpty
     //     ? _incomingList
-    //         .any((element) => element.brandId == deletedBrand.brandId)
+    //         .any((element) => element.id == deletedBrand.id)
     //     : false; //! false means we can delete this brand and it is not exist on incoming list
 
     final bool isExistBrandOnGoods = _goodsList.isNotEmpty
-        ? _goodsList.any((element) => element.brandId == deletedBrand.brandId)
+        ? _goodsList.any((element) => element.brandId == deletedBrand.id)
         : false; //! false means we can delete this brand and it is not exist on goods list
 
     if (
         // isExistBrandOnIncomingList == false &&
         isExistBrandOnGoods == false) {
       try {
-        final response = await DBHelper.instance.deleteBrands(
+        final response = await BrandsQueries.instance.deleteData(
           BrandsModel(
-            brandId: deletedBrand.brandId,
-            brandName: deletedBrand.brandName,
-            brandLatinName: deletedBrand.brandLatinName,
+            id: deletedBrand.id,
+            name: deletedBrand.name,
+            latin: deletedBrand.latin,
           ),
         );
         if (response == 0) {

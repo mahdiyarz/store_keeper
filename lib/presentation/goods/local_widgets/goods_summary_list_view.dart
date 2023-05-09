@@ -72,7 +72,7 @@ class GoodsSummaryListView extends StatelessWidget {
                                 FittedBox(
                                   fit: BoxFit.scaleDown,
                                   child: Text(
-                                    brandName.brandName,
+                                    brandName.name,
                                     style: TextStyle(
                                       color: ColorManager.onPrimaryContainer,
                                     ),
@@ -81,7 +81,7 @@ class GoodsSummaryListView extends StatelessWidget {
                                 FittedBox(
                                   fit: BoxFit.scaleDown,
                                   child: Text(
-                                    brandName.brandLatinName,
+                                    brandName.latin,
                                     style: TextStyle(
                                       color: ColorManager.onPrimaryContainer
                                           .withOpacity(.6),
@@ -269,7 +269,7 @@ class GoodsSummaryListView extends StatelessWidget {
       shrinkWrap: true, //! You won't see infinite size error
       itemBuilder: (context, index) {
         final thisGoodBrand = brandsList.firstWhere((element) =>
-            element.brandId ==
+            element.id ==
             goodsList[index]
                 .brandId); //*This method find the brand of each incoming item
 
@@ -323,7 +323,7 @@ class GoodsSummaryListView extends StatelessWidget {
                     child: FittedBox(
                       fit: BoxFit.scaleDown,
                       child: Text(
-                        thisGoodBrand.brandName,
+                        thisGoodBrand.name,
                         style: TextStyle(
                           color: ColorManager.onSecondary,
                           fontSize: FontSize.s10,

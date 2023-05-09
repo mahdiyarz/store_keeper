@@ -4,54 +4,54 @@ const String brandsTable = 'brands';
 
 class BrandsFields {
   static const List<String> values = [
-    brandId,
-    brandName,
-    brandLatinName,
+    id,
+    name,
+    latin,
   ];
 
-  static const String brandId = 'brandId';
-  static const String brandName = 'brandName';
-  static const String brandLatinName = 'brandLatinName';
+  static const String id = 'id';
+  static const String name = 'name';
+  static const String latin = 'latin';
 }
 
 class BrandsModel extends Equatable {
-  final int? brandId;
-  final String brandName;
-  final String brandLatinName;
+  final int? id;
+  final String name;
+  final String latin;
 
   const BrandsModel({
-    this.brandId,
-    required this.brandName,
-    required this.brandLatinName,
+    this.id,
+    required this.name,
+    required this.latin,
   });
 
-  Map<String, Object?> toJson() => {
-        BrandsFields.brandId: brandId,
-        BrandsFields.brandName: brandName,
-        BrandsFields.brandLatinName: brandLatinName,
+  Map<String, Object?> toMap() => {
+        BrandsFields.id: id,
+        BrandsFields.name: name,
+        BrandsFields.latin: latin,
       };
 
-  BrandsModel copy({
-    int? brandId,
-    String? brandName,
-    String? brandLatinName,
+  BrandsModel copyWith({
+    int? id,
+    String? name,
+    String? latin,
   }) =>
       BrandsModel(
-        brandId: brandId ?? this.brandId,
-        brandName: brandName ?? this.brandName,
-        brandLatinName: brandLatinName ?? this.brandLatinName,
+        id: id ?? this.id,
+        name: name ?? this.name,
+        latin: latin ?? this.latin,
       );
 
-  static BrandsModel fromJson(Map<String, Object?> json) => BrandsModel(
-        brandId: json[BrandsFields.brandId] as int?,
-        brandName: json[BrandsFields.brandName] as String,
-        brandLatinName: json[BrandsFields.brandLatinName] as String,
+  static BrandsModel fromMap(Map<String, Object?> json) => BrandsModel(
+        id: json[BrandsFields.id] as int?,
+        name: json[BrandsFields.name] as String,
+        latin: json[BrandsFields.latin] as String,
       );
 
   @override
   List<Object?> get props => [
-        brandId,
-        brandName,
-        brandLatinName,
+        id,
+        name,
+        latin,
       ];
 }

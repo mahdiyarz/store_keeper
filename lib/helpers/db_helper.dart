@@ -52,9 +52,9 @@ class DBHelper {
 
     await db.execute('''
       CREATE TABLE $brandsTable(
-        ${BrandsFields.brandId} $idType,
-        ${BrandsFields.brandName}  $textType,        
-        ${BrandsFields.brandLatinName} $textType   
+        ${BrandsFields.id} $idType,
+        ${BrandsFields.name}  $textType,        
+        ${BrandsFields.latin} $textType   
       )
      ''');
 
@@ -199,60 +199,6 @@ class DBHelper {
     final db = await instance.database;
 
     db.close();
-  }
-
-  //* Brands Logics
-
-  Future<BrandsModel> insertBrands(BrandsModel brandsModel) async {
-    final db = await instance.database;
-    final result = await db.insert(brandsTable, brandsModel.toJson());
-
-    return brandsModel.copy(brandId: result);
-  }
-
-  Future<List<BrandsModel>> fetchBrandsData() async {
-    final db = await instance.database;
-    const orderBy = '${BrandsFields.brandName} ASC';
-    final fetchResult = await db.query(brandsTable, orderBy: orderBy);
-
-    return fetchResult.map((e) => BrandsModel.fromJson(e)).toList();
-  }
-
-  Future<BrandsModel> fetchSingleBrandData(int brandsId) async {
-    final db = await instance.database;
-
-    final fetchResult = await db.query(
-      brandsTable,
-      columns: BrandsFields.values,
-      where: '${BrandsFields.brandId} = ?',
-      whereArgs: [brandsId],
-    );
-
-    if (fetchResult.isNotEmpty) {
-      return BrandsModel.fromJson(fetchResult.first);
-    } else {
-      throw Exception('ID $brandsId not found');
-    }
-  }
-
-  Future<int> updateBrands(BrandsModel brandsModel) async {
-    final db = await instance.database;
-
-    return db.update(
-      brandsTable,
-      brandsModel.toJson(),
-      where: '${BrandsFields.brandId} = ?',
-      whereArgs: [brandsModel.brandId],
-    );
-  }
-
-  Future<int> deleteBrands(BrandsModel brandsModel) async {
-    final db = await instance.database;
-    return db.delete(
-      brandsTable,
-      where: '${BrandsFields.brandId} = ?',
-      whereArgs: [brandsModel.brandId],
-    );
   }
 
   //* Count Goods Logics
