@@ -25,7 +25,6 @@ class DisplayAppState extends AppState {
   final List<StockModel> stocksList;
   final List<StockEachWarehouseModel> stockEachWarehouseList;
   final List<CountGoodsModel> countGoodsList;
-  final List<LakingModel> lakingList;
   final List<IncomingsModel> incomingList;
   final List<CountedIncomingsModel> countedIncomingsList;
   final String failureMessage;
@@ -41,7 +40,6 @@ class DisplayAppState extends AppState {
     required this.stocksList,
     required this.stockEachWarehouseList,
     required this.countGoodsList,
-    required this.lakingList,
     required this.failureMessage,
     required this.successMessage,
   });
@@ -57,7 +55,6 @@ class DisplayAppState extends AppState {
         stocksList,
         stockEachWarehouseList,
         countGoodsList,
-        lakingList,
         failureMessage,
         successMessage,
       ];

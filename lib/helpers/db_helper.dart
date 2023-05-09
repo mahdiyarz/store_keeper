@@ -106,14 +106,6 @@ class DBHelper {
      ''');
 
     await db.execute('''
-      CREATE TABLE $lakingTable(
-        ${LakingFields.lakingId} $idType,
-        ${LakingFields.lakingDate}  $textType,      
-        ${LakingFields.lakingNum} $intType
-      )
-     ''');
-
-    await db.execute('''
       CREATE TABLE $personsTable(
         ${PersonsFields.id} $idType,
         ${PersonsFields.name}  $textType,      
@@ -199,31 +191,5 @@ class DBHelper {
     final db = await instance.database;
 
     db.close();
-  }
-
-  //* Laking Logics
-
-  Future<LakingModel> insertLaking(LakingModel lakingModel) async {
-    final db = await instance.database;
-    final id = await db.insert(lakingTable, lakingModel.toJson());
-
-    return lakingModel.copy(lakingId: id);
-  }
-
-  Future<List<LakingModel>> fetchLakingData() async {
-    final db = await instance.database;
-    const orderBy = '${LakingFields.lakingDate} ASC';
-    final fetchResult = await db.query(lakingTable, orderBy: orderBy);
-
-    return fetchResult.map((e) => LakingModel.fromJson(e)).toList();
-  }
-
-  Future<int> deleteLaking(LakingModel lakingModel) async {
-    final db = await instance.database;
-    return db.delete(
-      lakingTable,
-      where: '${LakingFields.lakingId} = ?',
-      whereArgs: [lakingModel.lakingId],
-    );
   }
 }
